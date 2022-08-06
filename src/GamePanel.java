@@ -219,17 +219,17 @@ public class GamePanel extends JPanel implements KeyListener {
             MyFrame.gameLogic.togglePowers();
         }
 
-        if(e.getKeyCode() == KeyEvent.VK_S && GameLogic.p1.isSpeedPowerUpCharged()){
+        if(e.getKeyCode() == KeyEvent.VK_S && GameLogic.p1.isSpeedPowerUpCharged() && MyFrame.gameLogic.arePowersEnabled()){
             GameLogic.p1.activateSpeedPowerUp();
         }
-        if(e.getKeyCode() == KeyEvent.VK_W && GameLogic.p1.isFireShotPowerUpCharged()){
+        if(e.getKeyCode() == KeyEvent.VK_W && GameLogic.p1.isFireShotPowerUpCharged() && MyFrame.gameLogic.arePowersEnabled()){
             GameLogic.p1.activateFireShotPowerUp();
         }
 
-        if(e.getKeyCode() == KeyEvent.VK_DOWN && GameLogic.p2.isSpeedPowerUpCharged()){
+        if(e.getKeyCode() == KeyEvent.VK_DOWN && GameLogic.p2.isSpeedPowerUpCharged() && MyFrame.gameLogic.arePowersEnabled()){
             GameLogic.p2.activateSpeedPowerUp();
         }
-        if(e.getKeyCode() == KeyEvent.VK_UP && GameLogic.p2.isFireShotPowerUpCharged()){
+        if(e.getKeyCode() == KeyEvent.VK_UP && GameLogic.p2.isFireShotPowerUpCharged() && MyFrame.gameLogic.arePowersEnabled()){
             GameLogic.p2.activateFireShotPowerUp();
         }
     }
