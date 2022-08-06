@@ -10,6 +10,9 @@ public class GameLogic implements Runnable{
     final int FPS = 60;
 
     boolean isFinished = false;
+    boolean isPaused = false;
+
+    boolean arePowersEnabled = true;
 
     String finish = null;
 
@@ -29,7 +32,9 @@ public class GameLogic implements Runnable{
             throw new RuntimeException(e);
         }
         while(!hasSomeoneWin()) {
-            update();
+            if(!isPaused) {
+                update();
+            }
 
             MyFrame.gamePanel.repaint();
 
@@ -61,7 +66,7 @@ public class GameLogic implements Runnable{
         switch(ball.checkScored()){
             case "UP" -> {
                 p1.hasScored();
-                p2.ChargingPowerUps();
+                if(arePowersEnabled) p2.ChargingPowerUps();
                 if(!hasSomeoneWin()) {
                     ball = new Ball(472, 468, genRandomxVelocity(), 5, 56, 64);
                 }else{
@@ -70,7 +75,7 @@ public class GameLogic implements Runnable{
             }
             case "DOWN" -> {
                 p2.hasScored();
-                p1.ChargingPowerUps();
+                if(arePowersEnabled) p1.ChargingPowerUps();
                 if(!hasSomeoneWin()) {
                     ball = new Ball(472, 468, genRandomxVelocity(), -5, 56, 64);
                 }else{
@@ -78,6 +83,10 @@ public class GameLogic implements Runnable{
                 }
             }
         }
+    }
+
+    public void togglePause() {
+        isPaused = !isPaused;
     }
 
     public boolean hasSomeoneWin(){
@@ -104,5 +113,17 @@ public class GameLogic implements Runnable{
     private int genRandomxVelocity(){
         Random random = new Random(System.currentTimeMillis());
         return random.nextInt(3, 8) * (random.nextBoolean() ? 1 : -1);
+    }
+
+    public boolean isPaused() {
+        return isPaused;
+    }
+
+    public boolean arePowersEnabled() {
+        return arePowersEnabled;
+    }
+
+    public void togglePowers() {
+        this.arePowersEnabled = !this.arePowersEnabled;
     }
 }

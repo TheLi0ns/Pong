@@ -20,15 +20,21 @@ public class GamePanel extends JPanel implements KeyListener {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
-        drawField(g2d);
+        if(!MyFrame.gameLogic.isPaused()){
+            drawField(g2d);
 
-        drawPowerUpP1(g2d);
+            if(MyFrame.gameLogic.arePowersEnabled()){
+                drawPowerUpP1(g2d);
 
-        drawPowerUpP2(g2d);
+                drawPowerUpP2(g2d);
+            }
 
-        drawGameObjects(g2d);
+            drawGameObjects(g2d);
 
-        drawScore(g2d);
+            drawScore(g2d);
+        }else{
+            g2d.drawImage(Assets.PAUSE_MENU, 0, 0, null);
+        }
 
         if(MyFrame.gameLogic.isFinished()){
             drawFinishScreen(g2d);
@@ -205,6 +211,12 @@ public class GamePanel extends JPanel implements KeyListener {
 
         if(e.getKeyCode() == KeyEvent.VK_SPACE && MyFrame.gameLogic.isFinished()){
             MyFrame.gameLogic = new GameLogic();
+        }
+        if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+            MyFrame.gameLogic.togglePause();
+        }
+        if(e.getKeyCode() == KeyEvent.VK_C){
+            MyFrame.gameLogic.togglePowers();
         }
 
         if(e.getKeyCode() == KeyEvent.VK_S && GameLogic.p1.isSpeedPowerUpCharged()){
