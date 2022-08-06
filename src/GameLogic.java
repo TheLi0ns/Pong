@@ -31,7 +31,7 @@ public class GameLogic implements Runnable{
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        while(!hasSomeoneWin()) {
+        while(!hasSomeoneWins()) {
             if(!isPaused) {
                 update();
             }
@@ -47,6 +47,15 @@ public class GameLogic implements Runnable{
     }
 
     void update(){
+
+        playersUpdate();
+
+        ballUpdate();
+
+        scoreUpdate();
+    }
+
+    private void playersUpdate() {
         if(GamePanel.isLeft1Pressed && p1.isMovementEnabled()){
             p1.move(Player.DIRECTION.LEFT);
         }
@@ -59,15 +68,19 @@ public class GameLogic implements Runnable{
         if(GamePanel.isRight2Pressed && p2.isMovementEnabled()){
             p2.move(Player.DIRECTION.RIGHT);
         }
+    }
 
+    private void ballUpdate(){
         ball.checkCollisions(p1, p2);
         ball.move();
+    }
 
+    private void scoreUpdate(){
         switch(ball.checkScored()){
             case "UP" -> {
                 p1.hasScored();
                 if(arePowersEnabled) p2.ChargingPowerUps();
-                if(!hasSomeoneWin()) {
+                if(!hasSomeoneWins()) {
                     ball = new Ball(472, 468, genRandomxVelocity(), 5, 56, 64);
                 }else{
                     finish();
@@ -76,7 +89,7 @@ public class GameLogic implements Runnable{
             case "DOWN" -> {
                 p2.hasScored();
                 if(arePowersEnabled) p1.ChargingPowerUps();
-                if(!hasSomeoneWin()) {
+                if(!hasSomeoneWins()) {
                     ball = new Ball(472, 468, genRandomxVelocity(), -5, 56, 64);
                 }else{
                     finish();
@@ -89,7 +102,7 @@ public class GameLogic implements Runnable{
         isPaused = !isPaused;
     }
 
-    public boolean hasSomeoneWin(){
+    public boolean hasSomeoneWins(){
         return p1.hasWon() || p2.hasWon();
     }
 

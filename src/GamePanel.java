@@ -43,7 +43,7 @@ public class GamePanel extends JPanel implements KeyListener {
         g2d.dispose();
     }
 
-    void drawField(Graphics2D g2d){
+    private void drawField(Graphics2D g2d){
         g2d.setStroke(new BasicStroke(5));
         g2d.setPaint(Color.WHITE);
         g2d.drawLine(0, 0, 0, 1000);
@@ -60,7 +60,7 @@ public class GamePanel extends JPanel implements KeyListener {
         g2d.drawLine(0, 954, 1000,954);
     }
 
-    void drawPowerUpP1(Graphics2D g2d){
+    private void drawPowerUpP1(Graphics2D g2d){
 
         //Speed PowerUp
         g2d.setPaint(Color.gray);
@@ -111,7 +111,7 @@ public class GamePanel extends JPanel implements KeyListener {
         }
     }
 
-    void drawPowerUpP2(Graphics2D g2d){
+    private void drawPowerUpP2(Graphics2D g2d){
 
         //Speed PowerUp
         g2d.setPaint(Color.gray);
@@ -162,14 +162,14 @@ public class GamePanel extends JPanel implements KeyListener {
         }
     }
 
-    void drawGameObjects(Graphics2D g2d){
+    private void drawGameObjects(Graphics2D g2d){
         g2d.drawImage(Assets.RACKET, GameLogic.p1.getX(), GameLogic.p1.getY(), null);
         g2d.drawImage(Assets.RACKET, GameLogic.p2.getX(), GameLogic.p2.getY(), null);
 
         g2d.drawImage(Assets.BALL, GameLogic.ball.getX(), GameLogic.ball.getY(), null);
     }
 
-    void drawScore(Graphics2D g2d){
+    private void drawScore(Graphics2D g2d){
         g2d.setPaint(Color.white);
         g2d.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
         AffineTransform old_at = g2d.getTransform();
@@ -180,7 +180,7 @@ public class GamePanel extends JPanel implements KeyListener {
         g2d.setTransform(old_at);
     }
 
-    void drawFinishScreen(Graphics2D g2d){
+    private void drawFinishScreen(Graphics2D g2d){
         g2d.setPaint(Color.RED);
         g2d.setFont(new Font("Comic Sans MS", Font.PLAIN, 100));
         g2d.drawString(MyFrame.gameLogic.getFinish(), 100, 525);
