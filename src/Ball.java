@@ -51,12 +51,27 @@ public class Ball {
             if(xVelocity > 0){
                 xVelocity++;
                 yVelocity++;
+                if(p1.isFireShotActivated()){
+                    xVelocity = 2;
+                    yVelocity += 15;
+                    Sound.play(Sound.FIRESHOT_SOUND);
+                    p1.setFireShotActivated(false);
+                }else{
+                    Sound.play(Sound.PLAYER_HIT_SOUND);
+                }
             }else{
                 xVelocity--;
                 yVelocity--;
+                if(p2.isFireShotActivated()){
+                    xVelocity = 2;
+                    yVelocity += 15;
+                    Sound.play(Sound.FIRESHOT_SOUND);
+                    p2.setFireShotActivated(false);
+                }else{
+                    Sound.play(Sound.PLAYER_HIT_SOUND);
+                }
             }
             yVelocity *= -1;
-            Sound.play(Sound.PLAYER_HIT_SOUND);
         }
 
         if(p1.getHitbox().intersects(this.getHitbox()) && p1.isMovementEnabled()){

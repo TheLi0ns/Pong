@@ -6,7 +6,7 @@ public class GameLogic implements Runnable{
     static Player p2;
     static Ball ball;
 
-    static int pointToWin = 10;
+    static int pointToWin = 15;
     final int FPS = 60;
 
     boolean isFinished = false;
@@ -61,6 +61,7 @@ public class GameLogic implements Runnable{
         switch(ball.checkScored()){
             case "UP" -> {
                 p1.hasScored();
+                p2.ChargingPowerUps();
                 if(!hasSomeoneWin()) {
                     ball = new Ball(472, 468, genRandomxVelocity(), 5, 56, 64);
                 }else{
@@ -69,6 +70,7 @@ public class GameLogic implements Runnable{
             }
             case "DOWN" -> {
                 p2.hasScored();
+                p1.ChargingPowerUps();
                 if(!hasSomeoneWin()) {
                     ball = new Ball(472, 468, genRandomxVelocity(), -5, 56, 64);
                 }else{
