@@ -31,12 +31,6 @@ public class Ball {
 
     void checkCollisions(Player p1, Player p2){
 
-        if(p2.getY() > p1.getY()){
-            Player p2_temp = p2;
-            p2 = p1;
-            p1 = p2_temp;
-        }
-
         //WALL COLLISION
         if(Collisions.checkWallCollision(this)) {
             xVelocity *= -1;
