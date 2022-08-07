@@ -1,25 +1,35 @@
+import javax.swing.*;
+import java.awt.*;
 import java.util.Random;
 
 public class GameLogic implements Runnable{
 
-    static Player p1;
-    static Player p2;
-    static Ball ball;
+    Player p1;
+    Player p2;
+    Ball ball;
 
-    static int pointToWin = 15;
-    final int FPS = 60;
+    private int pointToWin = 15;
 
-    boolean isFinished = false;
-    boolean isPaused = false;
+    private final int FPS = 90;
 
-    boolean arePowersEnabled = true;
+    private boolean isFinished = false;
+    private boolean isPaused = false;
+
+    private boolean arePowersEnabled = true;
+    private final boolean isSpeedPowerRechargeable;
+    private final boolean isFireShotPowerRechargeable;
 
     String finish = null;
 
     GameLogic(){
+        setPointToWin();
+
+        isFireShotPowerRechargeable = pointToWin > 6;
+        isSpeedPowerRechargeable = pointToWin > 3;
+
         p1 = new Player(391, 909, 6, 218, 36);
         p2 = new Player(391, 54, 6, 218, 36);
-        ball = new Ball(472, 468, genRandomxVelocity(), 5, 56, 64);
+        ball = new Ball(472, 468, genRandomxVelocity(), 6, 56, 64);
         Thread gameThread = new Thread(this);
         gameThread.start();
     }
@@ -48,31 +58,13 @@ public class GameLogic implements Runnable{
 
     void update(){
 
-        playersUpdate();
+        p1.update();
 
-        ballUpdate();
+        p2.update();
+
+        ball.update(p1, p2);
 
         scoreUpdate();
-    }
-
-    private void playersUpdate() {
-        if(GamePanel.isLeft1Pressed && p1.isMovementEnabled()){
-            p1.move(Player.DIRECTION.LEFT);
-        }
-        if(GamePanel.isRight1Pressed && p1.isMovementEnabled()){
-            p1.move(Player.DIRECTION.RIGHT);
-        }
-        if(GamePanel.isLeft2Pressed && p2.isMovementEnabled()){
-            p2.move(Player.DIRECTION.LEFT);
-        }
-        if(GamePanel.isRight2Pressed && p2.isMovementEnabled()){
-            p2.move(Player.DIRECTION.RIGHT);
-        }
-    }
-
-    private void ballUpdate(){
-        ball.checkCollisions(p1, p2);
-        ball.move();
     }
 
     private void scoreUpdate(){
@@ -125,7 +117,7 @@ public class GameLogic implements Runnable{
 
     private int genRandomxVelocity(){
         Random random = new Random(System.currentTimeMillis());
-        return random.nextInt(3, 8) * (random.nextBoolean() ? 1 : -1);
+        return random.nextInt(3, 5) * (random.nextBoolean() ? 1 : -1);
     }
 
     public boolean isPaused() {
@@ -139,4 +131,36 @@ public class GameLogic implements Runnable{
     public void togglePowers() {
         this.arePowersEnabled = !this.arePowersEnabled;
     }
+
+    public void setPointToWin(){
+        togglePause();
+
+        JSlider slider = new JSlider();
+        slider.setMinimum(1);
+        slider.setMaximum(30);
+        slider.setValue(1);
+        slider.setPreferredSize(new Dimension(750, 100));
+        slider.setPaintLabels(true);
+        slider.setMajorTickSpacing(1);
+        slider.setFont(new Font("CALIBRI CORPO", Font.PLAIN, 15));
+        slider.setValue(10);
+
+        JOptionPane.showConfirmDialog(null, slider, "   POINTS TO WIN    ", JOptionPane.DEFAULT_OPTION);
+        pointToWin = slider.getValue();
+
+        togglePause();
+    }
+
+    public int getPointToWin() {
+        return pointToWin;
+    }
+
+    public boolean isSpeedPowerRechargeable() {
+        return isSpeedPowerRechargeable;
+    }
+
+    public boolean isFireShotPowerRechargeable() {
+        return isFireShotPowerRechargeable;
+    }
+
 }

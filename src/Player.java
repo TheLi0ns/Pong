@@ -7,6 +7,8 @@ public class Player {
     private final int height;
     private int xVelocity;
     private boolean isMovementEnabled = true;
+    private boolean isLeftPressed = false;
+    private boolean isRightPressed = false;
     private int score = 0;
     private int chargeSpeedPowerUp = 0;
     private int chargeFireShotPowerUp = 0;
@@ -43,6 +45,15 @@ public class Player {
         }
     }
 
+    void update(){
+        if(isLeftPressed && isMovementEnabled){
+            move(DIRECTION.LEFT);
+        }
+        if(isRightPressed && isMovementEnabled){
+            move(DIRECTION.RIGHT);
+        }
+    }
+
     public Rectangle getHitbox(){
         return new Rectangle(x, y, width, height);
     }
@@ -75,6 +86,14 @@ public class Player {
         isMovementEnabled = movementEnabled;
     }
 
+    public void setLeftPressed(boolean leftPressed) {
+        isLeftPressed = leftPressed;
+    }
+
+    public void setRightPressed(boolean rightPressed) {
+        isRightPressed = rightPressed;
+    }
+
     public int getScore() {
         return score;
     }
@@ -84,14 +103,14 @@ public class Player {
     }
 
     public boolean hasWon(){
-        return score == GameLogic.pointToWin;
+        return score == MyFrame.gameLogic.getPointToWin();
     }
 
     public void ChargingPowerUps(){
-        if(!isSpeedPowerUpCharged()) {
+        if(!isSpeedPowerUpCharged() && MyFrame.gameLogic.isSpeedPowerRechargeable()) {
             chargeSpeedPowerUp++;
         }
-        if(!isFireShotPowerUpCharged()) {
+        if(!isFireShotPowerUpCharged() && MyFrame.gameLogic.isFireShotPowerRechargeable()) {
             chargeFireShotPowerUp++;
         }
     }
@@ -124,9 +143,9 @@ public class Player {
     }
 
     public void activateFireShotPowerUp(){
+        fireShotActivated = true;
         chargeFireShotPowerUp = -2;
         new Thread(() -> {
-            fireShotActivated = true;
             try {
                 Thread.sleep(5000);
             } catch (InterruptedException e) {

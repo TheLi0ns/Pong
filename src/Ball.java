@@ -45,8 +45,7 @@ public class Ball {
 
         //RACKET COLLISION
         if(p1.getHitbox().intersects(this.getHitbox()) || p2.getHitbox().intersects(this.getHitbox())){
-            if(xVelocity > 0){
-                xVelocity++;
+            if(yVelocity > 0){
                 yVelocity++;
                 if(p1.isFireShotActivated()){
                     xVelocity = 2;
@@ -57,7 +56,6 @@ public class Ball {
                     Sound.play(Sound.PLAYER_HIT_SOUND);
                 }
             }else{
-                xVelocity--;
                 yVelocity--;
                 if(p2.isFireShotActivated()){
                     xVelocity = 2;
@@ -67,6 +65,11 @@ public class Ball {
                 }else{
                     Sound.play(Sound.PLAYER_HIT_SOUND);
                 }
+            }
+            if(xVelocity > 0){
+                xVelocity++;
+            }else {
+                xVelocity--;
             }
             yVelocity *= -1;
         }
@@ -85,6 +88,11 @@ public class Ball {
         }else if(!p2.isMovementEnabled()){
             p2.setMovementEnabled(true);
         }
+    }
+
+    void update(Player p1, Player p2){
+        checkCollisions(p1, p2);
+        move();
     }
 
     String checkScored(){
