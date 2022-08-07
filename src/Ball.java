@@ -38,56 +38,74 @@ public class Ball {
         }
 
         //WALL COLLISION
-        if(x < 0 || x+40 > 995) {
+        if(Collisions.checkWallCollision(this)) {
             xVelocity *= -1;
             Sound.play(Sound.WALL_HIT_SOUND);
         }
 
-        //RACKET COLLISION
-        if(p1.getHitbox().intersects(this.getHitbox()) || p2.getHitbox().intersects(this.getHitbox())){
-            if(yVelocity > 0){
-                yVelocity++;
-                if(p1.isFireShotActivated()){
-                    xVelocity = 2;
-                    yVelocity += 15;
-                    Sound.play(Sound.FIRESHOT_SOUND);
-                    p1.setFireShotActivated(false);
-                }else{
-                    Sound.play(Sound.PLAYER_HIT_SOUND);
-                }
-            }else{
-                yVelocity--;
-                if(p2.isFireShotActivated()){
-                    xVelocity = 2;
-                    yVelocity += 15;
-                    Sound.play(Sound.FIRESHOT_SOUND);
-                    p2.setFireShotActivated(false);
-                }else{
-                    Sound.play(Sound.PLAYER_HIT_SOUND);
-                }
-            }
-            if(xVelocity > 0){
-                xVelocity++;
-            }else {
-                xVelocity--;
-            }
+        checkPlayerCollision(p1);
+
+        checkPlayerCollision(p2);
+    }
+
+    void checkPlayerCollision(Player player){
+        if (Collisions.checkBallPlayerCollision(player, this)) {
+            speedUp();
+
             yVelocity *= -1;
+
+            player.setMovementEnabled(false);
+
+            //Edge Collision
+            if(Collisions.checkBallPlayerEdgeCollision(player, this)){
+                edgeBounce();
+            }
+
+            //FireShot
+            if (player.isFireShotActivated()) {
+                fireShot(player);
+            } else {
+                Sound.play(Sound.PLAYER_HIT_SOUND);
+            }
+
+            //AntiBug
+            if(player.getY() > 500){
+                this.y = player.getY()-1-height;
+            }else {
+                this.y = player.getY() + player.getHeight() + 1;
+            }
+        }else if(!player.isMovementEnabled()){
+            player.setMovementEnabled(true);
+        }
+    }
+
+    private void edgeBounce() {
+        if(xVelocity > 0){
+            xVelocity += 2;
+        }else {
+            xVelocity -= 2;
         }
 
-        //ANTI BUG
-        if(p1.getHitbox().intersects(this.getHitbox()) && p1.isMovementEnabled()){
-            y = p1.getY()-1-height;
-            p1.setMovementEnabled(false);
-        }else if(!p1.isMovementEnabled()){
-            p1.setMovementEnabled(true);
+        if((x > 500 && xVelocity < 0) || (x < 500 && xVelocity > 0)){
+            xVelocity *= -1;
         }
+    }
 
-        if(p2.getHitbox().intersects(this.getHitbox()) && p2.isMovementEnabled()){
-            p2.setMovementEnabled(false);
-            y = p2.getY()+p2.getHeight()+1;
-        }else if(!p2.isMovementEnabled()){
-            p2.setMovementEnabled(true);
-        }
+    void fireShot(Player player){
+        xVelocity = 2;
+        yVelocity += 15;
+        Sound.play(Sound.FIRESHOT_SOUND);
+        player.setFireShotActivated(false);
+    }
+
+    void speedUp(){
+        if(yVelocity > 0){
+            yVelocity++;
+        }else yVelocity--;
+
+        if(xVelocity > 0){
+            xVelocity++;
+        }else xVelocity--;
     }
 
     void update(Player p1, Player p2){
