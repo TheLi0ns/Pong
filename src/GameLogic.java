@@ -2,6 +2,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Random;
 
+/**
+ * Creates the game loop
+ * Manages the game loop update
+ * Contains the settings of the current game
+ */
 public class GameLogic implements Runnable{
 
     Player p1;
@@ -132,6 +137,9 @@ public class GameLogic implements Runnable{
         this.arePowersEnabled = !this.arePowersEnabled;
     }
 
+    /**
+     * Asks the User how many points have to score to win the match
+     */
     public void setPointToWin(){
         togglePause();
 

@@ -16,9 +16,9 @@ public class Player {
     private int chargeFireShotPowerUp = 0;
     private boolean fireShotActivated = false;
 
-    static class DIRECTION{
-        public static final int LEFT = 0;
-        public static final int RIGHT = 1;
+    enum DIRECTION{
+        LEFT,
+        RIGHT
     }
 
     Player(int x, int y, int xVelocity){
@@ -27,16 +27,16 @@ public class Player {
         this.xVelocity = xVelocity;
     }
 
-    void move(int direction){
+    void move(DIRECTION direction){
         switch (direction){
-            case 0 ->{
+            case LEFT ->{
                 if(x - xVelocity < 5){
                     return;
                 }
                 x -= xVelocity;
             }
 
-            case 1 ->{
+            case RIGHT ->{
                 if(x + 218 + xVelocity > 995){
                     return;
                 }
@@ -106,6 +106,9 @@ public class Player {
         return score == MyFrame.gameLogic.getPointToWin();
     }
 
+    /**
+     * Increase by 1 the charge of the rechargeable powerUps
+     */
     public void ChargingPowerUps(){
         if(!isSpeedPowerUpCharged() && MyFrame.gameLogic.isSpeedPowerRechargeable()) {
             chargeSpeedPowerUp++;
@@ -122,6 +125,9 @@ public class Player {
         return chargeSpeedPowerUp;
     }
 
+    /**
+     * Increase the xVelocity for 7 secs
+     */
     public void activateSpeedPowerUp(){
         chargeSpeedPowerUp = -2;
         new Thread(() -> {
@@ -154,6 +160,9 @@ public class Player {
         this.fireShotActivated = fireShotActivated;
     }
 
+    /**
+     * Make the fireshot active for 5 secs
+     */
     public void activateFireShotPowerUp(){
         fireShotActivated = true;
         chargeFireShotPowerUp = -2;

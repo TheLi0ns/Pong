@@ -4,6 +4,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.geom.AffineTransform;
 
+/**
+ * Manages the rendering
+ * Manages the keyboard inputs
+ */
 public class GamePanel extends JPanel implements KeyListener {
 
     GamePanel(){
@@ -24,10 +28,10 @@ public class GamePanel extends JPanel implements KeyListener {
 
             if(MyFrame.gameLogic.arePowersEnabled()){
                 if(MyFrame.gameLogic.isSpeedPowerRechargeable()){
-                    drawSpeedPowerUp(g2d);
+                    drawSpeedPowerUpBattery(g2d);
                 }
                 if(MyFrame.gameLogic.isFireShotPowerRechargeable()){
-                    drawFireShotPowerUp(g2d);
+                    drawFireShotPowerUpBattery(g2d);
                 }
             }
 
@@ -62,7 +66,7 @@ public class GamePanel extends JPanel implements KeyListener {
         g2d.drawLine(0, 954, 1000,954);
     }
 
-    private void drawSpeedPowerUp(Graphics2D g2d){
+    private void drawSpeedPowerUpBattery(Graphics2D g2d){
 
         //p1
         g2d.setPaint(Color.gray);
@@ -105,7 +109,7 @@ public class GamePanel extends JPanel implements KeyListener {
         }
     }
 
-    private void drawFireShotPowerUp(Graphics2D g2d){
+    private void drawFireShotPowerUpBattery(Graphics2D g2d){
 
         //p1
         g2d.setPaint(Color.gray);

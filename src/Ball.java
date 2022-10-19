@@ -72,6 +72,11 @@ public class Ball {
         }
     }
 
+    /**
+     * Update the x velocity after the collision
+     * with the edge of the racket
+     * @param player player who collided
+     */
     private void edgeBounce(Player player) {
         if(xVelocity > 0){
             xVelocity += 2;
@@ -84,6 +89,12 @@ public class Ball {
         }
     }
 
+    /**
+     * Update the xVelocity and the yVelocity to make
+     * the ball faster and straighter
+     * also plays the sound
+     * @param player player who used the fireshot powerup
+     */
     void fireShot(Player player){
         if(xVelocity > 0){
             xVelocity = 2;
@@ -112,6 +123,11 @@ public class Ball {
         move();
     }
 
+    /**
+     * @return UP if the ball scored up,
+     *         DOWN if the ball scored down,
+     *         IN if the ball not scored
+     */
     String checkScored(){
         if(y < -height){
             return "UP";
