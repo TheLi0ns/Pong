@@ -1,20 +1,19 @@
 import java.awt.*;
 
 public class Ball {
+    private final Image ball_image = Assets.BALL;
     private int x;
     private int y;
-    private final int width;
-    private final int height;
+    private final int width = ball_image.getWidth(null);
+    private final int height = ball_image.getHeight(null);
     private int xVelocity;
     private int yVelocity;
 
-    Ball(int x, int y, int xVelocity, int yVelocity, int width, int height){
+    Ball(int x, int y, int xVelocity, int yVelocity){
         this.x = x;
         this.y = y;
         this.xVelocity = xVelocity;
         this.yVelocity = yVelocity;
-        this.width = width;
-        this.height = height;
     }
 
     void move(){
@@ -52,7 +51,7 @@ public class Ball {
 
             //Edge Collision
             if(Collisions.checkBallPlayerEdgeCollision(player, this)){
-                edgeBounce();
+                edgeBounce(player);
             }
 
             //FireShot
@@ -73,21 +72,27 @@ public class Ball {
         }
     }
 
-    private void edgeBounce() {
+    private void edgeBounce(Player player) {
         if(xVelocity > 0){
             xVelocity += 2;
         }else {
             xVelocity -= 2;
         }
 
-        if((x > 500 && xVelocity < 0) || (x < 500 && xVelocity > 0)){
+        if((x > (player.getX() + 100) && xVelocity < 0) || (x < (player.getX() + player.getWidth() - 100) && xVelocity > 0)){
             xVelocity *= -1;
         }
     }
 
     void fireShot(Player player){
-        xVelocity = 2;
-        yVelocity += 15;
+        if(xVelocity > 0){
+            xVelocity = 2;
+        }else xVelocity = -2;
+
+        if(yVelocity > 0){
+            yVelocity += 15;
+        }else yVelocity -= 15;
+
         Sound.play(Sound.FIRESHOT_SOUND);
         player.setFireShotActivated(false);
     }
@@ -137,5 +142,9 @@ public class Ball {
     }
     public void setyVelocity(int yVelocity) {
         this.yVelocity = yVelocity;
+    }
+
+    public void draw(Graphics2D g2d){
+        g2d.drawImage(this.ball_image, this.x, this.y, null);
     }
 }

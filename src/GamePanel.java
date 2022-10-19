@@ -165,10 +165,10 @@ public class GamePanel extends JPanel implements KeyListener {
     }
 
     private void drawGameObjects(Graphics2D g2d){
-        g2d.drawImage(Assets.RACKET, MyFrame.gameLogic.p1.getX(), MyFrame.gameLogic.p1.getY(), null);
-        g2d.drawImage(Assets.RACKET, MyFrame.gameLogic.p2.getX(), MyFrame.gameLogic.p2.getY(), null);
+        MyFrame.gameLogic.p1.draw(g2d);
+        MyFrame.gameLogic.p2.draw(g2d);
 
-        g2d.drawImage(Assets.BALL, MyFrame.gameLogic.ball.getX(), MyFrame.gameLogic.ball.getY(), null);
+        MyFrame.gameLogic.ball.draw(g2d);
     }
 
     private void drawScore(Graphics2D g2d){

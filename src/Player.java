@@ -1,10 +1,12 @@
+import javax.swing.*;
 import java.awt.*;
 
 public class Player {
+    private final Image player_image = Assets.RACKET;
     private int x;
     private final int y;
-    private final int width;
-    private final int height;
+    private final int width = player_image.getWidth(null);
+    private final int height = player_image.getHeight(null);
     private int xVelocity;
     private boolean isMovementEnabled = true;
     private boolean isLeftPressed = false;
@@ -19,12 +21,10 @@ public class Player {
         public static final int RIGHT = 1;
     }
 
-    Player(int x, int y, int xVelocity, int width, int height){
+    Player(int x, int y, int xVelocity){
         this.x = x;
         this.y = y;
         this.xVelocity = xVelocity;
-        this.width = width;
-        this.height = height;
     }
 
     void move(int direction){
@@ -118,6 +118,10 @@ public class Player {
         return chargeSpeedPowerUp == 3;
     }
 
+    public int getChargeSpeedPowerUp() {
+        return chargeSpeedPowerUp;
+    }
+
     public void activateSpeedPowerUp(){
         chargeSpeedPowerUp = -2;
         new Thread(() -> {
@@ -134,12 +138,20 @@ public class Player {
         }).start();
     }
 
-    public int getChargeSpeedPowerUp() {
-        return chargeSpeedPowerUp;
-    }
-
     public boolean isFireShotPowerUpCharged(){
         return chargeFireShotPowerUp == 6;
+    }
+
+    public int getChargeFireShotPowerUp() {
+        return chargeFireShotPowerUp;
+    }
+
+    public boolean isFireShotActivated() {
+        return fireShotActivated;
+    }
+
+    public void setFireShotActivated(boolean fireShotActivated) {
+        this.fireShotActivated = fireShotActivated;
     }
 
     public void activateFireShotPowerUp(){
@@ -155,15 +167,7 @@ public class Player {
         }).start();
     }
 
-    public int getChargeFireShotPowerUp() {
-        return chargeFireShotPowerUp;
-    }
-
-    public boolean isFireShotActivated() {
-        return fireShotActivated;
-    }
-
-    public void setFireShotActivated(boolean fireShotActivated) {
-        this.fireShotActivated = fireShotActivated;
+    public void draw(Graphics2D g2d){
+        g2d.drawImage(this.player_image, this.x, this.y, null);
     }
 }

@@ -27,11 +27,11 @@ public class GameLogic implements Runnable{
         isFireShotPowerRechargeable = pointToWin > 6;
         isSpeedPowerRechargeable = pointToWin > 3;
 
-        p1 = new Player(391, 909, 6, 218, 36);
-        p2 = new Player(391, 54, 6, 218, 36);
-        ball = new Ball(472, 468, genRandomxVelocity(), 6, 56, 64);
-        Thread gameThread = new Thread(this);
-        gameThread.start();
+        p1 = new Player(391, 909, 6);
+        p2 = new Player(391, 54, 6);
+        ball = new Ball(472, 468, genRandomxVelocity(), 6);
+        Thread gameLoop = new Thread(this);
+        gameLoop.start();
     }
 
     @Override
@@ -73,7 +73,7 @@ public class GameLogic implements Runnable{
                 p1.hasScored();
                 if(arePowersEnabled) p2.ChargingPowerUps();
                 if(!hasSomeoneWins()) {
-                    ball = new Ball(472, 468, genRandomxVelocity(), 5, 56, 64);
+                    ball = new Ball(472, 468, genRandomxVelocity(), 5);
                 }else{
                     finish();
                 }
@@ -82,7 +82,7 @@ public class GameLogic implements Runnable{
                 p2.hasScored();
                 if(arePowersEnabled) p1.ChargingPowerUps();
                 if(!hasSomeoneWins()) {
-                    ball = new Ball(472, 468, genRandomxVelocity(), -5, 56, 64);
+                    ball = new Ball(472, 468, genRandomxVelocity(), -5);
                 }else{
                     finish();
                 }
