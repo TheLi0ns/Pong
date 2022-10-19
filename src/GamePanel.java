@@ -6,16 +6,15 @@ import java.awt.geom.AffineTransform;
 
 /**
  * Manages the rendering
- * Manages the keyboard inputs
  */
-public class GamePanel extends JPanel implements KeyListener {
+public class GamePanel extends JPanel {
 
     GamePanel(){
         setPreferredSize(new Dimension(1000,1000));
         setBackground(Color.BLACK);
         setDoubleBuffered(true);
         setFocusable(true);
-        addKeyListener(this);
+        addKeyListener(new KeyHandler());
     }
 
     @Override
@@ -190,56 +189,5 @@ public class GamePanel extends JPanel implements KeyListener {
         g2d.setPaint(Color.RED);
         g2d.setFont(new Font("Comic Sans MS", Font.PLAIN, 100));
         g2d.drawString(MyFrame.gameLogic.getFinish(), 100, 525);
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        switch(e.getKeyCode()){
-            case KeyEvent.VK_A -> MyFrame.gameLogic.p1.setLeftPressed(true);
-            case KeyEvent.VK_D -> MyFrame.gameLogic.p1.setRightPressed(true);
-            case KeyEvent.VK_LEFT -> MyFrame.gameLogic.p2.setLeftPressed(true);
-            case KeyEvent.VK_RIGHT -> MyFrame.gameLogic.p2.setRightPressed(true);
-        }
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        switch(e.getKeyCode()){
-            case KeyEvent.VK_A -> MyFrame.gameLogic.p1.setLeftPressed(false);
-            case KeyEvent.VK_D -> MyFrame.gameLogic.p1.setRightPressed(false);
-            case KeyEvent.VK_LEFT -> MyFrame.gameLogic.p2.setLeftPressed(false);
-            case KeyEvent.VK_RIGHT -> MyFrame.gameLogic.p2.setRightPressed(false);
-        }
-
-        if(e.getKeyCode() == KeyEvent.VK_SPACE && MyFrame.gameLogic.isFinished()){
-            MyFrame.gameLogic = new GameLogic();
-        }
-        if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
-            MyFrame.gameLogic.togglePause();
-        }
-        if(e.getKeyCode() == KeyEvent.VK_C){
-            MyFrame.gameLogic.togglePowers();
-        }
-        if(e.getKeyCode() == KeyEvent.VK_R){
-            MyFrame.gameLogic = new GameLogic();
-        }
-
-        if(e.getKeyCode() == KeyEvent.VK_S && MyFrame.gameLogic.p1.isSpeedPowerUpCharged() && MyFrame.gameLogic.arePowersEnabled()){
-            MyFrame.gameLogic.p1.activateSpeedPowerUp();
-        }
-        if(e.getKeyCode() == KeyEvent.VK_W && MyFrame.gameLogic.p1.isFireShotPowerUpCharged() && MyFrame.gameLogic.arePowersEnabled()){
-            MyFrame.gameLogic.p1.activateFireShotPowerUp();
-        }
-
-        if(e.getKeyCode() == KeyEvent.VK_DOWN && MyFrame.gameLogic.p2.isSpeedPowerUpCharged() && MyFrame.gameLogic.arePowersEnabled()){
-            MyFrame.gameLogic.p2.activateSpeedPowerUp();
-        }
-        if(e.getKeyCode() == KeyEvent.VK_UP && MyFrame.gameLogic.p2.isFireShotPowerUpCharged() && MyFrame.gameLogic.arePowersEnabled()){
-            MyFrame.gameLogic.p2.activateFireShotPowerUp();
-        }
     }
 }
