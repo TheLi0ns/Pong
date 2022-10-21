@@ -21,16 +21,16 @@ public class GameLogic implements Runnable{
     private boolean isPaused = false;
 
     private boolean arePowersEnabled = true;
-    private final boolean isSpeedPowerRechargeable;
-    private final boolean isFireShotPowerRechargeable;
+    private final boolean IS_SPEED_POWER_RECHARGEABLE;
+    private final boolean IS_FIRESHOT_POWER_RECHARGEABLE;
 
     String finish = null;
 
     GameLogic(){
         setPointToWin();
 
-        isFireShotPowerRechargeable = pointToWin > 6;
-        isSpeedPowerRechargeable = pointToWin > 3;
+        IS_FIRESHOT_POWER_RECHARGEABLE = pointToWin > 6;
+        IS_SPEED_POWER_RECHARGEABLE = pointToWin > 3;
 
         p1 = new Player(391, 909, 6);
         p2 = new Player(391, 53, 6);
@@ -164,11 +164,11 @@ public class GameLogic implements Runnable{
     }
 
     public boolean isSpeedPowerRechargeable() {
-        return isSpeedPowerRechargeable;
+        return IS_SPEED_POWER_RECHARGEABLE;
     }
 
     public boolean isFireShotPowerRechargeable() {
-        return isFireShotPowerRechargeable;
+        return IS_FIRESHOT_POWER_RECHARGEABLE;
     }
 
 }

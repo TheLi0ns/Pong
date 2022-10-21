@@ -1,14 +1,13 @@
-import javax.swing.*;
 import java.awt.*;
 
 public class Player {
-    private final Image normal_player_image = Assets.RACKET;
-    private final Image speedy_player_image = Assets.SPEEDY_RACKET;
-    private Image player_image = normal_player_image;
+    private final Image NORMAL_PLAYER_IMAGE = Assets.RACKET;
+    private final Image SPEEDY_PLAYER_IMAGE = Assets.SPEEDY_RACKET;
+    private Image PLAYER_IMAGE = NORMAL_PLAYER_IMAGE;
     private int x;
     private final int y;
-    private final int width = player_image.getWidth(null);
-    private final int height = player_image.getHeight(null);
+    private final int WIDTH = PLAYER_IMAGE.getWidth(null);
+    private final int HEIGHT = PLAYER_IMAGE.getHeight(null);
     private int xVelocity;
     private boolean isMovementEnabled = true;
     private boolean isLeftPressed = false;
@@ -57,7 +56,7 @@ public class Player {
     }
 
     public Rectangle getHitbox(){
-        return new Rectangle(x, y, width, height);
+        return new Rectangle(x, y, WIDTH, HEIGHT);
     }
 
     public void setxVelocity(int xVelocity) {
@@ -73,11 +72,11 @@ public class Player {
     }
 
     public int getWidth() {
-        return width;
+        return WIDTH;
     }
 
     public int getHeight() {
-        return height;
+        return HEIGHT;
     }
 
     public boolean isMovementEnabled() {
@@ -133,7 +132,7 @@ public class Player {
     public void activateSpeedPowerUp(){
         chargeSpeedPowerUp = -2;
         new Thread(() -> {
-            player_image = speedy_player_image;
+            PLAYER_IMAGE = SPEEDY_PLAYER_IMAGE;
             int initialxVelocity = xVelocity;
             xVelocity = 15;
             Sound.play(Sound.SPEED_SOUND[1]);
@@ -144,7 +143,7 @@ public class Player {
             }
             xVelocity = initialxVelocity;
             Sound.play(Sound.SPEED_SOUND[0]);
-            player_image = normal_player_image;
+            PLAYER_IMAGE = NORMAL_PLAYER_IMAGE;
         }).start();
     }
 
@@ -181,6 +180,6 @@ public class Player {
     }
 
     public void draw(Graphics2D g2d){
-        g2d.drawImage(this.player_image, this.x, this.y, null);
+        g2d.drawImage(this.PLAYER_IMAGE, this.x, this.y, null);
     }
 }

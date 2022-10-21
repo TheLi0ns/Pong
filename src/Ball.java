@@ -1,12 +1,12 @@
 import java.awt.*;
 
 public class Ball {
-    private final Image ball_image = Assets.BALL;
-    private final Image[] fireBall_images = Assets.FIRE_BALL;
+    private final Image BALL_IMAGE = Assets.BALL;
+    private final Image[] FIREBALL_IMAGES = Assets.FIRE_BALL;
     private int x;
     private int y;
-    private final int width = ball_image.getWidth(null);
-    private final int height = ball_image.getHeight(null);
+    private final int WIDTH = BALL_IMAGE.getWidth(null);
+    private final int HEIGHT = BALL_IMAGE.getHeight(null);
     private int xVelocity;
     private int yVelocity;
     private boolean fireball = false;
@@ -65,7 +65,7 @@ public class Ball {
 
             //AntiBug
             if(player.getY() > 500){
-                this.y = player.getY()-1-height;
+                this.y = player.getY()-1- HEIGHT;
             }else {
                 this.y = player.getY() + player.getHeight() + 1;
             }
@@ -133,7 +133,7 @@ public class Ball {
      *         IN if the ball not scored
      */
     String checkScored(){
-        if(y < -height){
+        if(y < -HEIGHT){
             return "UP";
         }else if(y > 1000){
             return "DOWN";
@@ -142,7 +142,7 @@ public class Ball {
     }
 
     public Rectangle getHitbox(){
-        return new Rectangle(x, y, width, height);
+        return new Rectangle(x, y, WIDTH, HEIGHT);
     }
 
     public int getX() {
@@ -152,10 +152,10 @@ public class Ball {
         return y;
     }
     public int getWidth() {
-        return width;
+        return WIDTH;
     }
     public int getHeight() {
-        return height;
+        return HEIGHT;
     }
     public void setxVelocity(int xVelocity) {
         this.xVelocity = xVelocity;
@@ -166,7 +166,7 @@ public class Ball {
 
     public void draw(Graphics2D g2d){
         if(fireball){
-            g2d.drawImage(this.fireBall_images[yVelocity>0 ? 1 : 0], this.x, this.y, null);
-        }else g2d.drawImage(this.ball_image, this.x, this.y, null);
+            g2d.drawImage(this.FIREBALL_IMAGES[yVelocity>0 ? 1 : 0], this.x, this.y, null);
+        }else g2d.drawImage(this.BALL_IMAGE, this.x, this.y, null);
     }
 }

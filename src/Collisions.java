@@ -1,5 +1,3 @@
-import java.awt.*;
-
 public class Collisions {
     public static boolean checkWallCollision(Ball ball){
         return ball.getX()+ball.getWidth()-16 > 995 || ball.getX() < 0;
