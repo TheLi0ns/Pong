@@ -2,7 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Player {
-    private final Image player_image = Assets.RACKET;
+    private final Image normal_player_image = Assets.RACKET;
+    private final Image speedy_player_image = Assets.SPEEDY_RACKET;
+    private Image player_image = normal_player_image;
     private int x;
     private final int y;
     private final int width = player_image.getWidth(null);
@@ -131,6 +133,7 @@ public class Player {
     public void activateSpeedPowerUp(){
         chargeSpeedPowerUp = -2;
         new Thread(() -> {
+            player_image = speedy_player_image;
             int initialxVelocity = xVelocity;
             xVelocity = 15;
             Sound.play(Sound.SPEED_SOUND[1]);
@@ -141,6 +144,7 @@ public class Player {
             }
             xVelocity = initialxVelocity;
             Sound.play(Sound.SPEED_SOUND[0]);
+            player_image = normal_player_image;
         }).start();
     }
 

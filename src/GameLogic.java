@@ -33,7 +33,7 @@ public class GameLogic implements Runnable{
         isSpeedPowerRechargeable = pointToWin > 3;
 
         p1 = new Player(391, 909, 6);
-        p2 = new Player(391, 54, 6);
+        p2 = new Player(391, 53, 6);
         ball = new Ball(472, 468, genRandomxVelocity(), 6);
         Thread gameLoop = new Thread(this);
         gameLoop.start();
