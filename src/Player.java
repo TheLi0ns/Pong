@@ -3,6 +3,7 @@ import java.awt.*;
 public class Player {
     private final Image NORMAL_PLAYER_IMAGE = Assets.RACKET;
     private final Image SPEEDY_PLAYER_IMAGE = Assets.SPEEDY_RACKET;
+    private final Image LARGE_PLAYER_IMAGE = Assets.LARGE_RACKET;
     private Image PLAYER_IMAGE = NORMAL_PLAYER_IMAGE;
     private int x;
     private final int y;
@@ -13,7 +14,7 @@ public class Player {
     private boolean isLeftPressed = false;
     private boolean isRightPressed = false;
     private int score = 0;
-    private boolean arePowersEnabled;
+    private boolean arePowersEnabled = true;
     private DEFENSIVE_POWERUPS defensivePowerUp;
     private OFFENSIVE_POWERUPS offensivePowerup;
     private int chargeDefensivePowerUp = 0;
@@ -26,12 +27,28 @@ public class Player {
     }
 
     enum OFFENSIVE_POWERUPS{
+        /**
+         * Increase the ball speed
+         * after the collision
+         */
         FIRE_SHOT,
+
+        /**
+         * inverts the controls
+         * of the opponent
+         */
         INVERTED_CONTROLS
     }
 
     enum DEFENSIVE_POWERUPS{
+        /**
+         * Increase the xVelocity
+         */
         SPEED,
+
+        /**
+         * Stretches the racket
+         */
         LARGE_RACKET
     }
 
@@ -55,7 +72,7 @@ public class Player {
             }
 
             case RIGHT ->{
-                if(x + 218 + xVelocity > 995){
+                if(x + width + xVelocity > 995){
                     return;
                 }
                 x += xVelocity;
@@ -181,8 +198,32 @@ public class Player {
         }).start();
     }
 
+    /**
+     * Stretches the racket for 7 secs
+     */
     public void activateLargeRacketPowerUp(){
-        //ToDo
+        new Thread(() -> {
+            PLAYER_IMAGE = LARGE_PLAYER_IMAGE;
+            Sound.play(Sound.LARGE_SOUND[1]);
+            this.width = LARGE_PLAYER_IMAGE.getWidth(null);
+            x -= 35;
+            if(x < 0){
+                x = 0;
+            }else if(x+width > 1000){
+                x = 1000-width;
+            }
+
+            try {
+                Thread.sleep(7000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+            x += 35;
+            PLAYER_IMAGE = NORMAL_PLAYER_IMAGE;
+            Sound.play(Sound.LARGE_SOUND[0]);
+            this.width = NORMAL_PLAYER_IMAGE.getWidth(null);
+        }).start();
     }
 
     public OFFENSIVE_POWERUPS getOffensivePowerup() {
