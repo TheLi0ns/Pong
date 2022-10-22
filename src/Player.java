@@ -4,6 +4,7 @@ public class Player {
     private final Image NORMAL_PLAYER_IMAGE = Assets.RACKET;
     private final Image SPEEDY_PLAYER_IMAGE = Assets.SPEEDY_RACKET;
     private final Image LARGE_PLAYER_IMAGE = Assets.LARGE_RACKET;
+    private final Image INVERTED_PLAYER_IMAGE = Assets.INVERTED_RACKET;
     private Image PLAYER_IMAGE = NORMAL_PLAYER_IMAGE;
     private int x;
     private final int y;
@@ -20,6 +21,7 @@ public class Player {
     private int chargeDefensivePowerUp = 0;
     private int chargeOffensivePowerUp = 0;
     private boolean fireShotActivated = false;
+    private boolean areControlsInverted = false;
 
     enum DIRECTION{
         LEFT,
@@ -63,6 +65,12 @@ public class Player {
     }
 
     void move(DIRECTION direction){
+
+        if(areControlsInverted){
+            if(direction == DIRECTION.LEFT) direction = DIRECTION.RIGHT;
+            else direction = DIRECTION.LEFT;
+        }
+
         switch (direction){
             case LEFT ->{
                 if(x - xVelocity < 5){
@@ -251,19 +259,37 @@ public class Player {
         this.fireShotActivated = fireShotActivated;
     }
 
-    public void activateOffensivePowerUp(){
+    public void activateOffensivePowerUp(Player opponent){
         if(isDefensivePowerUpCharged() && arePowersEnabled){
             chargeOffensivePowerUp = -2;
 
             switch (offensivePowerup){
                 case FIRE_SHOT -> activateFireShotPowerUp();
-                case INVERTED_CONTROLS -> activateInvertedControlsPowerUp();
+                case INVERTED_CONTROLS -> activateInvertedControlsPowerUp(opponent);
             }
         }
     }
 
-    public void activateInvertedControlsPowerUp(){
-        //ToDo
+    /**
+     * Inverts the opponent controls for 7 secs
+     */
+    public void activateInvertedControlsPowerUp(Player opponent){
+        opponent.setAreControlsInverted(true);
+        Sound.play(Sound.INVERTED_CONTROLS_SOUND);
+        new Thread(() -> {
+            try {
+                Thread.sleep(7000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            opponent.setAreControlsInverted(false);
+        }).start();
+    }
+
+    public void setAreControlsInverted(boolean areControlsInverted) {
+        this.areControlsInverted = areControlsInverted;
+        if(areControlsInverted) PLAYER_IMAGE = INVERTED_PLAYER_IMAGE;
+        else PLAYER_IMAGE = NORMAL_PLAYER_IMAGE;
     }
 
     /**

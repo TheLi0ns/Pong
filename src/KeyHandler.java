@@ -40,14 +40,14 @@ public class KeyHandler implements KeyListener {
             MyFrame.gameLogic.p1.activateDefensivePowerUp();
         }
         if(e.getKeyCode() == KeyEvent.VK_W){
-            MyFrame.gameLogic.p1.activateOffensivePowerUp();
+            MyFrame.gameLogic.p1.activateOffensivePowerUp(MyFrame.gameLogic.p2);
         }
 
         if(e.getKeyCode() == KeyEvent.VK_DOWN){
             MyFrame.gameLogic.p2.activateDefensivePowerUp();
         }
         if(e.getKeyCode() == KeyEvent.VK_UP){
-            MyFrame.gameLogic.p2.activateOffensivePowerUp();
+            MyFrame.gameLogic.p2.activateOffensivePowerUp(MyFrame.gameLogic.p1);
         }
     }
 }

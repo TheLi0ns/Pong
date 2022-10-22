@@ -151,7 +151,7 @@ public class GameLogic implements Runnable{
         }
 
         JOptionPane.showConfirmDialog(null, offensivePower_combobox, "PLAYER 1 SELECT OFFENSIVE POWER", JOptionPane.YES_NO_OPTION);
-        switch (defensivePower_combobox.getSelectedIndex()){
+        switch (offensivePower_combobox.getSelectedIndex()){
             case 0 -> p1.setOffensivePowerup(Player.OFFENSIVE_POWERUPS.FIRE_SHOT);
             case 1 -> p1.setOffensivePowerup(Player.OFFENSIVE_POWERUPS.INVERTED_CONTROLS);
         }
@@ -163,7 +163,7 @@ public class GameLogic implements Runnable{
         }
 
         JOptionPane.showConfirmDialog(null, offensivePower_combobox, "PLAYER 2 SELECT OFFENSIVE POWER", JOptionPane.YES_NO_OPTION);
-        switch (defensivePower_combobox.getSelectedIndex()){
+        switch (offensivePower_combobox.getSelectedIndex()){
             case 0 -> p2.setOffensivePowerup(Player.OFFENSIVE_POWERUPS.FIRE_SHOT);
             case 1 -> p2.setOffensivePowerup(Player.OFFENSIVE_POWERUPS.INVERTED_CONTROLS);
         }

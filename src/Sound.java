@@ -16,6 +16,8 @@ public class Sound {
 
     public static URL[] LARGE_SOUND = new URL[2];
 
+    public static URL INVERTED_CONTROLS_SOUND;
+
     Sound() {
         PLAYER_HIT_SOUND = getClass().getResource("/SFX/Player hit.wav");
         WALL_HIT_SOUND = getClass().getResource("/SFX/Wall hit.wav");
@@ -24,6 +26,7 @@ public class Sound {
         SPEED_SOUND[1] = getClass().getResource("/SFX/Speed powerup.wav");
         LARGE_SOUND[0] = getClass().getResource("/SFX/Large racket powerup.wav");
         LARGE_SOUND[1] = getClass().getResource("/SFX/end Large racket powerup.wav");
+        INVERTED_CONTROLS_SOUND = getClass().getResource("/SFX/Inverted controls powerup.wav");
     }
 
     public static void play(URL url) {
