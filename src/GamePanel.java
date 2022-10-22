@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.geom.AffineTransform;
 
 /**
@@ -26,10 +24,10 @@ public class GamePanel extends JPanel {
             drawField(g2d);
 
             if(MyFrame.gameLogic.arePowersEnabled()){
-                if(MyFrame.gameLogic.isSpeedPowerRechargeable()){
+                if(MyFrame.gameLogic.isDefensivePowerRechargeable()){
                     drawSpeedPowerUpBattery(g2d);
                 }
-                if(MyFrame.gameLogic.isFireShotPowerRechargeable()){
+                if(MyFrame.gameLogic.isOffensivePowerRechargeable()){
                     drawFireShotPowerUpBattery(g2d);
                 }
             }
@@ -75,13 +73,13 @@ public class GamePanel extends JPanel {
         g2d.drawLine(50, 900, 120, 900);
 
         g2d.setPaint(Color.GREEN);
-        if(MyFrame.gameLogic.p1.getChargeSpeedPowerUp() > 0){
+        if(MyFrame.gameLogic.p1.getChargeDefensivePowerUp() > 0){
             g2d.fillRect(55, 905, 60, 35);
         }
-        if(MyFrame.gameLogic.p1.getChargeSpeedPowerUp() > 1){
+        if(MyFrame.gameLogic.p1.getChargeDefensivePowerUp() > 1){
             g2d.fillRect(55, 865, 60, 30);
         }
-        if(MyFrame.gameLogic.p1.getChargeSpeedPowerUp() > 2){
+        if(MyFrame.gameLogic.p1.getChargeDefensivePowerUp() > 2){
             g2d.fillRect(55, 825, 60,30);
             g2d.setPaint(Color.CYAN);
             g2d.drawRect(45, 815, 80, 135);
@@ -95,13 +93,13 @@ public class GamePanel extends JPanel {
         g2d.drawLine(885, 135, 950, 135);
 
         g2d.setPaint(Color.GREEN);
-        if(MyFrame.gameLogic.p2.getChargeSpeedPowerUp() > 0){
+        if(MyFrame.gameLogic.p2.getChargeDefensivePowerUp() > 0){
             g2d.fillRect(885, 60, 60, 30);
         }
-        if(MyFrame.gameLogic.p2.getChargeSpeedPowerUp() > 1){
+        if(MyFrame.gameLogic.p2.getChargeDefensivePowerUp() > 1){
             g2d.fillRect(885, 100, 60, 30);
         }
-        if(MyFrame.gameLogic.p2.getChargeSpeedPowerUp() > 2){
+        if(MyFrame.gameLogic.p2.getChargeDefensivePowerUp() > 2){
             g2d.fillRect(885, 140, 60,35);
             g2d.setPaint(Color.CYAN);
             g2d.drawRect(875, 50, 80, 135);
@@ -117,22 +115,22 @@ public class GamePanel extends JPanel {
         g2d.drawLine(880, 900, 950, 900);
 
         g2d.setPaint(Color.GREEN);
-        if(MyFrame.gameLogic.p1.getChargeFireShotPowerUp() > 0){
+        if(MyFrame.gameLogic.p1.getChargeOffensivePowerUp() > 0){
             g2d.fillRect(885, 905, 30, 35);
         }
-        if(MyFrame.gameLogic.p1.getChargeFireShotPowerUp() > 1){
+        if(MyFrame.gameLogic.p1.getChargeOffensivePowerUp() > 1){
             g2d.fillRect(915, 905, 30, 35);
         }
-        if(MyFrame.gameLogic.p1.getChargeFireShotPowerUp() > 2){
+        if(MyFrame.gameLogic.p1.getChargeOffensivePowerUp() > 2){
             g2d.fillRect(885, 865, 30, 30);
         }
-        if(MyFrame.gameLogic.p1.getChargeFireShotPowerUp() > 3){
+        if(MyFrame.gameLogic.p1.getChargeOffensivePowerUp() > 3){
             g2d.fillRect(915, 865, 30, 30);
         }
-        if(MyFrame.gameLogic.p1.getChargeFireShotPowerUp() > 4){
+        if(MyFrame.gameLogic.p1.getChargeOffensivePowerUp() > 4){
             g2d.fillRect(885, 825, 30,30);
         }
-        if(MyFrame.gameLogic.p1.getChargeFireShotPowerUp() > 5){
+        if(MyFrame.gameLogic.p1.getChargeOffensivePowerUp() > 5){
             g2d.fillRect(915, 825, 30, 30);
             g2d.setPaint(Color.RED);
             g2d.drawRect(875, 815, 80, 135);
@@ -145,22 +143,22 @@ public class GamePanel extends JPanel {
         g2d.drawLine(50, 135, 120, 135);
 
         g2d.setPaint(Color.GREEN);
-        if(MyFrame.gameLogic.p2.getChargeFireShotPowerUp() > 0){
+        if(MyFrame.gameLogic.p2.getChargeOffensivePowerUp() > 0){
             g2d.fillRect(55, 60, 30, 30);
         }
-        if(MyFrame.gameLogic.p2.getChargeFireShotPowerUp() > 1){
+        if(MyFrame.gameLogic.p2.getChargeOffensivePowerUp() > 1){
             g2d.fillRect(85, 60, 30, 30);
         }
-        if(MyFrame.gameLogic.p2.getChargeFireShotPowerUp() > 2){
+        if(MyFrame.gameLogic.p2.getChargeOffensivePowerUp() > 2){
             g2d.fillRect(55, 100, 30, 30);
         }
-        if(MyFrame.gameLogic.p2.getChargeFireShotPowerUp() > 3){
+        if(MyFrame.gameLogic.p2.getChargeOffensivePowerUp() > 3){
             g2d.fillRect(85, 100, 30, 30);
         }
-        if(MyFrame.gameLogic.p2.getChargeFireShotPowerUp() > 4){
+        if(MyFrame.gameLogic.p2.getChargeOffensivePowerUp() > 4){
             g2d.fillRect(55, 140, 30,35);
         }
-        if(MyFrame.gameLogic.p2.getChargeFireShotPowerUp() > 5){
+        if(MyFrame.gameLogic.p2.getChargeOffensivePowerUp() > 5){
             g2d.fillRect(85, 140, 30, 35);
             g2d.setPaint(Color.RED);
             g2d.drawRect(45, 50, 80, 135);

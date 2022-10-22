@@ -6,15 +6,18 @@ public class Player {
     private Image PLAYER_IMAGE = NORMAL_PLAYER_IMAGE;
     private int x;
     private final int y;
-    private final int WIDTH = PLAYER_IMAGE.getWidth(null);
-    private final int HEIGHT = PLAYER_IMAGE.getHeight(null);
+    private int width = PLAYER_IMAGE.getWidth(null);
+    private int height = PLAYER_IMAGE.getHeight(null);
     private int xVelocity;
     private boolean isMovementEnabled = true;
     private boolean isLeftPressed = false;
     private boolean isRightPressed = false;
     private int score = 0;
-    private int chargeSpeedPowerUp = 0;
-    private int chargeFireShotPowerUp = 0;
+    private boolean arePowersEnabled;
+    private DEFENSIVE_POWERUPS defensivePowerUp;
+    private OFFENSIVE_POWERUPS offensivePowerup;
+    private int chargeDefensivePowerUp = 0;
+    private int chargeOffensivePowerUp = 0;
     private boolean fireShotActivated = false;
 
     enum DIRECTION{
@@ -22,10 +25,24 @@ public class Player {
         RIGHT
     }
 
+    enum OFFENSIVE_POWERUPS{
+        FIRE_SHOT,
+        INVERTED_CONTROLS
+    }
+
+    enum DEFENSIVE_POWERUPS{
+        SPEED,
+        LARGE_RACKET
+    }
+
     Player(int x, int y, int xVelocity){
         this.x = x;
         this.y = y;
         this.xVelocity = xVelocity;
+    }
+
+    public void setArePowersEnabled(boolean arePowersEnabled) {
+        this.arePowersEnabled = arePowersEnabled;
     }
 
     void move(DIRECTION direction){
@@ -56,7 +73,7 @@ public class Player {
     }
 
     public Rectangle getHitbox(){
-        return new Rectangle(x, y, WIDTH, HEIGHT);
+        return new Rectangle(x, y, width, height);
     }
 
     public void setxVelocity(int xVelocity) {
@@ -72,11 +89,11 @@ public class Player {
     }
 
     public int getWidth() {
-        return WIDTH;
+        return width;
     }
 
     public int getHeight() {
-        return HEIGHT;
+        return height;
     }
 
     public boolean isMovementEnabled() {
@@ -111,26 +128,43 @@ public class Player {
      * Increase by 1 the charge of the rechargeable powerUps
      */
     public void ChargingPowerUps(){
-        if(!isSpeedPowerUpCharged() && MyFrame.gameLogic.isSpeedPowerRechargeable()) {
-            chargeSpeedPowerUp++;
+        if(!isDefensivePowerUpCharged() && MyFrame.gameLogic.isDefensivePowerRechargeable()) {
+            chargeDefensivePowerUp++;
         }
-        if(!isFireShotPowerUpCharged() && MyFrame.gameLogic.isFireShotPowerRechargeable()) {
-            chargeFireShotPowerUp++;
+        if(!isOffensivePowerUpCharged() && MyFrame.gameLogic.isOffensivePowerRechargeable()) {
+            chargeOffensivePowerUp++;
         }
     }
-    public boolean isSpeedPowerUpCharged(){
-        return chargeSpeedPowerUp == 3;
+    public DEFENSIVE_POWERUPS getDefensivePowerUp() {
+        return defensivePowerUp;
     }
 
-    public int getChargeSpeedPowerUp() {
-        return chargeSpeedPowerUp;
+    public void setDefensivePowerUp(DEFENSIVE_POWERUPS defensivePowerUp) {
+        this.defensivePowerUp = defensivePowerUp;
+    }
+    public boolean isDefensivePowerUpCharged(){
+        return chargeDefensivePowerUp == 3;
+    }
+
+    public int getChargeDefensivePowerUp() {
+        return chargeDefensivePowerUp;
+    }
+
+    public void activateDefensivePowerUp(){
+        if(isDefensivePowerUpCharged() && arePowersEnabled){
+            chargeDefensivePowerUp = -2;
+
+            switch (defensivePowerUp){
+                case SPEED -> activateSpeedPowerUp();
+                case LARGE_RACKET -> activateLargeRacketPowerUp();
+            }
+        }
     }
 
     /**
      * Increase the xVelocity for 7 secs
      */
     public void activateSpeedPowerUp(){
-        chargeSpeedPowerUp = -2;
         new Thread(() -> {
             PLAYER_IMAGE = SPEEDY_PLAYER_IMAGE;
             int initialxVelocity = xVelocity;
@@ -147,12 +181,25 @@ public class Player {
         }).start();
     }
 
-    public boolean isFireShotPowerUpCharged(){
-        return chargeFireShotPowerUp == 6;
+    public void activateLargeRacketPowerUp(){
+        //ToDo
     }
 
-    public int getChargeFireShotPowerUp() {
-        return chargeFireShotPowerUp;
+    public OFFENSIVE_POWERUPS getOffensivePowerup() {
+        return offensivePowerup;
+    }
+
+    public void setOffensivePowerup(OFFENSIVE_POWERUPS offensivePowerup) {
+        this.offensivePowerup = offensivePowerup;
+    }
+
+
+    public boolean isOffensivePowerUpCharged(){
+        return chargeOffensivePowerUp == 6;
+    }
+
+    public int getChargeOffensivePowerUp() {
+        return chargeOffensivePowerUp;
     }
 
     public boolean isFireShotActivated() {
@@ -163,12 +210,26 @@ public class Player {
         this.fireShotActivated = fireShotActivated;
     }
 
+    public void activateOffensivePowerUp(){
+        if(isDefensivePowerUpCharged() && arePowersEnabled){
+            chargeOffensivePowerUp = -2;
+
+            switch (offensivePowerup){
+                case FIRE_SHOT -> activateFireShotPowerUp();
+                case INVERTED_CONTROLS -> activateInvertedControlsPowerUp();
+            }
+        }
+    }
+
+    public void activateInvertedControlsPowerUp(){
+        //ToDo
+    }
+
     /**
      * Make the fireshot active for 5 secs
      */
     public void activateFireShotPowerUp(){
         fireShotActivated = true;
-        chargeFireShotPowerUp = -2;
         new Thread(() -> {
             try {
                 Thread.sleep(5000);

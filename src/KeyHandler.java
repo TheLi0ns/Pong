@@ -32,25 +32,22 @@ public class KeyHandler implements KeyListener {
         if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
             MyFrame.gameLogic.togglePause();
         }
-        if(e.getKeyCode() == KeyEvent.VK_C){
-            MyFrame.gameLogic.togglePowers();
-        }
         if(e.getKeyCode() == KeyEvent.VK_R){
             MyFrame.gameLogic = new GameLogic();
         }
 
-        if(e.getKeyCode() == KeyEvent.VK_S && MyFrame.gameLogic.p1.isSpeedPowerUpCharged() && MyFrame.gameLogic.arePowersEnabled()){
-            MyFrame.gameLogic.p1.activateSpeedPowerUp();
+        if(e.getKeyCode() == KeyEvent.VK_S){
+            MyFrame.gameLogic.p1.activateDefensivePowerUp();
         }
-        if(e.getKeyCode() == KeyEvent.VK_W && MyFrame.gameLogic.p1.isFireShotPowerUpCharged() && MyFrame.gameLogic.arePowersEnabled()){
-            MyFrame.gameLogic.p1.activateFireShotPowerUp();
+        if(e.getKeyCode() == KeyEvent.VK_W && MyFrame.gameLogic.p1.isOffensivePowerUpCharged() && MyFrame.gameLogic.arePowersEnabled()){
+            MyFrame.gameLogic.p1.activateOffensivePowerUp();
         }
 
-        if(e.getKeyCode() == KeyEvent.VK_DOWN && MyFrame.gameLogic.p2.isSpeedPowerUpCharged() && MyFrame.gameLogic.arePowersEnabled()){
-            MyFrame.gameLogic.p2.activateSpeedPowerUp();
+        if(e.getKeyCode() == KeyEvent.VK_DOWN){
+            MyFrame.gameLogic.p2.activateDefensivePowerUp();
         }
-        if(e.getKeyCode() == KeyEvent.VK_UP && MyFrame.gameLogic.p2.isFireShotPowerUpCharged() && MyFrame.gameLogic.arePowersEnabled()){
-            MyFrame.gameLogic.p2.activateFireShotPowerUp();
+        if(e.getKeyCode() == KeyEvent.VK_UP && MyFrame.gameLogic.p2.isOffensivePowerUpCharged() && MyFrame.gameLogic.arePowersEnabled()){
+            MyFrame.gameLogic.p2.activateOffensivePowerUp();
         }
     }
 }

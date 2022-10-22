@@ -20,8 +20,8 @@ public class GameLogic implements Runnable{
     private boolean isFinished = false;
     private boolean isPaused = false;
 
-    private boolean arePowersEnabled = true;
-    private final boolean IS_SPEED_POWER_RECHARGEABLE;
+    private final boolean arePowersEnabled;
+    private final boolean IS_DEFENSIVE_POWER_RECHARGEABLE;
     private final boolean IS_FIRESHOT_POWER_RECHARGEABLE;
 
     String finish = null;
@@ -30,13 +30,18 @@ public class GameLogic implements Runnable{
         setPointToWin();
 
         IS_FIRESHOT_POWER_RECHARGEABLE = pointToWin > 6;
-        IS_SPEED_POWER_RECHARGEABLE = pointToWin > 3;
+        IS_DEFENSIVE_POWER_RECHARGEABLE = pointToWin > 3;
 
         p1 = new Player(391, 909, 6);
         p2 = new Player(391, 53, 6);
+
+        arePowersEnabled = powerSelection();
+
         ball = new Ball(472, 468, genRandomxVelocity(), 6);
+
         Thread gameLoop = new Thread(this);
         gameLoop.start();
+
     }
 
     @Override
@@ -129,12 +134,45 @@ public class GameLogic implements Runnable{
         return isPaused;
     }
 
-    public boolean arePowersEnabled() {
-        return arePowersEnabled;
+    public boolean powerSelection(){
+        if(JOptionPane.showConfirmDialog(null, "Enable Powers?", "POWERS", JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION){
+            p1.setArePowersEnabled(false);
+            p2.setArePowersEnabled(false);
+            return false;
+        }
+
+        JComboBox<String> defensivePower_combobox = new JComboBox<>(new String[]{"SPEED", "LARGE RACKET"});
+        JComboBox<String> offensivePower_combobox = new JComboBox<>(new String[]{"FIRE SHOT", "INVERTED CONTROLS"});
+
+        JOptionPane.showConfirmDialog(null, defensivePower_combobox, "PLAYER 1 SELECT DEFENSIVE POWER", JOptionPane.YES_NO_OPTION);
+        switch (defensivePower_combobox.getSelectedIndex()){
+            case 0 -> p1.setDefensivePowerUp(Player.DEFENSIVE_POWERUPS.SPEED);
+            case 1 -> p1.setDefensivePowerUp(Player.DEFENSIVE_POWERUPS.LARGE_RACKET);
+        }
+
+        JOptionPane.showConfirmDialog(null, offensivePower_combobox, "PLAYER 1 SELECT OFFENSIVE POWER", JOptionPane.YES_NO_OPTION);
+        switch (defensivePower_combobox.getSelectedIndex()){
+            case 0 -> p1.setOffensivePowerup(Player.OFFENSIVE_POWERUPS.FIRE_SHOT);
+            case 1 -> p1.setOffensivePowerup(Player.OFFENSIVE_POWERUPS.INVERTED_CONTROLS);
+        }
+
+        JOptionPane.showConfirmDialog(null, defensivePower_combobox, "PLAYER 2 SELECT DEFENSIVE POWER", JOptionPane.YES_NO_OPTION);
+        switch (defensivePower_combobox.getSelectedIndex()){
+            case 0 -> p2.setDefensivePowerUp(Player.DEFENSIVE_POWERUPS.SPEED);
+            case 1 -> p2.setDefensivePowerUp(Player.DEFENSIVE_POWERUPS.LARGE_RACKET);
+        }
+
+        JOptionPane.showConfirmDialog(null, offensivePower_combobox, "PLAYER 2 SELECT OFFENSIVE POWER", JOptionPane.YES_NO_OPTION);
+        switch (defensivePower_combobox.getSelectedIndex()){
+            case 0 -> p2.setOffensivePowerup(Player.OFFENSIVE_POWERUPS.FIRE_SHOT);
+            case 1 -> p2.setOffensivePowerup(Player.OFFENSIVE_POWERUPS.INVERTED_CONTROLS);
+        }
+
+        return true;
     }
 
-    public void togglePowers() {
-        this.arePowersEnabled = !this.arePowersEnabled;
+    public boolean arePowersEnabled() {
+        return arePowersEnabled;
     }
 
     /**
@@ -163,11 +201,11 @@ public class GameLogic implements Runnable{
         return pointToWin;
     }
 
-    public boolean isSpeedPowerRechargeable() {
-        return IS_SPEED_POWER_RECHARGEABLE;
+    public boolean isDefensivePowerRechargeable() {
+        return IS_DEFENSIVE_POWER_RECHARGEABLE;
     }
 
-    public boolean isFireShotPowerRechargeable() {
+    public boolean isOffensivePowerRechargeable() {
         return IS_FIRESHOT_POWER_RECHARGEABLE;
     }
 
