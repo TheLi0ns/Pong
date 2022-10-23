@@ -141,32 +141,28 @@ public class GameLogic implements Runnable{
             return false;
         }
 
-        JComboBox<String> defensivePower_combobox = new JComboBox<>(new String[]{"SPEED", "LARGE RACKET"});
-        JComboBox<String> offensivePower_combobox = new JComboBox<>(new String[]{"FIRE SHOT", "INVERTED CONTROLS"});
+        JComboBox<String> defensivePower_combobox = new JComboBox<>();
+        JComboBox<String> offensivePower_combobox = new JComboBox<>();
+
+        for(Player.OffensivePowerUps i : Player.OffensivePowerUps.values()){
+            offensivePower_combobox.addItem(i.name);
+        }
+
+        for(Player.DefensivePowerUps i : Player.DefensivePowerUps.values()){
+            defensivePower_combobox.addItem(i.name);
+        }
 
         JOptionPane.showConfirmDialog(null, defensivePower_combobox, "PLAYER 1 SELECT DEFENSIVE POWER", JOptionPane.YES_NO_OPTION);
-        switch (defensivePower_combobox.getSelectedIndex()){
-            case 0 -> p1.setDefensivePowerUp(Player.DEFENSIVE_POWERUPS.SPEED);
-            case 1 -> p1.setDefensivePowerUp(Player.DEFENSIVE_POWERUPS.LARGE_RACKET);
-        }
+        p1.setDefensivePowerUp(Player.DefensivePowerUps.powerNamed((String) defensivePower_combobox.getSelectedItem()));
 
         JOptionPane.showConfirmDialog(null, offensivePower_combobox, "PLAYER 1 SELECT OFFENSIVE POWER", JOptionPane.YES_NO_OPTION);
-        switch (offensivePower_combobox.getSelectedIndex()){
-            case 0 -> p1.setOffensivePowerup(Player.OFFENSIVE_POWERUPS.FIRE_SHOT);
-            case 1 -> p1.setOffensivePowerup(Player.OFFENSIVE_POWERUPS.INVERTED_CONTROLS);
-        }
+        p1.setOffensivePowerup(Player.OffensivePowerUps.powerNamed((String) offensivePower_combobox.getSelectedItem()));
 
         JOptionPane.showConfirmDialog(null, defensivePower_combobox, "PLAYER 2 SELECT DEFENSIVE POWER", JOptionPane.YES_NO_OPTION);
-        switch (defensivePower_combobox.getSelectedIndex()){
-            case 0 -> p2.setDefensivePowerUp(Player.DEFENSIVE_POWERUPS.SPEED);
-            case 1 -> p2.setDefensivePowerUp(Player.DEFENSIVE_POWERUPS.LARGE_RACKET);
-        }
+        p2.setDefensivePowerUp(Player.DefensivePowerUps.powerNamed((String) defensivePower_combobox.getSelectedItem()));
 
         JOptionPane.showConfirmDialog(null, offensivePower_combobox, "PLAYER 2 SELECT OFFENSIVE POWER", JOptionPane.YES_NO_OPTION);
-        switch (offensivePower_combobox.getSelectedIndex()){
-            case 0 -> p2.setOffensivePowerup(Player.OFFENSIVE_POWERUPS.FIRE_SHOT);
-            case 1 -> p2.setOffensivePowerup(Player.OFFENSIVE_POWERUPS.INVERTED_CONTROLS);
-        }
+        p2.setOffensivePowerup(Player.OffensivePowerUps.powerNamed((String) offensivePower_combobox.getSelectedItem()));
 
         return true;
     }

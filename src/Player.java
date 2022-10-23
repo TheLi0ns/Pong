@@ -16,8 +16,8 @@ public class Player {
     private boolean isRightPressed = false;
     private int score = 0;
     private boolean arePowersEnabled = true;
-    private DEFENSIVE_POWERUPS defensivePowerUp;
-    private OFFENSIVE_POWERUPS offensivePowerup;
+    private DefensivePowerUps defensivePowerUp;
+    private OffensivePowerUps offensivePowerup;
     private int chargeDefensivePowerUp = 0;
     private int chargeOffensivePowerUp = 0;
     private boolean fireShotActivated = false;
@@ -28,30 +28,56 @@ public class Player {
         RIGHT
     }
 
-    enum OFFENSIVE_POWERUPS{
+    enum OffensivePowerUps {
         /**
          * Increase the ball speed
          * after the collision
          */
-        FIRE_SHOT,
+        FIRE_SHOT("FIRE SHOT"),
 
         /**
          * inverts the controls
          * of the opponent
          */
-        INVERTED_CONTROLS
+        INVERTED_CONTROLS("INVERTED");
+
+        String name;
+
+        OffensivePowerUps(String name){
+            this.name = name;
+        }
+
+        static OffensivePowerUps powerNamed(String name){
+            for(OffensivePowerUps i : OffensivePowerUps.values()){
+                if(name.equals(i.name)) return i;
+            }
+            return null;
+        }
     }
 
-    enum DEFENSIVE_POWERUPS{
+    enum DefensivePowerUps {
         /**
          * Increase the xVelocity
          */
-        SPEED,
+        SPEED("SPEED"),
 
         /**
          * Stretches the racket
          */
-        LARGE_RACKET
+        LARGE_RACKET("LARGE RACKET");
+
+        String name;
+
+        DefensivePowerUps(String name){
+            this.name = name;
+        }
+
+        static DefensivePowerUps powerNamed(String name){
+            for(DefensivePowerUps i : DefensivePowerUps.values()){
+                if(name.equals(i.name)) return i;
+            }
+            return null;
+        }
     }
 
     Player(int x, int y, int xVelocity){
@@ -160,11 +186,11 @@ public class Player {
             chargeOffensivePowerUp++;
         }
     }
-    public DEFENSIVE_POWERUPS getDefensivePowerUp() {
+    public DefensivePowerUps getDefensivePowerUp() {
         return defensivePowerUp;
     }
 
-    public void setDefensivePowerUp(DEFENSIVE_POWERUPS defensivePowerUp) {
+    public void setDefensivePowerUp(DefensivePowerUps defensivePowerUp) {
         this.defensivePowerUp = defensivePowerUp;
     }
     public boolean isDefensivePowerUpCharged(){
@@ -234,11 +260,11 @@ public class Player {
         }).start();
     }
 
-    public OFFENSIVE_POWERUPS getOffensivePowerup() {
+    public OffensivePowerUps getOffensivePowerup() {
         return offensivePowerup;
     }
 
-    public void setOffensivePowerup(OFFENSIVE_POWERUPS offensivePowerup) {
+    public void setOffensivePowerup(OffensivePowerUps offensivePowerup) {
         this.offensivePowerup = offensivePowerup;
     }
 
