@@ -45,6 +45,7 @@ public class Ball {
 
     void checkPlayerCollision(Player player){
         if (Collisions.checkBallPlayerCollision(player, this)) {
+
             speedUp();
 
             yVelocity *= -1;
@@ -59,6 +60,11 @@ public class Ball {
             //FireShot
             if (player.isFireShotActivated()) {
                 fireShot(player);
+            }
+            //Parry
+            else if(player.isParrying()){
+                Sound.play(Sound.PARRY_SOUND);
+                player.setParrying(false);
             } else {
                 Sound.play(Sound.PLAYER_HIT_SOUND);
             }

@@ -14,6 +14,8 @@ public class Sound {
 
     public static URL FIRESHOT_SOUND;
 
+    public static URL PARRY_SOUND;
+
     public static URL[] SPEED_SOUND = new URL[2];
 
     public static URL[] LARGE_SOUND = new URL[2];
@@ -34,6 +36,7 @@ public class Sound {
         SHRINK_SOUND[1] = getClass().getResource("/SFX/Shrink.wav");
         INVERTED_CONTROLS_SOUND = getClass().getResource("/SFX/Inverted controls powerup.wav");
         SCORE_SOUND = getClass().getResource("/SFX/point score.wav");
+        PARRY_SOUND = getClass().getResource("/SFX/parry.wav");
     }
 
     public static void play(URL url) {

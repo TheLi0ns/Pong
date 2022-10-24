@@ -8,6 +8,7 @@ public class Assets {
     static final Image LARGE_RACKET = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/Long racket.png"))).getImage();
     static final Image INVERTED_RACKET = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/Inverted racket.png"))).getImage();
     static final Image SHRUNK_RACKET = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/Shrunk racket.png"))).getImage();
+    static final Image PARRY_RACKET = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/Parry racket.png"))).getImage();
 
     static final Image BALL = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/Ball.png"))).getImage();
     private static final Image FIRE_BALL_UP = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/Fire ball up.png"))).getImage();

@@ -6,6 +6,7 @@ public class Player {
     private final Image LARGE_PLAYER_IMAGE = Assets.LARGE_RACKET;
     private final Image INVERTED_PLAYER_IMAGE = Assets.INVERTED_RACKET;
     private final Image SHRUNK_PLAYER_IMAGE = Assets.SHRUNK_RACKET;
+    private final Image PARRY_IMAGE = Assets.PARRY_RACKET;
     private Image PLAYER_IMAGE = NORMAL_PLAYER_IMAGE;
     private int x;
     private final int y;
@@ -22,6 +23,7 @@ public class Player {
     private int chargeDefensivePowerUp = 0;
     private int chargeOffensivePowerUp = 0;
     private boolean fireShotActivated = false;
+    private boolean isParrying = false;
     private boolean areControlsInverted = false;
     private boolean isRacketShrinked = false;
 
@@ -71,7 +73,12 @@ public class Player {
         /**
          * Stretches the racket
          */
-        LARGE_RACKET("LARGE RACKET");
+        LARGE_RACKET("LARGE RACKET"),
+
+        /**
+         * Make the racket block any shot for 200ms
+         */
+        PARRY("PARRY");
 
         String name;
 
@@ -216,8 +223,41 @@ public class Player {
             switch (defensivePowerUp){
                 case SPEED -> activateSpeedPowerUp();
                 case LARGE_RACKET -> activateLargeRacketPowerUp();
+                case PARRY -> activateParryPowerUp();
             }
         }
+    }
+
+    /**
+     * Make the racket block any shot for 200ms
+     */
+    public void activateParryPowerUp(){
+        new Thread(() -> {
+            isParrying = true;
+            PLAYER_IMAGE = PARRY_IMAGE;
+            width = PLAYER_IMAGE.getWidth(null);
+            int x_tmp = x;
+            x = 0;
+
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+            PLAYER_IMAGE = NORMAL_PLAYER_IMAGE;
+            width = NORMAL_PLAYER_IMAGE.getWidth(null);
+            x = x_tmp;
+            isParrying = false;
+        }).start();
+    }
+
+    public boolean isParrying() {
+        return isParrying;
+    }
+
+    public void setParrying(boolean parrying) {
+        isParrying = parrying;
     }
 
     /**
@@ -283,14 +323,6 @@ public class Player {
 
     public int getChargeOffensivePowerUp() {
         return chargeOffensivePowerUp;
-    }
-
-    public boolean isFireShotActivated() {
-        return fireShotActivated;
-    }
-
-    public void setFireShotActivated(boolean fireShotActivated) {
-        this.fireShotActivated = fireShotActivated;
     }
 
     public void activateOffensivePowerUp(Player opponent){
@@ -381,6 +413,14 @@ public class Player {
             }
             fireShotActivated = false;
         }).start();
+    }
+
+    public boolean isFireShotActivated() {
+        return fireShotActivated;
+    }
+
+    public void setFireShotActivated(boolean fireShotActivated) {
+        this.fireShotActivated = fireShotActivated;
     }
 
     public void draw(Graphics2D g2d){
