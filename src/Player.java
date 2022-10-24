@@ -5,6 +5,7 @@ public class Player {
     private final Image SPEEDY_PLAYER_IMAGE = Assets.SPEEDY_RACKET;
     private final Image LARGE_PLAYER_IMAGE = Assets.LARGE_RACKET;
     private final Image INVERTED_PLAYER_IMAGE = Assets.INVERTED_RACKET;
+    private final Image SHRUNK_PLAYER_IMAGE = Assets.SHRUNK_RACKET;
     private Image PLAYER_IMAGE = NORMAL_PLAYER_IMAGE;
     private int x;
     private final int y;
@@ -22,6 +23,7 @@ public class Player {
     private int chargeOffensivePowerUp = 0;
     private boolean fireShotActivated = false;
     private boolean areControlsInverted = false;
+    private boolean isRacketShrinked = false;
 
     enum DIRECTION{
         LEFT,
@@ -36,10 +38,15 @@ public class Player {
         FIRE_SHOT("FIRE SHOT"),
 
         /**
-         * inverts the controls
+         * Inverts the controls
          * of the opponent
          */
-        INVERTED_CONTROLS("INVERTED");
+        INVERTED_CONTROLS("INVERTED"),
+
+        /**
+         * Shrinks the opponent racket
+         */
+        SHRINK("SHRINK");
 
         String name;
 
@@ -169,6 +176,7 @@ public class Player {
 
     public void hasScored(){
         score += 1;
+        Sound.play(Sound.SCORE_SOUND);
     }
 
     public boolean hasWon(){
@@ -286,14 +294,55 @@ public class Player {
     }
 
     public void activateOffensivePowerUp(Player opponent){
-        if(isDefensivePowerUpCharged() && arePowersEnabled){
+        if(isOffensivePowerUpCharged() && arePowersEnabled){
             chargeOffensivePowerUp = -2;
 
             switch (offensivePowerup){
                 case FIRE_SHOT -> activateFireShotPowerUp();
                 case INVERTED_CONTROLS -> activateInvertedControlsPowerUp(opponent);
+                case SHRINK -> activateShrinkPowerUp(opponent);
             }
         }
+    }
+
+    /**
+     * Shrinks the opponent racket for 7 secs
+     */
+    public void activateShrinkPowerUp(Player opponent){
+        opponent.setRacketShrinked(true);
+        new Thread(() -> {
+            try {
+                Thread.sleep(7000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            opponent.setRacketShrinked(false);
+        }).start();
+    }
+
+    public void setRacketShrinked(boolean racketShrinked) {
+        isRacketShrinked = racketShrinked;
+
+        if(racketShrinked){
+            PLAYER_IMAGE = SHRUNK_PLAYER_IMAGE;
+            width = SHRUNK_PLAYER_IMAGE.getWidth(null);
+            x += 35;
+            Sound.play(Sound.SHRINK_SOUND[1]);
+        }
+        else{
+            PLAYER_IMAGE = NORMAL_PLAYER_IMAGE;
+            width = NORMAL_PLAYER_IMAGE.getWidth(null);
+            x -= 35;
+            Sound.play(Sound.SHRINK_SOUND[0]);
+        }
+
+        if(x > 1000){
+            x = 1000;
+        }else if(x < 0){
+            x = 0;
+        }
+
+        width = PLAYER_IMAGE.getWidth(null);
     }
 
     /**
@@ -314,6 +363,7 @@ public class Player {
 
     public void setAreControlsInverted(boolean areControlsInverted) {
         this.areControlsInverted = areControlsInverted;
+
         if(areControlsInverted) PLAYER_IMAGE = INVERTED_PLAYER_IMAGE;
         else PLAYER_IMAGE = NORMAL_PLAYER_IMAGE;
     }
