@@ -1,3 +1,5 @@
+package com.TheLi0ns.Utility;
+
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -24,7 +26,7 @@ public class Sound {
 
     public static URL INVERTED_CONTROLS_SOUND;
 
-    Sound() {
+    public Sound() {
         PLAYER_HIT_SOUND = getClass().getResource("/SFX/Player hit.wav");
         WALL_HIT_SOUND = getClass().getResource("/SFX/Wall hit.wav");
         FIRESHOT_SOUND = getClass().getResource("/SFX/FireShot.wav");

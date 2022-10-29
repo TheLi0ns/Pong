@@ -1,3 +1,9 @@
+package com.TheLi0ns.GameObject;
+
+import com.TheLi0ns.Utility.Assets;
+import com.TheLi0ns.Utility.Collisions;
+import com.TheLi0ns.Utility.Sound;
+
 import java.awt.*;
 
 public class Ball {
@@ -11,7 +17,7 @@ public class Ball {
     private int yVelocity;
     private boolean fireball = false;
 
-    Ball(int x, int y, int xVelocity, int yVelocity){
+    public Ball(int x, int y, int xVelocity, int yVelocity){
         this.x = x;
         this.y = y;
         this.xVelocity = xVelocity;
@@ -128,7 +134,7 @@ public class Ball {
         }else xVelocity--;
     }
 
-    void update(Player p1, Player p2){
+    public void update(Player p1, Player p2){
         checkCollisions(p1, p2);
         move();
     }
@@ -138,7 +144,7 @@ public class Ball {
      *         DOWN if the ball scored down,
      *         IN if the ball not scored
      */
-    String checkScored(){
+    public String checkScored(){
         if(y < -HEIGHT){
             return "UP";
         }else if(y > 1000){

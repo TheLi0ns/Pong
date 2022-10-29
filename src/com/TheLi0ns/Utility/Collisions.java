@@ -1,3 +1,8 @@
+package com.TheLi0ns.Utility;
+
+import com.TheLi0ns.GameObject.Ball;
+import com.TheLi0ns.GameObject.Player;
+
 public class Collisions {
     public static boolean checkWallCollision(Ball ball){
         return ball.getX()+ball.getWidth()-16 > 995 || ball.getX() < 0;

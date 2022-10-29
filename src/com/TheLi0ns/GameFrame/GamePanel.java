@@ -1,3 +1,7 @@
+package com.TheLi0ns.GameFrame;
+
+import com.TheLi0ns.Utility.Assets;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;

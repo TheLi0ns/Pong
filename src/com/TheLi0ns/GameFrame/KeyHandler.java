@@ -1,3 +1,7 @@
+package com.TheLi0ns.GameFrame;
+
+import com.TheLi0ns.GameLogic;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 

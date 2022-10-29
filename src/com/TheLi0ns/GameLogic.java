@@ -1,3 +1,9 @@
+package com.TheLi0ns;
+
+import com.TheLi0ns.GameFrame.MyFrame;
+import com.TheLi0ns.GameObject.Ball;
+import com.TheLi0ns.GameObject.Player;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.Random;
@@ -9,9 +15,9 @@ import java.util.Random;
  */
 public class GameLogic implements Runnable{
 
-    Player p1;
-    Player p2;
-    Ball ball;
+    public Player p1;
+    public Player p2;
+    public Ball ball;
 
     private int pointToWin = 15;
 
@@ -26,7 +32,7 @@ public class GameLogic implements Runnable{
 
     String finish = null;
 
-    GameLogic(){
+    public GameLogic(){
         setPointToWin();
 
         IS_FIRESHOT_POWER_RECHARGEABLE = pointToWin > 6;

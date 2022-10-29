@@ -1,3 +1,9 @@
+package com.TheLi0ns.GameObject;
+
+import com.TheLi0ns.GameFrame.MyFrame;
+import com.TheLi0ns.Utility.Assets;
+import com.TheLi0ns.Utility.Sound;
+
 import java.awt.*;
 
 public class Player {
@@ -32,7 +38,7 @@ public class Player {
         RIGHT
     }
 
-    enum OffensivePowerUps {
+    public enum OffensivePowerUps {
         /**
          * Increase the ball speed
          * after the collision
@@ -50,13 +56,13 @@ public class Player {
          */
         SHRINK("SHRINK");
 
-        String name;
+        public String name;
 
         OffensivePowerUps(String name){
             this.name = name;
         }
 
-        static OffensivePowerUps powerNamed(String name){
+        public static OffensivePowerUps powerNamed(String name){
             for(OffensivePowerUps i : OffensivePowerUps.values()){
                 if(name.equals(i.name)) return i;
             }
@@ -64,7 +70,7 @@ public class Player {
         }
     }
 
-    enum DefensivePowerUps {
+    public enum DefensivePowerUps {
         /**
          * Increase the xVelocity
          */
@@ -80,13 +86,13 @@ public class Player {
          */
         PARRY("PARRY");
 
-        String name;
+        public String name;
 
         DefensivePowerUps(String name){
             this.name = name;
         }
 
-        static DefensivePowerUps powerNamed(String name){
+        public static DefensivePowerUps powerNamed(String name){
             for(DefensivePowerUps i : DefensivePowerUps.values()){
                 if(name.equals(i.name)) return i;
             }
@@ -94,7 +100,7 @@ public class Player {
         }
     }
 
-    Player(int x, int y, int xVelocity){
+    public Player(int x, int y, int xVelocity){
         this.x = x;
         this.y = y;
         this.xVelocity = xVelocity;
@@ -128,7 +134,7 @@ public class Player {
         }
     }
 
-    void update(){
+    public void update(){
         if(isLeftPressed && isMovementEnabled){
             move(DIRECTION.LEFT);
         }
