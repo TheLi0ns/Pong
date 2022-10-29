@@ -104,7 +104,7 @@ public class Player {
         this.arePowersEnabled = arePowersEnabled;
     }
 
-    void move(DIRECTION direction){
+    private void move(DIRECTION direction){
 
         if(areControlsInverted){
             if(direction == DIRECTION.LEFT) direction = DIRECTION.RIGHT;
@@ -231,7 +231,7 @@ public class Player {
     /**
      * Make the racket block any shot for 200ms
      */
-    public void activateParryPowerUp(){
+    private void activateParryPowerUp(){
         new Thread(() -> {
             isParrying = true;
             PLAYER_IMAGE = PARRY_IMAGE;
@@ -263,7 +263,7 @@ public class Player {
     /**
      * Increase the xVelocity for 7 secs
      */
-    public void activateSpeedPowerUp(){
+    private void activateSpeedPowerUp(){
         new Thread(() -> {
             PLAYER_IMAGE = SPEEDY_PLAYER_IMAGE;
             int initialxVelocity = xVelocity;
@@ -283,7 +283,7 @@ public class Player {
     /**
      * Stretches the racket for 7 secs
      */
-    public void activateLargeRacketPowerUp(){
+    private void activateLargeRacketPowerUp(){
         new Thread(() -> {
             PLAYER_IMAGE = LARGE_PLAYER_IMAGE;
             Sound.play(Sound.LARGE_SOUND[1]);
@@ -340,7 +340,7 @@ public class Player {
     /**
      * Shrinks the opponent racket for 7 secs
      */
-    public void activateShrinkPowerUp(Player opponent){
+    private void activateShrinkPowerUp(Player opponent){
         opponent.setRacketShrinked(true);
         new Thread(() -> {
             try {
@@ -380,7 +380,7 @@ public class Player {
     /**
      * Inverts the opponent controls for 7 secs
      */
-    public void activateInvertedControlsPowerUp(Player opponent){
+    private void activateInvertedControlsPowerUp(Player opponent){
         opponent.setAreControlsInverted(true);
         Sound.play(Sound.INVERTED_CONTROLS_SOUND);
         new Thread(() -> {
@@ -403,7 +403,7 @@ public class Player {
     /**
      * Make the fireshot active for 5 secs
      */
-    public void activateFireShotPowerUp(){
+    private void activateFireShotPowerUp(){
         fireShotActivated = true;
         new Thread(() -> {
             try {

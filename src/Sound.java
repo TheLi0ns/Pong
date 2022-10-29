@@ -1,7 +1,7 @@
-import java.net.URL;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import java.net.URL;
 
 public class Sound {
     static Clip clip;

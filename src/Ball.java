@@ -18,7 +18,7 @@ public class Ball {
         this.yVelocity = yVelocity;
     }
 
-    void move(){
+    private void move(){
         if(yVelocity == 0){
             if(y < 500){
                 yVelocity = 2;
@@ -30,7 +30,7 @@ public class Ball {
         y += yVelocity;
     }
 
-    void checkCollisions(Player p1, Player p2){
+    private void checkCollisions(Player p1, Player p2){
 
         //WALL COLLISION
         if(Collisions.checkWallCollision(this)) {
@@ -43,7 +43,7 @@ public class Ball {
         checkPlayerCollision(p2);
     }
 
-    void checkPlayerCollision(Player player){
+    private void checkPlayerCollision(Player player){
         if (Collisions.checkBallPlayerCollision(player, this)) {
 
             speedUp();
@@ -103,7 +103,7 @@ public class Ball {
      * also plays the sound
      * @param player player who used the fireshot powerup
      */
-    void fireShot(Player player){
+    private void fireShot(Player player){
         this.fireball = true;
 
         if(xVelocity > 0){
@@ -118,7 +118,7 @@ public class Ball {
         player.setFireShotActivated(false);
     }
 
-    void speedUp(){
+    private void speedUp(){
         if(yVelocity > 0){
             yVelocity++;
         }else yVelocity--;
