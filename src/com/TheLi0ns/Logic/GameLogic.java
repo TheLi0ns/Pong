@@ -1,8 +1,10 @@
-package com.TheLi0ns;
+package com.TheLi0ns.Logic;
 
 import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.GameObject.Ball;
 import com.TheLi0ns.GameObject.Player;
+import com.TheLi0ns.Powers.DefensivePowers.DefensivePowersEnum;
+import com.TheLi0ns.Powers.OffensivePowers.OffensivePowersEnum;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,14 +30,14 @@ public class GameLogic implements Runnable{
 
     private final boolean arePowersEnabled;
     private final boolean IS_DEFENSIVE_POWER_RECHARGEABLE;
-    private final boolean IS_FIRESHOT_POWER_RECHARGEABLE;
+    private final boolean IS_OFFENSIVE_POWER_RECHARGEABLE;
 
     String finish = null;
 
     public GameLogic(){
         setPointToWin();
 
-        IS_FIRESHOT_POWER_RECHARGEABLE = pointToWin > 6;
+        IS_OFFENSIVE_POWER_RECHARGEABLE = pointToWin > 6;
         IS_DEFENSIVE_POWER_RECHARGEABLE = pointToWin > 3;
 
         p1 = new Player(391, 909, 6);
@@ -87,7 +89,7 @@ public class GameLogic implements Runnable{
         switch(ball.checkScored()){
             case "UP" -> {
                 p1.hasScored();
-                if(arePowersEnabled) p2.ChargingPowerUps();
+                if(arePowersEnabled) p2.ChargingPowers();
                 if(!hasSomeoneWins()) {
                     ball = new Ball(472, 468, genRandomxVelocity(), 5);
                 }else{
@@ -96,7 +98,7 @@ public class GameLogic implements Runnable{
             }
             case "DOWN" -> {
                 p2.hasScored();
-                if(arePowersEnabled) p1.ChargingPowerUps();
+                if(arePowersEnabled) p1.ChargingPowers();
                 if(!hasSomeoneWins()) {
                     ball = new Ball(472, 468, genRandomxVelocity(), -5);
                 }else{
@@ -141,6 +143,8 @@ public class GameLogic implements Runnable{
     }
 
     public boolean powerSelection(){
+        if(!IS_OFFENSIVE_POWER_RECHARGEABLE && !IS_DEFENSIVE_POWER_RECHARGEABLE) return false;
+
         if(JOptionPane.showConfirmDialog(null, "Enable Powers?", "POWERS", JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION){
             p1.setArePowersEnabled(false);
             p2.setArePowersEnabled(false);
@@ -150,25 +154,29 @@ public class GameLogic implements Runnable{
         JComboBox<String> defensivePower_combobox = new JComboBox<>();
         JComboBox<String> offensivePower_combobox = new JComboBox<>();
 
-        for(Player.OffensivePowerUps i : Player.OffensivePowerUps.values()){
+        for(OffensivePowersEnum i : OffensivePowersEnum.values()){
             offensivePower_combobox.addItem(i.name);
         }
 
-        for(Player.DefensivePowerUps i : Player.DefensivePowerUps.values()){
+        for(DefensivePowersEnum i : DefensivePowersEnum.values()){
             defensivePower_combobox.addItem(i.name);
         }
 
         JOptionPane.showConfirmDialog(null, defensivePower_combobox, "PLAYER 1 SELECT DEFENSIVE POWER", JOptionPane.YES_NO_OPTION);
-        p1.setDefensivePowerUp(Player.DefensivePowerUps.powerNamed((String) defensivePower_combobox.getSelectedItem()));
+        p1.setDefensivePower(DefensivePowersEnum.powerNamed((String) defensivePower_combobox.getSelectedItem()));
 
-        JOptionPane.showConfirmDialog(null, offensivePower_combobox, "PLAYER 1 SELECT OFFENSIVE POWER", JOptionPane.YES_NO_OPTION);
-        p1.setOffensivePowerup(Player.OffensivePowerUps.powerNamed((String) offensivePower_combobox.getSelectedItem()));
+        if(IS_OFFENSIVE_POWER_RECHARGEABLE){
+            JOptionPane.showConfirmDialog(null, offensivePower_combobox, "PLAYER 1 SELECT OFFENSIVE POWER", JOptionPane.YES_NO_OPTION);
+            p1.setOffensivePower(OffensivePowersEnum.powerNamed((String) offensivePower_combobox.getSelectedItem()), p2);
+        }
 
         JOptionPane.showConfirmDialog(null, defensivePower_combobox, "PLAYER 2 SELECT DEFENSIVE POWER", JOptionPane.YES_NO_OPTION);
-        p2.setDefensivePowerUp(Player.DefensivePowerUps.powerNamed((String) defensivePower_combobox.getSelectedItem()));
+        p2.setDefensivePower(DefensivePowersEnum.powerNamed((String) defensivePower_combobox.getSelectedItem()));
 
-        JOptionPane.showConfirmDialog(null, offensivePower_combobox, "PLAYER 2 SELECT OFFENSIVE POWER", JOptionPane.YES_NO_OPTION);
-        p2.setOffensivePowerup(Player.OffensivePowerUps.powerNamed((String) offensivePower_combobox.getSelectedItem()));
+        if(IS_OFFENSIVE_POWER_RECHARGEABLE) {
+            JOptionPane.showConfirmDialog(null, offensivePower_combobox, "PLAYER 2 SELECT OFFENSIVE POWER", JOptionPane.YES_NO_OPTION);
+            p2.setOffensivePower(OffensivePowersEnum.powerNamed((String) offensivePower_combobox.getSelectedItem()), p1);
+        }
 
         return true;
     }
@@ -208,7 +216,7 @@ public class GameLogic implements Runnable{
     }
 
     public boolean isOffensivePowerRechargeable() {
-        return IS_FIRESHOT_POWER_RECHARGEABLE;
+        return IS_OFFENSIVE_POWER_RECHARGEABLE;
     }
 
 }

@@ -1,6 +1,8 @@
 package com.TheLi0ns.GameObject;
 
 import com.TheLi0ns.GameFrame.MyFrame;
+import com.TheLi0ns.Powers.DefensivePowers.*;
+import com.TheLi0ns.Powers.OffensivePowers.*;
 import com.TheLi0ns.Utility.Assets;
 import com.TheLi0ns.Utility.Sound;
 
@@ -8,96 +10,28 @@ import java.awt.*;
 
 public class Player {
     private final Image NORMAL_PLAYER_IMAGE = Assets.RACKET;
-    private final Image SPEEDY_PLAYER_IMAGE = Assets.SPEEDY_RACKET;
-    private final Image LARGE_PLAYER_IMAGE = Assets.LARGE_RACKET;
-    private final Image INVERTED_PLAYER_IMAGE = Assets.INVERTED_RACKET;
-    private final Image SHRUNK_PLAYER_IMAGE = Assets.SHRUNK_RACKET;
-    private final Image PARRY_IMAGE = Assets.PARRY_RACKET;
     private Image PLAYER_IMAGE = NORMAL_PLAYER_IMAGE;
     private int x;
     private final int y;
     private int width = PLAYER_IMAGE.getWidth(null);
-    private int height = PLAYER_IMAGE.getHeight(null);
+    private final int height = PLAYER_IMAGE.getHeight(null);
     private int xVelocity;
     private boolean isMovementEnabled = true;
     private boolean isLeftPressed = false;
     private boolean isRightPressed = false;
     private int score = 0;
     private boolean arePowersEnabled = true;
-    private DefensivePowerUps defensivePowerUp;
-    private OffensivePowerUps offensivePowerup;
-    private int chargeDefensivePowerUp = 0;
-    private int chargeOffensivePowerUp = 0;
+    private DefensivePowers_super defensivePower;
+    private OffensivePowers_super offensivePower;
+    private int chargeDefensivePower = 0;
+    private int chargeOffensivePower = 0;
     private boolean fireShotActivated = false;
-    private boolean isParrying = false;
     private boolean areControlsInverted = false;
-    private boolean isRacketShrinked = false;
+    private boolean isParrying = false;
 
     enum DIRECTION{
         LEFT,
         RIGHT
-    }
-
-    public enum OffensivePowerUps {
-        /**
-         * Increase the ball speed
-         * after the collision
-         */
-        FIRE_SHOT("FIRE SHOT"),
-
-        /**
-         * Inverts the controls
-         * of the opponent
-         */
-        INVERTED_CONTROLS("INVERTED"),
-
-        /**
-         * Shrinks the opponent racket
-         */
-        SHRINK("SHRINK");
-
-        public String name;
-
-        OffensivePowerUps(String name){
-            this.name = name;
-        }
-
-        public static OffensivePowerUps powerNamed(String name){
-            for(OffensivePowerUps i : OffensivePowerUps.values()){
-                if(name.equals(i.name)) return i;
-            }
-            return null;
-        }
-    }
-
-    public enum DefensivePowerUps {
-        /**
-         * Increase the xVelocity
-         */
-        SPEED("SPEED"),
-
-        /**
-         * Stretches the racket
-         */
-        LARGE_RACKET("LARGE RACKET"),
-
-        /**
-         * Make the racket block any shot for 200ms
-         */
-        PARRY("PARRY");
-
-        public String name;
-
-        DefensivePowerUps(String name){
-            this.name = name;
-        }
-
-        public static DefensivePowerUps powerNamed(String name){
-            for(DefensivePowerUps i : DefensivePowerUps.values()){
-                if(name.equals(i.name)) return i;
-            }
-            return null;
-        }
     }
 
     public Player(int x, int y, int xVelocity){
@@ -155,6 +89,10 @@ public class Player {
         return x;
     }
 
+    public void setX(int x) {
+        this.x = x;
+    }
+
     public int getY() {
         return y;
     }
@@ -163,8 +101,24 @@ public class Player {
         return width;
     }
 
+    public void updateWidth() {
+        this.width = this.PLAYER_IMAGE.getWidth(null);
+    }
+
     public int getHeight() {
         return height;
+    }
+
+    public Image getNORMAL_PLAYER_IMAGE() {
+        return NORMAL_PLAYER_IMAGE;
+    }
+
+    public void setPLAYER_IMAGE(Image PLAYER_IMAGE) {
+        this.PLAYER_IMAGE = PLAYER_IMAGE;
+    }
+
+    public int getxVelocity() {
+        return xVelocity;
     }
 
     public boolean isMovementEnabled() {
@@ -199,63 +153,39 @@ public class Player {
     /**
      * Increase by 1 the charge of the rechargeable powerUps
      */
-    public void ChargingPowerUps(){
-        if(!isDefensivePowerUpCharged() && MyFrame.gameLogic.isDefensivePowerRechargeable()) {
-            chargeDefensivePowerUp++;
+    public void ChargingPowers(){
+        if(!isDefensivePowerCharged() && MyFrame.gameLogic.isDefensivePowerRechargeable()) {
+            chargeDefensivePower++;
         }
-        if(!isOffensivePowerUpCharged() && MyFrame.gameLogic.isOffensivePowerRechargeable()) {
-            chargeOffensivePowerUp++;
-        }
-    }
-    public DefensivePowerUps getDefensivePowerUp() {
-        return defensivePowerUp;
-    }
-
-    public void setDefensivePowerUp(DefensivePowerUps defensivePowerUp) {
-        this.defensivePowerUp = defensivePowerUp;
-    }
-    public boolean isDefensivePowerUpCharged(){
-        return chargeDefensivePowerUp == 3;
-    }
-
-    public int getChargeDefensivePowerUp() {
-        return chargeDefensivePowerUp;
-    }
-
-    public void activateDefensivePowerUp(){
-        if(isDefensivePowerUpCharged() && arePowersEnabled){
-            chargeDefensivePowerUp = -2;
-
-            switch (defensivePowerUp){
-                case SPEED -> activateSpeedPowerUp();
-                case LARGE_RACKET -> activateLargeRacketPowerUp();
-                case PARRY -> activateParryPowerUp();
-            }
+        if(!isOffensivePowerCharged() && MyFrame.gameLogic.isOffensivePowerRechargeable()) {
+            chargeOffensivePower++;
         }
     }
+    public DefensivePowers_super getDefensivePower() {
+        return defensivePower;
+    }
 
-    /**
-     * Make the racket block any shot for 200ms
-     */
-    private void activateParryPowerUp(){
-        new Thread(() -> {
-            isParrying = true;
-            PLAYER_IMAGE = PARRY_IMAGE;
-            width = PLAYER_IMAGE.getWidth(null);
-            int x_tmp = x;
-            x = 0;
+    public void setDefensivePower(DefensivePowersEnum defensivePower) {
+        switch (defensivePower){
+            case SPEED -> this.defensivePower = new DefensivePowerSpeed(this);
+            case PARRY -> this.defensivePower = new DefensivePowerParry(this);
+            case LARGE_RACKET -> this.defensivePower = new DefensivePowerLargeRacket(this);
+        }
+    }
+    public boolean isDefensivePowerCharged(){
+        return chargeDefensivePower == 3;
+    }
 
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+    public int getChargeDefensivePower() {
+        return chargeDefensivePower;
+    }
 
-            PLAYER_IMAGE = NORMAL_PLAYER_IMAGE;
-            width = NORMAL_PLAYER_IMAGE.getWidth(null);
-            x = x_tmp;
-            isParrying = false;
-        }).start();
+    public void activateDefensivePower(){
+        if(isDefensivePowerCharged() && arePowersEnabled){
+            chargeDefensivePower = -2;
+
+            defensivePower.activate();
+        }
     }
 
     public boolean isParrying() {
@@ -266,159 +196,36 @@ public class Player {
         isParrying = parrying;
     }
 
-    /**
-     * Increase the xVelocity for 7 secs
-     */
-    private void activateSpeedPowerUp(){
-        new Thread(() -> {
-            PLAYER_IMAGE = SPEEDY_PLAYER_IMAGE;
-            int initialxVelocity = xVelocity;
-            xVelocity = 15;
-            Sound.play(Sound.SPEED_SOUND[1]);
-            try {
-                Thread.sleep(7000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            xVelocity = initialxVelocity;
-            Sound.play(Sound.SPEED_SOUND[0]);
-            PLAYER_IMAGE = NORMAL_PLAYER_IMAGE;
-        }).start();
+    public OffensivePowers_super getOffensivePower() {
+        return offensivePower;
     }
 
-    /**
-     * Stretches the racket for 7 secs
-     */
-    private void activateLargeRacketPowerUp(){
-        new Thread(() -> {
-            PLAYER_IMAGE = LARGE_PLAYER_IMAGE;
-            Sound.play(Sound.LARGE_SOUND[1]);
-            this.width = LARGE_PLAYER_IMAGE.getWidth(null);
-            x -= 35;
-            if(x < 0){
-                x = 0;
-            }else if(x+width > 1000){
-                x = 1000-width;
-            }
-
-            try {
-                Thread.sleep(7000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-
-            x += 35;
-            PLAYER_IMAGE = NORMAL_PLAYER_IMAGE;
-            Sound.play(Sound.LARGE_SOUND[0]);
-            this.width = NORMAL_PLAYER_IMAGE.getWidth(null);
-        }).start();
-    }
-
-    public OffensivePowerUps getOffensivePowerup() {
-        return offensivePowerup;
-    }
-
-    public void setOffensivePowerup(OffensivePowerUps offensivePowerup) {
-        this.offensivePowerup = offensivePowerup;
-    }
-
-
-    public boolean isOffensivePowerUpCharged(){
-        return chargeOffensivePowerUp == 6;
-    }
-
-    public int getChargeOffensivePowerUp() {
-        return chargeOffensivePowerUp;
-    }
-
-    public void activateOffensivePowerUp(Player opponent){
-        if(isOffensivePowerUpCharged() && arePowersEnabled){
-            chargeOffensivePowerUp = -2;
-
-            switch (offensivePowerup){
-                case FIRE_SHOT -> activateFireShotPowerUp();
-                case INVERTED_CONTROLS -> activateInvertedControlsPowerUp(opponent);
-                case SHRINK -> activateShrinkPowerUp(opponent);
-            }
+    public void setOffensivePower(OffensivePowersEnum offensivePower, Player opponent){
+        switch (offensivePower){
+            case FIRE_SHOT -> this.offensivePower = new OffensivePowerFireShot(this, opponent);
+            case SHRINK -> this.offensivePower = new OffensivePowerShrink(this, opponent);
+            case INVERTED_CONTROLS -> this.offensivePower = new OffensivePowerInvertedControls(this, opponent);
         }
     }
 
-    /**
-     * Shrinks the opponent racket for 7 secs
-     */
-    private void activateShrinkPowerUp(Player opponent){
-        opponent.setRacketShrinked(true);
-        new Thread(() -> {
-            try {
-                Thread.sleep(7000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            opponent.setRacketShrinked(false);
-        }).start();
+    public boolean isOffensivePowerCharged(){
+        return chargeOffensivePower == 6;
     }
 
-    public void setRacketShrinked(boolean racketShrinked) {
-        isRacketShrinked = racketShrinked;
-
-        if(racketShrinked){
-            PLAYER_IMAGE = SHRUNK_PLAYER_IMAGE;
-            width = SHRUNK_PLAYER_IMAGE.getWidth(null);
-            x += 35;
-            Sound.play(Sound.SHRINK_SOUND[1]);
-        }
-        else{
-            PLAYER_IMAGE = NORMAL_PLAYER_IMAGE;
-            width = NORMAL_PLAYER_IMAGE.getWidth(null);
-            x -= 35;
-            Sound.play(Sound.SHRINK_SOUND[0]);
-        }
-
-        if(x > 1000){
-            x = 1000;
-        }else if(x < 0){
-            x = 0;
-        }
-
-        width = PLAYER_IMAGE.getWidth(null);
+    public int getChargeOffensivePower() {
+        return chargeOffensivePower;
     }
 
-    /**
-     * Inverts the opponent controls for 7 secs
-     */
-    private void activateInvertedControlsPowerUp(Player opponent){
-        opponent.setAreControlsInverted(true);
-        Sound.play(Sound.INVERTED_CONTROLS_SOUND);
-        new Thread(() -> {
-            try {
-                Thread.sleep(7000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            opponent.setAreControlsInverted(false);
-        }).start();
+    public void activateOffensivePower(){
+        if(isOffensivePowerCharged() && arePowersEnabled){
+            chargeOffensivePower = -2;
+
+            offensivePower.activate();
+        }
     }
 
     public void setAreControlsInverted(boolean areControlsInverted) {
         this.areControlsInverted = areControlsInverted;
-
-        if(areControlsInverted) PLAYER_IMAGE = INVERTED_PLAYER_IMAGE;
-        else PLAYER_IMAGE = NORMAL_PLAYER_IMAGE;
-    }
-
-    /**
-     * Make the fireshot active for 5 secs
-     */
-    private void activateFireShotPowerUp(){
-        fireShotActivated = true;
-        new Thread(() -> {
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            fireShotActivated = false;
-        }).start();
     }
 
     public boolean isFireShotActivated() {

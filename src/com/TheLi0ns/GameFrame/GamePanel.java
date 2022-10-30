@@ -11,8 +11,11 @@ import java.awt.geom.AffineTransform;
  */
 public class GamePanel extends JPanel {
 
+    public static final int WIDTH = 1000, HEIGHT = 1000;
+    public static final int LEFT_BOUND = 5, RIGHT_BOUND = 995, CENTER = 500;
+
     GamePanel(){
-        setPreferredSize(new Dimension(1000,1000));
+        setPreferredSize(new Dimension(WIDTH,HEIGHT));
         setBackground(Color.BLACK);
         setDoubleBuffered(true);
         setFocusable(true);
@@ -78,16 +81,16 @@ public class GamePanel extends JPanel {
 
         g2d.setPaint(Color.CYAN);
         g2d.setFont(new Font("Comic Sans MS", Font.PLAIN, 10));
-        g2d.drawString(MyFrame.gameLogic.p1.getDefensivePowerUp().name, 50, 810);
+        g2d.drawString(MyFrame.gameLogic.p1.getDefensivePower().getName(), 50, 810);
 
         g2d.setPaint(Color.GREEN);
-        if(MyFrame.gameLogic.p1.getChargeDefensivePowerUp() > 0){
+        if(MyFrame.gameLogic.p1.getChargeDefensivePower() > 0){
             g2d.fillRect(55, 905, 60, 35);
         }
-        if(MyFrame.gameLogic.p1.getChargeDefensivePowerUp() > 1){
+        if(MyFrame.gameLogic.p1.getChargeDefensivePower() > 1){
             g2d.fillRect(55, 865, 60, 30);
         }
-        if(MyFrame.gameLogic.p1.getChargeDefensivePowerUp() > 2){
+        if(MyFrame.gameLogic.p1.getChargeDefensivePower() > 2){
             g2d.fillRect(55, 825, 60,30);
             g2d.setPaint(Color.CYAN);
             g2d.drawRect(45, 815, 80, 135);
@@ -102,16 +105,16 @@ public class GamePanel extends JPanel {
 
         g2d.setPaint(Color.CYAN);
         g2d.setFont(new Font("Comic Sans MS", Font.PLAIN, 10));
-        g2d.drawString(MyFrame.gameLogic.p2.getDefensivePowerUp().name, 880, 200);
+        g2d.drawString(MyFrame.gameLogic.p2.getDefensivePower().getName(), 880, 200);
 
         g2d.setPaint(Color.GREEN);
-        if(MyFrame.gameLogic.p2.getChargeDefensivePowerUp() > 0){
+        if(MyFrame.gameLogic.p2.getChargeDefensivePower() > 0){
             g2d.fillRect(885, 60, 60, 30);
         }
-        if(MyFrame.gameLogic.p2.getChargeDefensivePowerUp() > 1){
+        if(MyFrame.gameLogic.p2.getChargeDefensivePower() > 1){
             g2d.fillRect(885, 100, 60, 30);
         }
-        if(MyFrame.gameLogic.p2.getChargeDefensivePowerUp() > 2){
+        if(MyFrame.gameLogic.p2.getChargeDefensivePower() > 2){
             g2d.fillRect(885, 140, 60,35);
             g2d.setPaint(Color.CYAN);
             g2d.drawRect(875, 50, 80, 135);
@@ -128,25 +131,25 @@ public class GamePanel extends JPanel {
 
         g2d.setPaint(Color.RED);
         g2d.setFont(new Font("Comic Sans MS", Font.PLAIN, 10));
-        g2d.drawString(MyFrame.gameLogic.p1.getOffensivePowerup().name, 880, 810);
+        g2d.drawString(MyFrame.gameLogic.p1.getOffensivePower().getName(), 880, 810);
 
         g2d.setPaint(Color.GREEN);
-        if(MyFrame.gameLogic.p1.getChargeOffensivePowerUp() > 0){
+        if(MyFrame.gameLogic.p1.getChargeOffensivePower() > 0){
             g2d.fillRect(885, 905, 30, 35);
         }
-        if(MyFrame.gameLogic.p1.getChargeOffensivePowerUp() > 1){
+        if(MyFrame.gameLogic.p1.getChargeOffensivePower() > 1){
             g2d.fillRect(915, 905, 30, 35);
         }
-        if(MyFrame.gameLogic.p1.getChargeOffensivePowerUp() > 2){
+        if(MyFrame.gameLogic.p1.getChargeOffensivePower() > 2){
             g2d.fillRect(885, 865, 30, 30);
         }
-        if(MyFrame.gameLogic.p1.getChargeOffensivePowerUp() > 3){
+        if(MyFrame.gameLogic.p1.getChargeOffensivePower() > 3){
             g2d.fillRect(915, 865, 30, 30);
         }
-        if(MyFrame.gameLogic.p1.getChargeOffensivePowerUp() > 4){
+        if(MyFrame.gameLogic.p1.getChargeOffensivePower() > 4){
             g2d.fillRect(885, 825, 30,30);
         }
-        if(MyFrame.gameLogic.p1.getChargeOffensivePowerUp() > 5){
+        if(MyFrame.gameLogic.p1.getChargeOffensivePower() > 5){
             g2d.fillRect(915, 825, 30, 30);
             g2d.setPaint(Color.RED);
             g2d.drawRect(875, 815, 80, 135);
@@ -160,25 +163,25 @@ public class GamePanel extends JPanel {
 
         g2d.setPaint(Color.RED);
         g2d.setFont(new Font("Comic Sans MS", Font.PLAIN, 10));
-        g2d.drawString(MyFrame.gameLogic.p2.getOffensivePowerup().name, 50, 200);
+        g2d.drawString(MyFrame.gameLogic.p2.getOffensivePower().getName(), 50, 200);
 
         g2d.setPaint(Color.GREEN);
-        if(MyFrame.gameLogic.p2.getChargeOffensivePowerUp() > 0){
+        if(MyFrame.gameLogic.p2.getChargeOffensivePower() > 0){
             g2d.fillRect(55, 60, 30, 30);
         }
-        if(MyFrame.gameLogic.p2.getChargeOffensivePowerUp() > 1){
+        if(MyFrame.gameLogic.p2.getChargeOffensivePower() > 1){
             g2d.fillRect(85, 60, 30, 30);
         }
-        if(MyFrame.gameLogic.p2.getChargeOffensivePowerUp() > 2){
+        if(MyFrame.gameLogic.p2.getChargeOffensivePower() > 2){
             g2d.fillRect(55, 100, 30, 30);
         }
-        if(MyFrame.gameLogic.p2.getChargeOffensivePowerUp() > 3){
+        if(MyFrame.gameLogic.p2.getChargeOffensivePower() > 3){
             g2d.fillRect(85, 100, 30, 30);
         }
-        if(MyFrame.gameLogic.p2.getChargeOffensivePowerUp() > 4){
+        if(MyFrame.gameLogic.p2.getChargeOffensivePower() > 4){
             g2d.fillRect(55, 140, 30,35);
         }
-        if(MyFrame.gameLogic.p2.getChargeOffensivePowerUp() > 5){
+        if(MyFrame.gameLogic.p2.getChargeOffensivePower() > 5){
             g2d.fillRect(85, 140, 30, 35);
             g2d.setPaint(Color.RED);
             g2d.drawRect(45, 50, 80, 135);

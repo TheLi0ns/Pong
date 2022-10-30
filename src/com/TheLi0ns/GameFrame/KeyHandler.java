@@ -1,6 +1,6 @@
 package com.TheLi0ns.GameFrame;
 
-import com.TheLi0ns.GameLogic;
+import com.TheLi0ns.Logic.GameLogic;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -28,15 +28,15 @@ public class KeyHandler implements KeyListener {
             case KeyEvent.VK_A -> MyFrame.gameLogic.p1.setLeftPressed(false);
             case KeyEvent.VK_D -> MyFrame.gameLogic.p1.setRightPressed(false);
 
-            case KeyEvent.VK_S -> MyFrame.gameLogic.p1.activateDefensivePowerUp();
-            case KeyEvent.VK_W -> MyFrame.gameLogic.p1.activateOffensivePowerUp(MyFrame.gameLogic.p2);
+            case KeyEvent.VK_S -> MyFrame.gameLogic.p1.activateDefensivePower();
+            case KeyEvent.VK_W -> MyFrame.gameLogic.p1.activateOffensivePower();
 
 
             case KeyEvent.VK_LEFT -> MyFrame.gameLogic.p2.setLeftPressed(false);
             case KeyEvent.VK_RIGHT -> MyFrame.gameLogic.p2.setRightPressed(false);
 
-            case KeyEvent.VK_DOWN -> MyFrame.gameLogic.p2.activateDefensivePowerUp();
-            case KeyEvent.VK_UP -> MyFrame.gameLogic.p2.activateOffensivePowerUp(MyFrame.gameLogic.p1);
+            case KeyEvent.VK_DOWN -> MyFrame.gameLogic.p2.activateDefensivePower();
+            case KeyEvent.VK_UP -> MyFrame.gameLogic.p2.activateOffensivePower();
         }
 
         if(e.getKeyCode() == KeyEvent.VK_SPACE && MyFrame.gameLogic.isFinished()){

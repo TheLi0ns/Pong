@@ -1,6 +1,6 @@
 package com.TheLi0ns.GameFrame;
 
-import com.TheLi0ns.GameLogic;
+import com.TheLi0ns.Logic.GameLogic;
 import com.TheLi0ns.Utility.Assets;
 import com.TheLi0ns.Utility.Sound;
 

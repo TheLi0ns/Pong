@@ -18,10 +18,19 @@ public class Sound {
 
     public static URL PARRY_SOUND;
 
+    /**
+     * 0 ends 1 starts
+     */
     public static URL[] SPEED_SOUND = new URL[2];
 
+    /**
+     * 0 ends 1 starts
+     */
     public static URL[] LARGE_SOUND = new URL[2];
 
+    /**
+     * 0 ends 1 starts
+     */
     public static URL[] SHRINK_SOUND = new URL[2];
 
     public static URL INVERTED_CONTROLS_SOUND;
@@ -51,12 +60,12 @@ public class Sound {
     }
 
     private static void setSound(URL url) {
-        AudioInputStream ais = null;
+        AudioInputStream ais;
         try {
             ais = AudioSystem.getAudioInputStream(url);
             clip = AudioSystem.getClip();
             clip.open(ais);
-        } catch (Exception exception) {}
+        } catch (Exception ignored) {}
     }
 }
 
