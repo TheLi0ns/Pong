@@ -3,17 +3,14 @@ package com.TheLi0ns.Logic;
 import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.GameObject.Ball;
 import com.TheLi0ns.GameObject.Player;
-import com.TheLi0ns.Powers.DefensivePowers.DefensivePowersEnum;
-import com.TheLi0ns.Powers.OffensivePowers.OffensivePowersEnum;
+import com.TheLi0ns.Menus.SettingsMenu;
 
-import javax.swing.*;
-import java.awt.*;
 import java.util.Random;
 
 /**
  * Creates the game loop
  * Manages the game loop update
- * Contains the settings of the current game
+ * Contains the settings
  */
 public class GameLogic implements Runnable{
 
@@ -22,34 +19,45 @@ public class GameLogic implements Runnable{
     public Ball ball;
 
     private int pointToWin = 15;
+    public static final int MAX_POINTS = 30;
 
     private final int FPS = 90;
 
-    private boolean isFinished = false;
-    private boolean isPaused = false;
+    private GameStates gameState = GameStates.TITLE_SCREEN;
 
-    private final boolean arePowersEnabled;
-    private final boolean IS_DEFENSIVE_POWER_RECHARGEABLE;
-    private final boolean IS_OFFENSIVE_POWER_RECHARGEABLE;
+    private boolean arePowersEnabled;
+    private boolean isDefensivePowerRechargeable;
+    private boolean isOffensivePowerRechargeable;
 
     String finish = null;
 
+    public enum GameStates{
+        TITLE_SCREEN,
+        SETTINGS_MENU,
+        PAUSE,
+        FINISH,
+        PLAYING
+    }
+
     public GameLogic(){
-        setPointToWin();
-
-        IS_OFFENSIVE_POWER_RECHARGEABLE = pointToWin > 6;
-        IS_DEFENSIVE_POWER_RECHARGEABLE = pointToWin > 3;
-
-        p1 = new Player(391, 909, 6);
-        p2 = new Player(391, 53, 6);
-
-        arePowersEnabled = powerSelection();
-
-        ball = new Ball(472, 468, genRandomxVelocity(), 6);
-
         Thread gameLoop = new Thread(this);
         gameLoop.start();
 
+    }
+
+    public void startMatch(){
+        gameState = GameStates.PAUSE;
+
+        p1 = new Player(391, 909, 6);
+        p2 = new Player(391, 53, 6);
+        ball = new Ball(472, 468, genRandomxVelocity(), 6);
+
+        isOffensivePowerRechargeable = pointToWin > 6;
+        isDefensivePowerRechargeable = pointToWin > 3;
+
+        setUpPowers();
+
+        gameState = GameStates.PLAYING;
     }
 
     @Override
@@ -59,8 +67,8 @@ public class GameLogic implements Runnable{
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        while(!hasSomeoneWins()) {
-            if(!isPaused) {
+        while(true) {
+            if(gameState == GameStates.PLAYING) {
                 update();
             }
 
@@ -108,8 +116,13 @@ public class GameLogic implements Runnable{
         }
     }
 
+    public void setGameState(GameStates gameState) {
+        this.gameState = gameState;
+    }
+
     public void togglePause() {
-        isPaused = !isPaused;
+        if(gameState == GameStates.PAUSE) gameState = GameStates.PLAYING;
+        else if(gameState == GameStates.PLAYING) gameState = GameStates.PAUSE;
     }
 
     public boolean hasSomeoneWins(){
@@ -117,7 +130,7 @@ public class GameLogic implements Runnable{
     }
 
     public void finish(){
-        isFinished = true;
+        gameState = GameStates.FINISH;
         if(p1.hasWon()){
             finish = "PLAYER 1\n  WINS";
         }else{
@@ -125,8 +138,8 @@ public class GameLogic implements Runnable{
         }
     }
 
-    public boolean isFinished() {
-        return isFinished;
+    public GameStates getGameState(){
+        return gameState;
     }
 
     public String getFinish() {
@@ -138,58 +151,36 @@ public class GameLogic implements Runnable{
         return random.nextInt(3, 5) * (random.nextBoolean() ? 1 : -1);
     }
 
-    public boolean isPaused() {
-        return isPaused;
-    }
 
-    public boolean powerSelection(){
-        if(!IS_OFFENSIVE_POWER_RECHARGEABLE && !IS_DEFENSIVE_POWER_RECHARGEABLE) return false;
-
-        if(JOptionPane.showConfirmDialog(null, "Enable Powers?", "POWERS", JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION){
-            p1.setArePowersEnabled(false);
-            p2.setArePowersEnabled(false);
-            return false;
+    public void setUpPowers(){
+        if(arePowersEnabled){
+            if(isOffensivePowerRechargeable){
+                p1.setOffensivePower(SettingsMenu.getP1OffensivePower(), p2);
+                p2.setOffensivePower(SettingsMenu.getP2OffensivePower(), p1);
+            }
+            if(isDefensivePowerRechargeable){
+                p1.setDefensivePower(SettingsMenu.getP1DefensivePower());
+                p2.setDefensivePower(SettingsMenu.getP2DefensivePower());
+            }
         }
-
-        JComboBox<String> defensivePower_combobox = new JComboBox<>();
-        JComboBox<String> offensivePower_combobox = new JComboBox<>();
-
-        for(OffensivePowersEnum i : OffensivePowersEnum.values()){
-            offensivePower_combobox.addItem(i.name);
-        }
-
-        for(DefensivePowersEnum i : DefensivePowersEnum.values()){
-            defensivePower_combobox.addItem(i.name);
-        }
-
-        JOptionPane.showConfirmDialog(null, defensivePower_combobox, "PLAYER 1 SELECT DEFENSIVE POWER", JOptionPane.YES_NO_OPTION);
-        p1.setDefensivePower(DefensivePowersEnum.powerNamed((String) defensivePower_combobox.getSelectedItem()));
-
-        if(IS_OFFENSIVE_POWER_RECHARGEABLE){
-            JOptionPane.showConfirmDialog(null, offensivePower_combobox, "PLAYER 1 SELECT OFFENSIVE POWER", JOptionPane.YES_NO_OPTION);
-            p1.setOffensivePower(OffensivePowersEnum.powerNamed((String) offensivePower_combobox.getSelectedItem()), p2);
-        }
-
-        JOptionPane.showConfirmDialog(null, defensivePower_combobox, "PLAYER 2 SELECT DEFENSIVE POWER", JOptionPane.YES_NO_OPTION);
-        p2.setDefensivePower(DefensivePowersEnum.powerNamed((String) defensivePower_combobox.getSelectedItem()));
-
-        if(IS_OFFENSIVE_POWER_RECHARGEABLE) {
-            JOptionPane.showConfirmDialog(null, offensivePower_combobox, "PLAYER 2 SELECT OFFENSIVE POWER", JOptionPane.YES_NO_OPTION);
-            p2.setOffensivePower(OffensivePowersEnum.powerNamed((String) offensivePower_combobox.getSelectedItem()), p1);
-        }
-
-        return true;
     }
 
     public boolean arePowersEnabled() {
         return arePowersEnabled;
     }
+    public void setArePowersEnabled(boolean arePowersEnabled) {
+        this.arePowersEnabled = arePowersEnabled;
+    }
+
+    public void setPointToWin(int pointToWin){
+        this.pointToWin = pointToWin;
+    }
 
     /**
      * Asks the User how many points have to score to win the match
      */
+    /*
     public void setPointToWin(){
-        togglePause();
 
         JSlider slider = new JSlider();
         slider.setMinimum(1);
@@ -203,20 +194,19 @@ public class GameLogic implements Runnable{
 
         JOptionPane.showConfirmDialog(null, slider, "   POINTS TO WIN    ", JOptionPane.DEFAULT_OPTION);
         pointToWin = slider.getValue();
-
-        togglePause();
     }
+    */
 
     public int getPointToWin() {
         return pointToWin;
     }
 
     public boolean isDefensivePowerRechargeable() {
-        return IS_DEFENSIVE_POWER_RECHARGEABLE;
+        return isDefensivePowerRechargeable;
     }
 
     public boolean isOffensivePowerRechargeable() {
-        return IS_OFFENSIVE_POWER_RECHARGEABLE;
+        return isOffensivePowerRechargeable;
     }
 
 }

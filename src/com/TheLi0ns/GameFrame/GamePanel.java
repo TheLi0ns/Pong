@@ -1,5 +1,8 @@
 package com.TheLi0ns.GameFrame;
 
+import com.TheLi0ns.Logic.GameLogic;
+import com.TheLi0ns.Menus.SettingsMenu;
+import com.TheLi0ns.Menus.TitleScreen;
 import com.TheLi0ns.Utility.Assets;
 
 import javax.swing.*;
@@ -14,6 +17,9 @@ public class GamePanel extends JPanel {
     public static final int WIDTH = 1000, HEIGHT = 1000;
     public static final int LEFT_BOUND = 5, RIGHT_BOUND = 995, CENTER = 500;
 
+    public static TitleScreen titleScreen = new TitleScreen();
+    public static SettingsMenu settingsMenu = new SettingsMenu();
+
     GamePanel(){
         setPreferredSize(new Dimension(WIDTH,HEIGHT));
         setBackground(Color.BLACK);
@@ -27,27 +33,29 @@ public class GamePanel extends JPanel {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
-        if(!MyFrame.gameLogic.isPaused()){
+        if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.PLAYING){
             drawField(g2d);
 
             if(MyFrame.gameLogic.arePowersEnabled()){
                 if(MyFrame.gameLogic.isDefensivePowerRechargeable()){
-                    drawSpeedPowerUpBattery(g2d);
+                    drawDefensivePowerBattery(g2d);
                 }
                 if(MyFrame.gameLogic.isOffensivePowerRechargeable()){
-                    drawFireShotPowerUpBattery(g2d);
+                    drawOffensivePowerBattery(g2d);
                 }
             }
 
             drawGameObjects(g2d);
 
             drawScore(g2d);
-        }else{
+        }else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.PAUSE){
             g2d.drawImage(Assets.PAUSE_MENU, 0, 0, null);
-        }
-
-        if(MyFrame.gameLogic.isFinished()){
+        }else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.FINISH){
             drawFinishScreen(g2d);
+        }else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.TITLE_SCREEN){
+            titleScreen.draw(g2d);
+        }else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.SETTINGS_MENU){
+            settingsMenu.draw(g2d);
         }
 
         g2d.dispose();
@@ -70,7 +78,7 @@ public class GamePanel extends JPanel {
         g2d.drawLine(0, 954, 1000,954);
     }
 
-    private void drawSpeedPowerUpBattery(Graphics2D g2d){
+    private void drawDefensivePowerBattery(Graphics2D g2d){
 
         //p1
         g2d.setPaint(Color.gray);
@@ -121,7 +129,7 @@ public class GamePanel extends JPanel {
         }
     }
 
-    private void drawFireShotPowerUpBattery(Graphics2D g2d){
+    private void drawOffensivePowerBattery(Graphics2D g2d){
 
         //p1
         g2d.setPaint(Color.gray);
