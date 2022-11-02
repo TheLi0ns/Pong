@@ -7,13 +7,31 @@ import com.TheLi0ns.Utility.Utils;
 
 import java.awt.*;
 
+/**
+ * Display the name of the game
+ * @see TitleScreen#PLAY_OPTION
+ * @see TitleScreen#SETTINGS_OPTION
+ * @see TitleScreen#QUIT_OPTION
+ */
 public class TitleScreen extends Menu{
 
     private static final String GAME_NAME = "PONG";
 
     //TITLE SCREEN OPTIONS
+
+    /**
+     * Start the match
+     */
     public static final int PLAY_OPTION = 1;
+
+    /**
+     * Go to the {@link SettingsMenu settings menu}
+     */
     public static final int SETTINGS_OPTION = 2;
+
+    /**
+     * Close the game
+     */
     public static final int QUIT_OPTION = 3;
 
     public TitleScreen() {
@@ -31,6 +49,7 @@ public class TitleScreen extends Menu{
 
     @Override
     public void draw(Graphics2D g2d){
+
         g2d.setColor(Color.WHITE);
 
         Font font = new Font("Comic Sans MS", 0, 100);
@@ -39,6 +58,7 @@ public class TitleScreen extends Menu{
         //GAME TITLE
         int x = Utils.xForCenteredText(g2d, font, GamePanel.WIDTH, GAME_NAME);
         g2d.drawString(GAME_NAME, x, 300);
+
 
         font = new Font("Comic Sans MS", 0, 50);
         g2d.setFont(font);
@@ -57,6 +77,5 @@ public class TitleScreen extends Menu{
         x = Utils.xForCenteredText(g2d, font, GamePanel.WIDTH, "QUIT");
         g2d.drawString("QUIT", x, 600);
         if(selectedOption == QUIT_OPTION) g2d.drawString(">", x-30, 600);
-
     }
 }

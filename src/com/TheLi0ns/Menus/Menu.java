@@ -8,9 +8,7 @@ public abstract class Menu {
 
     private final int N_OPTIONS;
 
-    Menu(int nOptions){
-        N_OPTIONS = nOptions;
-    }
+    Menu(int nOptions){N_OPTIONS = nOptions;}
 
     public void nextOption(){
         selectedOption++;
@@ -22,6 +20,10 @@ public abstract class Menu {
         if(selectedOption <= 0) selectedOption = N_OPTIONS;
     }
 
+    /**
+     * This method define the action of the options
+     * and fires the action of the selected option
+     */
     public abstract void clickOption();
     public abstract void draw(Graphics2D g2d);
 }

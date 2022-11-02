@@ -18,18 +18,32 @@ public class GameLogic implements Runnable{
     public Player p2;
     public Ball ball;
 
-    private int pointToWin = 15;
+    private int pointsToWin = 15;
     public static final int MAX_POINTS = 30;
 
     private final int FPS = 90;
 
-    private GameStates gameState = GameStates.TITLE_SCREEN;
-
     private boolean arePowersEnabled;
+
+    /**
+     * The defensive power is rechargeable if the points to win
+     * are greater than 3 the charge of defensive powers
+     */
     private boolean isDefensivePowerRechargeable;
+
+    /**
+     * The offensive power is rechargeable if the points to win
+     * are greater than 5 the charge of offensive powers
+     */
     private boolean isOffensivePowerRechargeable;
 
+    /**
+     * The string that will be displayed
+     * when someone wins
+     */
     String finish = null;
+
+    private GameStates gameState = GameStates.TITLE_SCREEN;
 
     public enum GameStates{
         TITLE_SCREEN,
@@ -45,6 +59,12 @@ public class GameLogic implements Runnable{
 
     }
 
+    /**
+     * Creates the player and the first ball
+     * Calculate if the powers are rechargeable
+     * {@link GameLogic#setUpPowers() Assigns to the players their powers}
+     * And set the playing game state
+     */
     public void startMatch(){
         gameState = GameStates.PAUSE;
 
@@ -52,14 +72,17 @@ public class GameLogic implements Runnable{
         p2 = new Player(391, 53, 6);
         ball = new Ball(472, 468, genRandomxVelocity(), 6);
 
-        isOffensivePowerRechargeable = pointToWin > 6;
-        isDefensivePowerRechargeable = pointToWin > 3;
+        isOffensivePowerRechargeable = pointsToWin > 5;
+        isDefensivePowerRechargeable = pointsToWin > 3;
 
         setUpPowers();
 
         gameState = GameStates.PLAYING;
     }
 
+    /**
+     * GAME LOOP
+     */
     @Override
     public void run() {
         try {
@@ -93,6 +116,12 @@ public class GameLogic implements Runnable{
         scoreUpdate();
     }
 
+    /**
+     * Checks if someone has scored
+     * so gives the goal
+     * and charge the opponent powers
+     * and if someone has win {@link GameLogic#finish() finish the game}
+     */
     private void scoreUpdate(){
         switch(ball.checkScored()){
             case "UP" -> {
@@ -129,13 +158,17 @@ public class GameLogic implements Runnable{
         return p1.hasWon() || p2.hasWon();
     }
 
+    /**
+     * Make the gameState finish
+     * Writes the {@link GameLogic#finish finish string}
+     */
     public void finish(){
-        gameState = GameStates.FINISH;
         if(p1.hasWon()){
             finish = "PLAYER 1\n  WINS";
         }else{
             finish = "PLAYER 2\n  WINS";
         }
+        gameState = GameStates.FINISH;
     }
 
     public GameStates getGameState(){
@@ -151,16 +184,19 @@ public class GameLogic implements Runnable{
         return random.nextInt(3, 5) * (random.nextBoolean() ? 1 : -1);
     }
 
-
+    /**
+     * Assign to the player the powers selected
+     * in the settings menu
+     */
     public void setUpPowers(){
         if(arePowersEnabled){
             if(isOffensivePowerRechargeable){
-                p1.setOffensivePower(SettingsMenu.getP1OffensivePower(), p2);
-                p2.setOffensivePower(SettingsMenu.getP2OffensivePower(), p1);
+                p1.setOffensivePower(SettingsMenu.getSelectedP1OffensivePower(), p2);
+                p2.setOffensivePower(SettingsMenu.getSelectedP2OffensivePower(), p1);
             }
             if(isDefensivePowerRechargeable){
-                p1.setDefensivePower(SettingsMenu.getP1DefensivePower());
-                p2.setDefensivePower(SettingsMenu.getP2DefensivePower());
+                p1.setDefensivePower(SettingsMenu.getSelectedP1DefensivePower());
+                p2.setDefensivePower(SettingsMenu.getSelectedP2DefensivePower());
             }
         }
     }
@@ -172,33 +208,12 @@ public class GameLogic implements Runnable{
         this.arePowersEnabled = arePowersEnabled;
     }
 
-    public void setPointToWin(int pointToWin){
-        this.pointToWin = pointToWin;
+    public void setPointsToWin(int pointsToWin){
+        this.pointsToWin = pointsToWin;
     }
 
-    /**
-     * Asks the User how many points have to score to win the match
-     */
-    /*
-    public void setPointToWin(){
-
-        JSlider slider = new JSlider();
-        slider.setMinimum(1);
-        slider.setMaximum(30);
-        slider.setValue(1);
-        slider.setPreferredSize(new Dimension(750, 100));
-        slider.setPaintLabels(true);
-        slider.setMajorTickSpacing(1);
-        slider.setFont(new Font("CALIBRI CORPO", Font.PLAIN, 15));
-        slider.setValue(10);
-
-        JOptionPane.showConfirmDialog(null, slider, "   POINTS TO WIN    ", JOptionPane.DEFAULT_OPTION);
-        pointToWin = slider.getValue();
-    }
-    */
-
-    public int getPointToWin() {
-        return pointToWin;
+    public int getPointsToWin() {
+        return pointsToWin;
     }
 
     public boolean isDefensivePowerRechargeable() {

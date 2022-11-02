@@ -37,16 +37,24 @@ public class Sound {
 
     public Sound() {
         PLAYER_HIT_SOUND = getClass().getResource("/SFX/Player hit.wav");
+
         WALL_HIT_SOUND = getClass().getResource("/SFX/Wall hit.wav");
+
         FIRESHOT_SOUND = getClass().getResource("/SFX/FireShot.wav");
+
         SPEED_SOUND[0] = getClass().getResource("/SFX/end Speed powerup.wav");
         SPEED_SOUND[1] = getClass().getResource("/SFX/Speed powerup.wav");
+
         LARGE_SOUND[0] = getClass().getResource("/SFX/end Large racket powerup.wav");
         LARGE_SOUND[1] = getClass().getResource("/SFX/Large racket powerup.wav");
+
         SHRINK_SOUND[0] = getClass().getResource("/SFX/end Shrink.wav");
         SHRINK_SOUND[1] = getClass().getResource("/SFX/Shrink.wav");
+
         INVERTED_CONTROLS_SOUND = getClass().getResource("/SFX/Inverted controls powerup.wav");
+
         SCORE_SOUND = getClass().getResource("/SFX/point score.wav");
+
         PARRY_SOUND = getClass().getResource("/SFX/parry.wav");
     }
 

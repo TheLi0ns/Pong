@@ -23,8 +23,21 @@ public class Player {
     private boolean arePowersEnabled = true;
     private DefensivePowers_super defensivePower;
     private OffensivePowers_super offensivePower;
+
+    /**
+     * The powers have to be charged 1 goal 1 charge
+     * this is the charge of the defensive power
+     * it is charged at 3
+     */
     private int chargeDefensivePower = 0;
+
+    /**
+     * The powers have to be charged 1 goal 1 charge
+     * this is the charge of the offensive power
+     * it is charged at 5
+     */
     private int chargeOffensivePower = 0;
+
     private boolean fireShotActivated = false;
     private boolean areControlsInverted = false;
     private boolean isParrying = false;
@@ -141,13 +154,16 @@ public class Player {
         return score;
     }
 
+    /**
+     * Increase by 1 the score and play the score sound
+     */
     public void hasScored(){
         score += 1;
         Sound.play(Sound.SCORE_SOUND);
     }
 
     public boolean hasWon(){
-        return score == MyFrame.gameLogic.getPointToWin();
+        return score == MyFrame.gameLogic.getPointsToWin();
     }
 
     /**

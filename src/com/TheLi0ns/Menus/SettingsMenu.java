@@ -9,18 +9,55 @@ import com.TheLi0ns.Utility.Utils;
 
 import java.awt.*;
 
+/**
+ * Display the settings of the game
+ * @see SettingsMenu#SET_POINTS_TO_WIN_OPTION
+ * @see SettingsMenu#ENABLE_POWERS_OPTION
+ * @see SettingsMenu#P1_OFFENSIVE_POWER_OPTION
+ * @see SettingsMenu#P1_DEFENSIVE_POWER_OPTION
+ * @see SettingsMenu#P2_OFFENSIVE_POWER_OPTION
+ * @see SettingsMenu#P2_DEFENSIVE_POWER_OPTION
+ * @see SettingsMenu#BACK
+ */
 public class SettingsMenu extends Menu {
     
     //SETTINGS MENU OPTIONS
+    /**
+     * Make the players set the points to win
+     */
     public static final int SET_POINTS_TO_WIN_OPTION = 1;
+
+    /**
+     * Make the players choose to enable or disable the powers
+     */
     public static final int ENABLE_POWERS_OPTION = 2;
+
+    /**
+     * Make the players choose the p1 offensive power
+     */
     public static final int P1_OFFENSIVE_POWER_OPTION = 3;
+
+    /**
+     * Make the players choose the p1 defensive power
+     */
     public static final int P1_DEFENSIVE_POWER_OPTION = 4;
+
+    /**
+     * Make the players choose the p2 offensive power
+     */
     public static final int P2_OFFENSIVE_POWER_OPTION = 5;
+
+    /**
+     * Make the players choose the p2 defensive power
+     */
     public static final int P2_DEFENSIVE_POWER_OPTION = 6;
+
+    /**
+     * Return to the title screen
+     */
     public static final int BACK = 7;
 
-    //POWERS INDEXES
+    //POWERS INDEXES BASED ON THE POSITION IN THE POWERS ENUMS
     public static int p1OffensivePower_index = 0;
     public static int p1DefensivePower_index = 0;
     public static int p2OffensivePower_index = 0;
@@ -30,29 +67,30 @@ public class SettingsMenu extends Menu {
         super(7);
     }
 
-    public static OffensivePowersEnum getP1OffensivePower() {
+    public static OffensivePowersEnum getSelectedP1OffensivePower() {
         return OffensivePowersEnum.values()[p1OffensivePower_index];
     }
 
-    public static DefensivePowersEnum getP1DefensivePower() {
+    public static DefensivePowersEnum getSelectedP1DefensivePower() {
         return DefensivePowersEnum.values()[p1DefensivePower_index];
     }
 
-    public static OffensivePowersEnum getP2OffensivePower() {
+    public static OffensivePowersEnum getSelectedP2OffensivePower() {
         return OffensivePowersEnum.values()[p2OffensivePower_index];
     }
 
-    public static DefensivePowersEnum getP2DefensivePower() {
+    public static DefensivePowersEnum getSelectedP2DefensivePower() {
         return DefensivePowersEnum.values()[p2DefensivePower_index];
     }
 
     @Override
     public void clickOption() {
         switch (selectedOption){
+
             case SET_POINTS_TO_WIN_OPTION -> {
-                MyFrame.gameLogic.setPointToWin(MyFrame.gameLogic.getPointToWin()+1);
-                if(MyFrame.gameLogic.getPointToWin() > GameLogic.MAX_POINTS)
-                    MyFrame.gameLogic.setPointToWin(1);
+                MyFrame.gameLogic.setPointsToWin(MyFrame.gameLogic.getPointsToWin()+1);
+                if(MyFrame.gameLogic.getPointsToWin() > GameLogic.MAX_POINTS)
+                    MyFrame.gameLogic.setPointsToWin(1);
             }
 
             case ENABLE_POWERS_OPTION -> MyFrame.gameLogic.setArePowersEnabled(!MyFrame.gameLogic.arePowersEnabled());
@@ -98,7 +136,7 @@ public class SettingsMenu extends Menu {
         //POINT TO WIN
         g2d.drawString("POINT TO WIN", x, y);
         if(selectedOption == SET_POINTS_TO_WIN_OPTION) g2d.drawString(">", x-30, y);
-        g2d.drawString(String.valueOf(MyFrame.gameLogic.getPointToWin()), 700, y);
+        g2d.drawString(String.valueOf(MyFrame.gameLogic.getPointsToWin()), 700, y);
 
         //ENABLE POWERS
         y += 60;
