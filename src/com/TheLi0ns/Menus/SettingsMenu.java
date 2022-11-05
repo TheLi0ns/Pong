@@ -13,6 +13,7 @@ import java.awt.*;
  * @see SettingsMenu#SET_POINTS_TO_WIN_OPTION
  * @see SettingsMenu#ENABLE_POWERS_OPTION
  * @see SettingsMenu#VOLUME_SLIDER_OPTION
+ * @see SettingsMenu#KEYBINDINGS_MENU_OPTION
  * @see SettingsMenu#BACK
  */
 public class SettingsMenu extends Menu {
@@ -34,12 +35,17 @@ public class SettingsMenu extends Menu {
     public static final int VOLUME_SLIDER_OPTION = 3;
 
     /**
-     * Return to the title screen
+     * Go to the {@link KeyBindingsMenu key bindings menu}
      */
-    public static final int BACK = 4;
+    public static final int KEYBINDINGS_MENU_OPTION = 4;
+
+    /**
+     * Return to the {@link TitleScreen title screen}
+     */
+    public static final int BACK = 5;
     
     public SettingsMenu() {
-        super(4);
+        super(5);
     }
 
     @Override
@@ -55,6 +61,8 @@ public class SettingsMenu extends Menu {
             case ENABLE_POWERS_OPTION -> MyFrame.gameLogic.setArePowersEnabled(!MyFrame.gameLogic.arePowersEnabled());
 
             case VOLUME_SLIDER_OPTION -> Sound.increaseVolume();
+
+            case KEYBINDINGS_MENU_OPTION -> MyFrame.gameLogic.setGameState(GameLogic.GameStates.KEY_BINDINGS_MENU);
 
             case BACK ->{
                 MyFrame.gameLogic.setGameState(GameLogic.GameStates.TITLE_SCREEN);
@@ -89,6 +97,11 @@ public class SettingsMenu extends Menu {
         if(selectedOption == VOLUME_SLIDER_OPTION) g2d.drawString(">", x-30, y);
         g2d.drawRect(700, y-30, 30*Sound.MAX_VOLUME_SCALE, 30);
         g2d.fillRect(700, y-30, 30*Sound.getVolumeScale(), 30);
+
+        //KEY BINDINGS MENU
+        y += 60;
+        g2d.drawString("KEY BINDINGS", x, y);
+        if(selectedOption == KEYBINDINGS_MENU_OPTION) g2d.drawString(">", x-30, y);
 
         //BACK
         y += 60;

@@ -48,10 +48,11 @@ public class GameLogic implements Runnable{
     public enum GameStates{
         TITLE_SCREEN,
         SETTINGS_MENU,
+        KEY_BINDINGS_MENU,
+        SELECTING_POWERS,
+        PLAYING,
         PAUSE,
         FINISH,
-        SELECTING_POWERS,
-        PLAYING
     }
 
     public GameLogic(){

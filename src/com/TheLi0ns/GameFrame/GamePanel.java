@@ -1,13 +1,14 @@
 package com.TheLi0ns.GameFrame;
 
 import com.TheLi0ns.Logic.GameLogic;
+import com.TheLi0ns.Menus.KeyBindingsMenu;
 import com.TheLi0ns.Menus.PowerSelectionMenu;
 import com.TheLi0ns.Menus.SettingsMenu;
 import com.TheLi0ns.Menus.TitleScreen;
-import com.TheLi0ns.Utility.Assets;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 
 /**
@@ -18,8 +19,10 @@ public class GamePanel extends JPanel {
     public static final int WIDTH = 1000, HEIGHT = 1000;
     public static final int LEFT_BOUND = 5, RIGHT_BOUND = 995, CENTER = 500;
 
+    //MENUS
     public static TitleScreen titleScreen = new TitleScreen();
     public static SettingsMenu settingsMenu = new SettingsMenu();
+    public static KeyBindingsMenu keyBindingsMenu = new KeyBindingsMenu();
     public static PowerSelectionMenu p1PowerSelectionMenu = new PowerSelectionMenu(1);
     public static PowerSelectionMenu p2PowerSelectionMenu = new PowerSelectionMenu(2);
 
@@ -36,6 +39,7 @@ public class GamePanel extends JPanel {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
+        //MATCH
         if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.PLAYING){
             drawField(g2d);
 
@@ -51,17 +55,31 @@ public class GamePanel extends JPanel {
             drawGameObjects(g2d);
 
             drawScore(g2d);
-        }else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.PAUSE){
-            g2d.drawImage(Assets.PAUSE_MENU, 0, 0, null);
-        }else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.FINISH){
+        }
+        //PAUSE SCREEN
+        else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.PAUSE){
+            drawPauseScreen(g2d);
+        }
+        //FINISH SCREEN
+        else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.FINISH){
             drawFinishScreen(g2d);
-        }else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.TITLE_SCREEN){
+        }
+        //TITLE SCREEN
+        else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.TITLE_SCREEN){
             titleScreen.draw(g2d);
-        }else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.SETTINGS_MENU){
+        }
+        //SETTINGS MENU
+        else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.SETTINGS_MENU){
             settingsMenu.draw(g2d);
-        }else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.SELECTING_POWERS){
+        }
+        //SELECTING POWERS MENU
+        else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.SELECTING_POWERS){
             p1PowerSelectionMenu.draw(g2d);
             p2PowerSelectionMenu.draw(g2d);
+        }
+        //KEY BINDINGS MENU
+        else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.KEY_BINDINGS_MENU){
+            keyBindingsMenu.draw(g2d);
         }
 
         g2d.dispose();
@@ -218,6 +236,67 @@ public class GamePanel extends JPanel {
         g2d.setTransform(at);
         g2d.drawString(String.format("%d - %d", MyFrame.gameLogic.p2.getScore(), MyFrame.gameLogic.p1.getScore()), 450, -775);
         g2d.setTransform(old_at);
+    }
+
+    private void drawPauseScreen(Graphics2D g2d){
+        g2d.setFont(new Font("Comic Sans MS", 0, 30));
+        g2d.setColor(Color.WHITE);
+        int x = 100;
+        int y = 200;
+
+        //PLAYER 1 LEFT KEY
+        g2d.drawString("PLAYER 1 LEFT KEY", x, y);
+        g2d.drawString(KeyEvent.getKeyText(KeyHandler.p1Left_key), 700, y);
+
+        //PLAYER 1 RIGHT KEY
+        y += 60;
+        g2d.drawString("PLAYER 1 RIGHT KEY", x, y);
+        g2d.drawString(KeyEvent.getKeyText(KeyHandler.p1Right_key),700, y);
+
+        //PLAYER 1 OFFENSIVE POWER KEY
+        y += 60;
+        g2d.drawString("PLAYER 1 OFFENSIVE POWER KEY", x, y);
+        g2d.drawString(KeyEvent.getKeyText(KeyHandler.p1OffensivePower_key),700, y);
+
+        //PLAYER 1 DEFENSIVE POWER KEY
+        y += 60;
+        g2d.drawString("PLAYER 1 DEFENSIVE POWER KEY", x, y);
+        g2d.drawString(KeyEvent.getKeyText(KeyHandler.p1DefensivePower_key),700, y);
+
+        //PLAYER 2 LEFT KEY
+        y += 60;
+        g2d.drawString("PLAYER 2 LEFT KEY", x, y);
+        g2d.drawString(KeyEvent.getKeyText(KeyHandler.p2Left_key),700, y);
+
+        //PLAYER 2 RIGHT KEY
+        y += 60;
+        g2d.drawString("PLAYER 2 RIGHT KEY", x, y);
+        g2d.drawString(KeyEvent.getKeyText(KeyHandler.p2Right_key),700, y);
+
+        //PLAYER 2 OFFENSIVE POWER KEY
+        y += 60;
+        g2d.drawString("PLAYER 2 OFFENSIVE POWER KEY", x, y);
+        g2d.drawString(KeyEvent.getKeyText(KeyHandler.p2OffensivePower_key),700, y);
+
+        //PLAYER 2 DEFENSIVE POWER KEY
+        y += 60;
+        g2d.drawString("PLAYER 2 DEFENSIVE POWER KEY", x, y);
+        g2d.drawString(KeyEvent.getKeyText(KeyHandler.p2DefensivePower_key),700, y);
+
+        //ESCAPE
+        y += 60;
+        g2d.drawString("RETURN TO TITLE SCREEN", x, y);
+        g2d.drawString(KeyEvent.getKeyText(KeyEvent.VK_ESCAPE), 700, y);
+
+        //RESTART
+        y += 60;
+        g2d.drawString("RESTART MATCH", x, y);
+        g2d.drawString(KeyEvent.getKeyText(KeyEvent.VK_R), 700, y);
+
+        //RESUME
+        y += 60;
+        g2d.drawString("RESUME", x, y);
+        g2d.drawString(KeyEvent.getKeyText(KeyEvent.VK_P), 700, y);
     }
 
     private void drawFinishScreen(Graphics2D g2d){

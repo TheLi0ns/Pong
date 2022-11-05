@@ -20,6 +20,4 @@ public class Assets {
      * 0 UP 1 DOWN
      */
     public static final Image[] FIRE_BALL = {FIRE_BALL_UP, FIRE_BALL_DOWN};
-
-    public static final Image PAUSE_MENU = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/pause Menu.png"))).getImage();
 }

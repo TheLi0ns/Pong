@@ -1,11 +1,28 @@
 package com.TheLi0ns.GameFrame;
 
 import com.TheLi0ns.Logic.GameLogic;
+import com.TheLi0ns.Menus.KeyBindingsMenu;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
+
+    //KEYBINDINGS
+    public static int p1Left_key = KeyEvent.VK_A;
+    public static  int p1Right_key = KeyEvent.VK_D;
+
+    public static  int p1OffensivePower_key = KeyEvent.VK_W;
+    public static int p1DefensivePower_key = KeyEvent.VK_S;
+
+
+    public static int p2Left_key = KeyEvent.VK_LEFT;
+    public static int p2Right_key = KeyEvent.VK_RIGHT;
+
+    public static int p2OffensivePower_key = KeyEvent.VK_UP;
+    public static int p2DefensivePower_key = KeyEvent.VK_DOWN;
+
+
     @Override
     public void keyTyped(KeyEvent e) {
 
@@ -17,13 +34,11 @@ public class KeyHandler implements KeyListener {
         int code = e.getKeyCode();
 
         if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.PLAYING){
-            switch(code){
-                case KeyEvent.VK_A -> MyFrame.gameLogic.p1.setLeftPressed(true);
-                case KeyEvent.VK_D -> MyFrame.gameLogic.p1.setRightPressed(true);
+            if(code == p1Left_key) MyFrame.gameLogic.p1.setLeftPressed(true);
+            else if(code == p1Right_key) MyFrame.gameLogic.p1.setRightPressed(true);
 
-                case KeyEvent.VK_LEFT -> MyFrame.gameLogic.p2.setLeftPressed(true);
-                case KeyEvent.VK_RIGHT -> MyFrame.gameLogic.p2.setRightPressed(true);
-            }
+            else if(code == p2Left_key) MyFrame.gameLogic.p2.setLeftPressed(true);
+            else if(code == p2Right_key) MyFrame.gameLogic.p2.setRightPressed(true);
         }
     }
 
@@ -32,29 +47,29 @@ public class KeyHandler implements KeyListener {
 
         int code = e.getKeyCode();
 
+        //MATCH
         if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.PLAYING){
-            switch(code){
-                case KeyEvent.VK_A -> MyFrame.gameLogic.p1.setLeftPressed(false);
-                case KeyEvent.VK_D -> MyFrame.gameLogic.p1.setRightPressed(false);
 
-                case KeyEvent.VK_S -> MyFrame.gameLogic.p1.activateDefensivePower();
-                case KeyEvent.VK_W -> MyFrame.gameLogic.p1.activateOffensivePower();
+            if(code == p1Left_key) MyFrame.gameLogic.p1.setLeftPressed(false);
+            else if(code == p1Right_key) MyFrame.gameLogic.p1.setRightPressed(false);
 
+            else if(code == p2Left_key) MyFrame.gameLogic.p2.setLeftPressed(false);
+            else if(code == p2Right_key) MyFrame.gameLogic.p2.setRightPressed(false);
 
-                case KeyEvent.VK_LEFT -> MyFrame.gameLogic.p2.setLeftPressed(false);
-                case KeyEvent.VK_RIGHT -> MyFrame.gameLogic.p2.setRightPressed(false);
+            else if(code == p1DefensivePower_key) MyFrame.gameLogic.p1.activateDefensivePower();
+            else if(code == p1OffensivePower_key) MyFrame.gameLogic.p1.activateOffensivePower();
 
-                case KeyEvent.VK_DOWN -> MyFrame.gameLogic.p2.activateDefensivePower();
-                case KeyEvent.VK_UP -> MyFrame.gameLogic.p2.activateOffensivePower();
+            else if(code == p2DefensivePower_key) MyFrame.gameLogic.p2.activateDefensivePower();
+            else if(code == p2OffensivePower_key) MyFrame.gameLogic.p2.activateOffensivePower();
 
-                case KeyEvent.VK_P -> MyFrame.gameLogic.togglePause();
+            else if(code == KeyEvent.VK_P) MyFrame.gameLogic.togglePause();
 
-                case KeyEvent.VK_ESCAPE -> MyFrame.gameLogic.setGameState(GameLogic.GameStates.TITLE_SCREEN);
+            else if(code == KeyEvent.VK_ESCAPE) MyFrame.gameLogic.setGameState(GameLogic.GameStates.TITLE_SCREEN);
 
-                case KeyEvent.VK_R -> MyFrame.gameLogic.startMatch();
-            }
+            else if(code == KeyEvent.VK_R) MyFrame.gameLogic.startMatch();
         }
 
+        //FINISH SCREEN
         else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.FINISH){
             switch (code){
                 case KeyEvent.VK_SPACE -> MyFrame.gameLogic.startMatch();
@@ -62,6 +77,7 @@ public class KeyHandler implements KeyListener {
             }
         }
 
+        //TITLE SCREEN
         else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.TITLE_SCREEN){
             switch (code){
                 case KeyEvent.VK_UP, KeyEvent.VK_W -> GamePanel.titleScreen.previousOption();
@@ -70,6 +86,7 @@ public class KeyHandler implements KeyListener {
             }
         }
 
+        //SETTINGS MENU
         else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.SETTINGS_MENU){
             switch (code){
                 case KeyEvent.VK_UP, KeyEvent.VK_W -> GamePanel.settingsMenu.previousOption();
@@ -78,6 +95,7 @@ public class KeyHandler implements KeyListener {
             }
         }
 
+        //SELECTING POWER MENU
         else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.SELECTING_POWERS){
 
             if(!GamePanel.p1PowerSelectionMenu.isReady()){
@@ -97,6 +115,66 @@ public class KeyHandler implements KeyListener {
             }
 
             if(code == KeyEvent.VK_ESCAPE) MyFrame.gameLogic.setGameState(GameLogic.GameStates.TITLE_SCREEN);
+        }
+
+        //KEY BINDINGS MENU
+        else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.KEY_BINDINGS_MENU){
+
+            //P1 RIGHT KEY BINDING
+            if(KeyBindingsMenu.isP1RightKeyListening){
+                p1Right_key = code;
+                KeyBindingsMenu.isP1RightKeyListening = false;
+            }
+            //P1 LEFT KEY BINDING
+            else if(KeyBindingsMenu.isP1LeftKeyListening){
+                p1Left_key = code;
+                KeyBindingsMenu.isP1LeftKeyListening = false;
+            }
+            //P1 DEFENSIVE POWER KEY BINDING
+            else if(KeyBindingsMenu.isP1DefensivePowerKeyListening){
+                p1DefensivePower_key = code;
+                KeyBindingsMenu.isP1DefensivePowerKeyListening = false;
+            }
+            //P1 OFFENSIVE POWER KEY BINDING
+            else if(KeyBindingsMenu.isP1OffensivePowerKeyListening){
+                p1OffensivePower_key = code;
+                KeyBindingsMenu.isP1OffensivePowerKeyListening = false;
+            }
+            //P2 RIGHT KEY BINDING
+            else if(KeyBindingsMenu.isP2RightKeyListening){
+                p2Right_key = code;
+                KeyBindingsMenu.isP2RightKeyListening = false;
+            }
+            //P2 LEFT KEY BINDING
+            else if(KeyBindingsMenu.isP2LeftKeyListening){
+                p2Left_key = code;
+                KeyBindingsMenu.isP2LeftKeyListening = false;
+            }
+            //P2 DEFENSIVE POWER KEY BINDING
+            else if(KeyBindingsMenu.isP2DefensivePowerKeyListening){
+                p2DefensivePower_key = code;
+                KeyBindingsMenu.isP2DefensivePowerKeyListening = false;
+            }
+            //P2 OFFENSIVE POWER KEY BINDING
+            else if(KeyBindingsMenu.isP2OffensivePowerKeyListening){
+                p2OffensivePower_key = code;
+                KeyBindingsMenu.isP2OffensivePowerKeyListening = false;
+            }
+
+            //MENU NAVIGATION
+            else{
+                switch (code){
+                    case KeyEvent.VK_UP, KeyEvent.VK_W -> GamePanel.keyBindingsMenu.previousOption();
+                    case KeyEvent.VK_DOWN, KeyEvent.VK_S -> GamePanel.keyBindingsMenu.nextOption();
+                    case KeyEvent.VK_E, KeyEvent.VK_ENTER -> GamePanel.keyBindingsMenu.clickOption();
+                }
+            }
+        }
+
+        else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.PAUSE){
+            if(code == KeyEvent.VK_ESCAPE) MyFrame.gameLogic.setGameState(GameLogic.GameStates.TITLE_SCREEN);
+            else if(code == KeyEvent.VK_R) MyFrame.gameLogic.startMatch();
+            else if(code == KeyEvent.VK_P) MyFrame.gameLogic.togglePause();
         }
     }
 }
