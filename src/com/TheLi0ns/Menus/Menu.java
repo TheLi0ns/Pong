@@ -2,6 +2,12 @@ package com.TheLi0ns.Menus;
 
 import java.awt.*;
 
+/**
+ * Super class for Menus
+ * @see SettingsMenu
+ * @see TitleScreen
+ * @see PowerSelectionMenu
+ */
 public abstract class Menu {
 
     protected int selectedOption = 1;

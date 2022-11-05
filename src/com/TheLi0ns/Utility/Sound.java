@@ -3,6 +3,7 @@ package com.TheLi0ns.Utility;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import java.net.URL;
 
 public class Sound {
@@ -34,6 +35,12 @@ public class Sound {
     public static URL[] SHRINK_SOUND = new URL[2];
 
     public static URL INVERTED_CONTROLS_SOUND;
+
+    //SET VOLUME VARIABLES
+    static FloatControl gain_fc;
+    static float volume;
+    private static int volumeScale = 3;
+    public static final int MAX_VOLUME_SCALE = 5;
 
     public Sound() {
         PLAYER_HIT_SOUND = getClass().getResource("/SFX/Player hit.wav");
@@ -73,7 +80,27 @@ public class Sound {
             ais = AudioSystem.getAudioInputStream(url);
             clip = AudioSystem.getClip();
             clip.open(ais);
+            gain_fc = (FloatControl)clip.getControl(FloatControl.Type.MASTER_GAIN);
+            gain_fc.setValue(volume);
         } catch (Exception ignored) {}
+    }
+
+    public static void increaseVolume(){
+        volumeScale++;
+        if(volumeScale > MAX_VOLUME_SCALE) volumeScale = 0;
+
+        switch (volumeScale) {
+            case 0 -> volume = -80f;
+            case 1 -> volume = -20f;
+            case 2 -> volume = -12f;
+            case 3 -> volume = -5f;
+            case 4 -> volume = 1f;
+            case 5 -> volume = 6f;
+        }
+    }
+
+    public static int getVolumeScale() {
+        return volumeScale;
     }
 }
 

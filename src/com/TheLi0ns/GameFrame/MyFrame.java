@@ -13,7 +13,7 @@ public class MyFrame extends JFrame {
     public Assets assets = new Assets();
     public Sound sound = new Sound();
     public static GameLogic gameLogic = new GameLogic();
-    MyFrame(){
+    public MyFrame(){
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         frame.setVisible(true);
         frame.setResizable(false);

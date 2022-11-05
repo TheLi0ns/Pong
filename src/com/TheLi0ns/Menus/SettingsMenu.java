@@ -3,8 +3,7 @@ package com.TheLi0ns.Menus;
 import com.TheLi0ns.GameFrame.GamePanel;
 import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.Logic.GameLogic;
-import com.TheLi0ns.Powers.DefensivePowers.DefensivePowersEnum;
-import com.TheLi0ns.Powers.OffensivePowers.OffensivePowersEnum;
+import com.TheLi0ns.Utility.Sound;
 import com.TheLi0ns.Utility.Utils;
 
 import java.awt.*;
@@ -13,10 +12,7 @@ import java.awt.*;
  * Display the settings of the game
  * @see SettingsMenu#SET_POINTS_TO_WIN_OPTION
  * @see SettingsMenu#ENABLE_POWERS_OPTION
- * @see SettingsMenu#P1_OFFENSIVE_POWER_OPTION
- * @see SettingsMenu#P1_DEFENSIVE_POWER_OPTION
- * @see SettingsMenu#P2_OFFENSIVE_POWER_OPTION
- * @see SettingsMenu#P2_DEFENSIVE_POWER_OPTION
+ * @see SettingsMenu#VOLUME_SLIDER_OPTION
  * @see SettingsMenu#BACK
  */
 public class SettingsMenu extends Menu {
@@ -33,54 +29,17 @@ public class SettingsMenu extends Menu {
     public static final int ENABLE_POWERS_OPTION = 2;
 
     /**
-     * Make the players choose the p1 offensive power
+     * Make the players set the volume
      */
-    public static final int P1_OFFENSIVE_POWER_OPTION = 3;
-
-    /**
-     * Make the players choose the p1 defensive power
-     */
-    public static final int P1_DEFENSIVE_POWER_OPTION = 4;
-
-    /**
-     * Make the players choose the p2 offensive power
-     */
-    public static final int P2_OFFENSIVE_POWER_OPTION = 5;
-
-    /**
-     * Make the players choose the p2 defensive power
-     */
-    public static final int P2_DEFENSIVE_POWER_OPTION = 6;
+    public static final int VOLUME_SLIDER_OPTION = 3;
 
     /**
      * Return to the title screen
      */
-    public static final int BACK = 7;
-
-    //POWERS INDEXES BASED ON THE POSITION IN THE POWERS ENUMS
-    public static int p1OffensivePower_index = 0;
-    public static int p1DefensivePower_index = 0;
-    public static int p2OffensivePower_index = 0;
-    public static int p2DefensivePower_index = 0;
+    public static final int BACK = 4;
     
     public SettingsMenu() {
-        super(7);
-    }
-
-    public static OffensivePowersEnum getSelectedP1OffensivePower() {
-        return OffensivePowersEnum.values()[p1OffensivePower_index];
-    }
-
-    public static DefensivePowersEnum getSelectedP1DefensivePower() {
-        return DefensivePowersEnum.values()[p1DefensivePower_index];
-    }
-
-    public static OffensivePowersEnum getSelectedP2OffensivePower() {
-        return OffensivePowersEnum.values()[p2OffensivePower_index];
-    }
-
-    public static DefensivePowersEnum getSelectedP2DefensivePower() {
-        return DefensivePowersEnum.values()[p2DefensivePower_index];
+        super(4);
     }
 
     @Override
@@ -95,28 +54,7 @@ public class SettingsMenu extends Menu {
 
             case ENABLE_POWERS_OPTION -> MyFrame.gameLogic.setArePowersEnabled(!MyFrame.gameLogic.arePowersEnabled());
 
-
-            case P1_OFFENSIVE_POWER_OPTION -> {
-                p1OffensivePower_index++;
-                if(p1OffensivePower_index > OffensivePowersEnum.values().length-1) p1OffensivePower_index = 0;
-            }
-
-            case P1_DEFENSIVE_POWER_OPTION -> {
-                p1DefensivePower_index++;
-                if(p1DefensivePower_index > DefensivePowersEnum.values().length-1) p1DefensivePower_index = 0;
-            }
-
-
-            case P2_OFFENSIVE_POWER_OPTION -> {
-                p2OffensivePower_index++;
-                if(p2OffensivePower_index > OffensivePowersEnum.values().length-1) p2OffensivePower_index = 0;
-            }
-
-            case P2_DEFENSIVE_POWER_OPTION -> {
-                p2DefensivePower_index++;
-                if(p2DefensivePower_index > DefensivePowersEnum.values().length-1) p2DefensivePower_index = 0;
-            }
-
+            case VOLUME_SLIDER_OPTION -> Sound.increaseVolume();
 
             case BACK ->{
                 MyFrame.gameLogic.setGameState(GameLogic.GameStates.TITLE_SCREEN);
@@ -142,31 +80,15 @@ public class SettingsMenu extends Menu {
         y += 60;
         g2d.drawString("ENABLE POWERS", x, y);
         if(selectedOption == ENABLE_POWERS_OPTION) g2d.drawString(">", x-30, y);
-        g2d.drawString(String.valueOf(MyFrame.gameLogic.arePowersEnabled()), 700, y);
+        if(MyFrame.gameLogic.arePowersEnabled()) g2d.fillRect(700, y-30, 30, 30);
+        else g2d.drawRect(700, y-30, 30, 30);
 
-        //P1 OFFENSIVE POWER
+        //VOLUME SLIDER
         y += 60;
-        g2d.drawString("P1 OFFENSIVE POWER", x, y);
-        if(selectedOption == P1_OFFENSIVE_POWER_OPTION) g2d.drawString(">", x-30, y);
-        g2d.drawString(OffensivePowersEnum.values()[p1OffensivePower_index].name, 700, y);
-
-        //P1 DEFENSIVE POWER
-        y += 60;
-        g2d.drawString("P1 DEFENSIVE POWER", x, y);
-        if(selectedOption == P1_DEFENSIVE_POWER_OPTION) g2d.drawString(">", x-30, y);
-        g2d.drawString(DefensivePowersEnum.values()[p1DefensivePower_index].name, 700, y);
-
-        //P2 OFFENSIVE POWER
-        y += 60;
-        g2d.drawString("P2 OFFENSIVE POWER", x, y);
-        if(selectedOption == P2_OFFENSIVE_POWER_OPTION) g2d.drawString(">", x-30, y);
-        g2d.drawString(OffensivePowersEnum.values()[p2OffensivePower_index].name, 700, y);
-
-        //P2 DEFENSIVE POWER
-        y += 60;
-        g2d.drawString("P2 DEFENSIVE POWER", x, y);
-        if(selectedOption == P2_DEFENSIVE_POWER_OPTION) g2d.drawString(">", x-30, y);
-        g2d.drawString(DefensivePowersEnum.values()[p2DefensivePower_index].name, 700, y);
+        g2d.drawString("VOLUME", x, y);
+        if(selectedOption == VOLUME_SLIDER_OPTION) g2d.drawString(">", x-30, y);
+        g2d.drawRect(700, y-30, 30*Sound.MAX_VOLUME_SCALE, 30);
+        g2d.fillRect(700, y-30, 30*Sound.getVolumeScale(), 30);
 
         //BACK
         y += 60;

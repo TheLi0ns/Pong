@@ -41,7 +41,10 @@ public class TitleScreen extends Menu{
     @Override
     public void clickOption(){
         switch (selectedOption){
-            case PLAY_OPTION -> MyFrame.gameLogic.startMatch();
+            case PLAY_OPTION ->{
+                if(MyFrame.gameLogic.arePowersEnabled())MyFrame.gameLogic.setGameState(GameLogic.GameStates.SELECTING_POWERS);
+                else MyFrame.gameLogic.startMatch();
+            }
             case SETTINGS_OPTION -> MyFrame.gameLogic.setGameState(GameLogic.GameStates.SETTINGS_MENU);
             case QUIT_OPTION -> System.exit(0);
         }

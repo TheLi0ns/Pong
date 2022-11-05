@@ -1,9 +1,9 @@
 package com.TheLi0ns.Logic;
 
+import com.TheLi0ns.GameFrame.GamePanel;
 import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.GameObject.Ball;
 import com.TheLi0ns.GameObject.Player;
-import com.TheLi0ns.Menus.SettingsMenu;
 
 import java.util.Random;
 
@@ -23,7 +23,7 @@ public class GameLogic implements Runnable{
 
     private final int FPS = 90;
 
-    private boolean arePowersEnabled;
+    private boolean arePowersEnabled = true;
 
     /**
      * The defensive power is rechargeable if the points to win
@@ -50,6 +50,7 @@ public class GameLogic implements Runnable{
         SETTINGS_MENU,
         PAUSE,
         FINISH,
+        SELECTING_POWERS,
         PLAYING
     }
 
@@ -75,6 +76,8 @@ public class GameLogic implements Runnable{
         isOffensivePowerRechargeable = pointsToWin > 5;
         isDefensivePowerRechargeable = pointsToWin > 3;
 
+        if(isDefensivePowerRechargeable) arePowersEnabled = false;
+
         setUpPowers();
 
         gameState = GameStates.PLAYING;
@@ -91,6 +94,15 @@ public class GameLogic implements Runnable{
             throw new RuntimeException(e);
         }
         while(true) {
+            if(gameState == GameStates.SELECTING_POWERS &&
+                    (GamePanel.p1PowerSelectionMenu.isReady() &&
+                            GamePanel.p2PowerSelectionMenu.isReady())){
+                startMatch();
+                GamePanel.p1PowerSelectionMenu.setReady(false);
+                GamePanel.p2PowerSelectionMenu.setReady(false);
+            }
+
+
             if(gameState == GameStates.PLAYING) {
                 update();
             }
@@ -186,17 +198,17 @@ public class GameLogic implements Runnable{
 
     /**
      * Assign to the player the powers selected
-     * in the settings menu
+     * in the power selection menu
      */
     public void setUpPowers(){
         if(arePowersEnabled){
             if(isOffensivePowerRechargeable){
-                p1.setOffensivePower(SettingsMenu.getSelectedP1OffensivePower(), p2);
-                p2.setOffensivePower(SettingsMenu.getSelectedP2OffensivePower(), p1);
+                p1.setOffensivePower(GamePanel.p1PowerSelectionMenu.getSelectedOffensivePower(), p2);
+                p2.setOffensivePower(GamePanel.p2PowerSelectionMenu.getSelectedOffensivePower(), p1);
             }
             if(isDefensivePowerRechargeable){
-                p1.setDefensivePower(SettingsMenu.getSelectedP1DefensivePower());
-                p2.setDefensivePower(SettingsMenu.getSelectedP2DefensivePower());
+                p1.setDefensivePower(GamePanel.p1PowerSelectionMenu.getSelectedDefensivePower());
+                p2.setDefensivePower(GamePanel.p1PowerSelectionMenu.getSelectedDefensivePower());
             }
         }
     }

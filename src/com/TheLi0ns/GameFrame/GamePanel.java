@@ -1,6 +1,7 @@
 package com.TheLi0ns.GameFrame;
 
 import com.TheLi0ns.Logic.GameLogic;
+import com.TheLi0ns.Menus.PowerSelectionMenu;
 import com.TheLi0ns.Menus.SettingsMenu;
 import com.TheLi0ns.Menus.TitleScreen;
 import com.TheLi0ns.Utility.Assets;
@@ -19,6 +20,8 @@ public class GamePanel extends JPanel {
 
     public static TitleScreen titleScreen = new TitleScreen();
     public static SettingsMenu settingsMenu = new SettingsMenu();
+    public static PowerSelectionMenu p1PowerSelectionMenu = new PowerSelectionMenu(1);
+    public static PowerSelectionMenu p2PowerSelectionMenu = new PowerSelectionMenu(2);
 
     GamePanel(){
         setPreferredSize(new Dimension(WIDTH,HEIGHT));
@@ -56,6 +59,9 @@ public class GamePanel extends JPanel {
             titleScreen.draw(g2d);
         }else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.SETTINGS_MENU){
             settingsMenu.draw(g2d);
+        }else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.SELECTING_POWERS){
+            p1PowerSelectionMenu.draw(g2d);
+            p2PowerSelectionMenu.draw(g2d);
         }
 
         g2d.dispose();
