@@ -77,8 +77,6 @@ public class GameLogic implements Runnable{
         isOffensivePowerRechargeable = pointsToWin > 5;
         isDefensivePowerRechargeable = pointsToWin > 3;
 
-        if(isDefensivePowerRechargeable) arePowersEnabled = false;
-
         setUpPowers();
 
         gameState = GameStates.PLAYING;

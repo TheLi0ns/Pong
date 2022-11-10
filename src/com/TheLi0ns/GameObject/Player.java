@@ -9,40 +9,40 @@ import com.TheLi0ns.Utility.Sound;
 import java.awt.*;
 
 public class Player {
-    private final Image NORMAL_PLAYER_IMAGE = Assets.RACKET;
-    private Image PLAYER_IMAGE = NORMAL_PLAYER_IMAGE;
-    private int x;
-    private final int y;
-    private int width = PLAYER_IMAGE.getWidth(null);
-    private final int height = PLAYER_IMAGE.getHeight(null);
-    private int xVelocity;
-    private boolean isMovementEnabled = true;
-    private boolean isLeftPressed = false;
-    private boolean isRightPressed = false;
-    private int score = 0;
-    private boolean arePowersEnabled = true;
-    private DefensivePowers_super defensivePower;
-    private OffensivePowers_super offensivePower;
+    protected final Image NORMAL_PLAYER_IMAGE = Assets.RACKET;
+    protected Image PLAYER_IMAGE = NORMAL_PLAYER_IMAGE;
+    protected int x;
+    protected final int y;
+    protected int width = PLAYER_IMAGE.getWidth(null);
+    protected final int height = PLAYER_IMAGE.getHeight(null);
+    protected int xVelocity;
+    protected boolean isMovementEnabled = true;
+    protected boolean isLeftPressed = false;
+    protected boolean isRightPressed = false;
+    protected int score = 0;
+    protected boolean arePowersEnabled = true;
+    protected DefensivePowers_super defensivePower;
+    protected OffensivePowers_super offensivePower;
 
     /**
      * The powers have to be charged 1 goal 1 charge
      * this is the charge of the defensive power
      * it is charged at 3
      */
-    private int chargeDefensivePower = 0;
+    protected int chargeDefensivePower = 0;
 
     /**
      * The powers have to be charged 1 goal 1 charge
      * this is the charge of the offensive power
      * it is charged at 5
      */
-    private int chargeOffensivePower = 0;
+    protected int chargeOffensivePower = 0;
 
-    private boolean fireShotActivated = false;
-    private boolean areControlsInverted = false;
-    private boolean isParrying = false;
+    protected boolean fireShotActivated = false;
+    protected boolean areControlsInverted = false;
+    protected boolean isParrying = false;
 
-    enum DIRECTION{
+    protected enum DIRECTION{
         LEFT,
         RIGHT
     }
@@ -57,7 +57,7 @@ public class Player {
         this.arePowersEnabled = arePowersEnabled;
     }
 
-    private void move(DIRECTION direction){
+    protected void move(DIRECTION direction){
 
         if(areControlsInverted){
             if(direction == DIRECTION.LEFT) direction = DIRECTION.RIGHT;

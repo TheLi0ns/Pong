@@ -169,11 +169,8 @@ public class Ball {
     public int getHeight() {
         return HEIGHT;
     }
-    public void setxVelocity(int xVelocity) {
-        this.xVelocity = xVelocity;
-    }
-    public void setyVelocity(int yVelocity) {
-        this.yVelocity = yVelocity;
+    public int getxVelocity() {
+        return xVelocity;
     }
 
     public void draw(Graphics2D g2d){
