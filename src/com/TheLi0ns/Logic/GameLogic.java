@@ -1,5 +1,6 @@
 package com.TheLi0ns.Logic;
 
+import com.TheLi0ns.AI.AI;
 import com.TheLi0ns.GameFrame.GamePanel;
 import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.GameObject.Ball;
@@ -45,14 +46,22 @@ public class GameLogic implements Runnable{
 
     private GameStates gameState = GameStates.TITLE_SCREEN;
 
-    public enum GameStates{
+    public enum GameStates {
         TITLE_SCREEN,
+        PLAY_SUBMENU,
         SETTINGS_MENU,
         KEY_BINDINGS_MENU,
         SELECTING_POWERS,
         PLAYING,
         PAUSE,
         FINISH,
+    }
+
+    private GameModes gameMode = GameModes.PVP;
+
+    public enum GameModes{
+        PVP,
+        PVE
     }
 
     public GameLogic(){
@@ -71,7 +80,10 @@ public class GameLogic implements Runnable{
         gameState = GameStates.PAUSE;
 
         p1 = new Player(391, 909, 6);
-        p2 = new Player(391, 53, 6);
+
+        if(gameMode == GameModes.PVP) p2 = new Player(391, 53, 6);
+        else if(gameMode == GameModes.PVE) p2 = new AI(391, 53, 7);
+
         ball = new Ball(472, 468, genRandomxVelocity(), 6);
 
         isOffensivePowerRechargeable = pointsToWin > 5;
@@ -225,6 +237,14 @@ public class GameLogic implements Runnable{
 
     public int getPointsToWin() {
         return pointsToWin;
+    }
+
+    public void setGameMode(GameModes gameMode) {
+        this.gameMode = gameMode;
+    }
+
+    public GameModes getGameMode() {
+        return gameMode;
     }
 
     public boolean isDefensivePowerRechargeable() {

@@ -172,6 +172,9 @@ public class Ball {
     public int getxVelocity() {
         return xVelocity;
     }
+    public int getyVelocity() {
+        return yVelocity;
+    }
 
     public void draw(Graphics2D g2d){
         if(fireball){

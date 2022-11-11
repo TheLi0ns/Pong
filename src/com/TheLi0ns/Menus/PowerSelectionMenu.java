@@ -1,6 +1,8 @@
 package com.TheLi0ns.Menus;
 
 import com.TheLi0ns.GameFrame.GamePanel;
+import com.TheLi0ns.GameFrame.MyFrame;
+import com.TheLi0ns.Logic.GameLogic;
 import com.TheLi0ns.Powers.DefensivePowers.DefensivePowersEnum;
 import com.TheLi0ns.Powers.OffensivePowers.OffensivePowersEnum;
 import com.TheLi0ns.Utility.Utils;
@@ -61,6 +63,7 @@ public class PowerSelectionMenu extends Menu{
 
     public void setReady(boolean ready){
         this.ready = ready;
+        if(!ready) selectedOption = 1;
     }
 
     @Override
@@ -76,7 +79,10 @@ public class PowerSelectionMenu extends Menu{
                 if (defensivePower_index > DefensivePowersEnum.values().length - 1) defensivePower_index = 0;
             }
 
-            case READY -> ready = true;
+            case READY ->{
+                ready = true;
+                if(MyFrame.gameLogic.getGameMode() == GameLogic.GameModes.PVE) MyFrame.gameLogic.startMatch();
+            }
         }
     }
 

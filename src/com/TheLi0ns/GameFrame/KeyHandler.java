@@ -86,6 +86,15 @@ public class KeyHandler implements KeyListener {
             }
         }
 
+        //GAME MODE SUBMENU
+        else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.PLAY_SUBMENU){
+            switch (code){
+                case KeyEvent.VK_UP, KeyEvent.VK_W -> GamePanel.gameModeSubMenu.previousOption();
+                case KeyEvent.VK_DOWN, KeyEvent.VK_S -> GamePanel.gameModeSubMenu.nextOption();
+                case KeyEvent.VK_ENTER, KeyEvent.VK_E -> GamePanel.gameModeSubMenu.clickOption();
+            }
+        }
+
         //SETTINGS MENU
         else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.SETTINGS_MENU){
             switch (code){

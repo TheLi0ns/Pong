@@ -7,6 +7,7 @@ import java.awt.*;
  * @see SettingsMenu
  * @see TitleScreen
  * @see PowerSelectionMenu
+ * @see KeyBindingsMenu
  */
 public abstract class Menu {
 

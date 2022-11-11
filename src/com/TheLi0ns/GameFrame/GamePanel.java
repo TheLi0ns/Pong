@@ -5,6 +5,7 @@ import com.TheLi0ns.Menus.KeyBindingsMenu;
 import com.TheLi0ns.Menus.PowerSelectionMenu;
 import com.TheLi0ns.Menus.SettingsMenu;
 import com.TheLi0ns.Menus.TitleScreen;
+import com.TheLi0ns.SubMenus.GameModeSubMenu;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,6 +22,7 @@ public class GamePanel extends JPanel {
 
     //MENUS
     public static TitleScreen titleScreen = new TitleScreen();
+    public static GameModeSubMenu gameModeSubMenu = new GameModeSubMenu();
     public static SettingsMenu settingsMenu = new SettingsMenu();
     public static KeyBindingsMenu keyBindingsMenu = new KeyBindingsMenu();
     public static PowerSelectionMenu p1PowerSelectionMenu = new PowerSelectionMenu(1);
@@ -68,6 +70,11 @@ public class GamePanel extends JPanel {
         else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.TITLE_SCREEN){
             titleScreen.draw(g2d);
         }
+        //GAME MODE SUBMENU
+        else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.PLAY_SUBMENU){
+            titleScreen.draw(g2d);
+            gameModeSubMenu.draw(g2d);
+        }
         //SETTINGS MENU
         else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.SETTINGS_MENU){
             settingsMenu.draw(g2d);
@@ -75,7 +82,7 @@ public class GamePanel extends JPanel {
         //SELECTING POWERS MENU
         else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.SELECTING_POWERS){
             p1PowerSelectionMenu.draw(g2d);
-            p2PowerSelectionMenu.draw(g2d);
+            if(MyFrame.gameLogic.getGameMode() == GameLogic.GameModes.PVP) p2PowerSelectionMenu.draw(g2d);
         }
         //KEY BINDINGS MENU
         else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.KEY_BINDINGS_MENU){
@@ -129,27 +136,29 @@ public class GamePanel extends JPanel {
         }
 
         //p2
-        g2d.setPaint(Color.gray);
-        g2d.setStroke(new BasicStroke(5));
-        g2d.drawRect(880, 55, 70, 125);
-        g2d.drawLine(880, 95, 950, 95);
-        g2d.drawLine(885, 135, 950, 135);
+        if(MyFrame.gameLogic.getGameMode() == GameLogic.GameModes.PVP){
+            g2d.setPaint(Color.gray);
+            g2d.setStroke(new BasicStroke(5));
+            g2d.drawRect(880, 55, 70, 125);
+            g2d.drawLine(880, 95, 950, 95);
+            g2d.drawLine(885, 135, 950, 135);
 
-        g2d.setPaint(Color.CYAN);
-        g2d.setFont(new Font("Comic Sans MS", Font.PLAIN, 10));
-        g2d.drawString(MyFrame.gameLogic.p2.getDefensivePower().getName(), 880, 200);
-
-        g2d.setPaint(Color.GREEN);
-        if(MyFrame.gameLogic.p2.getChargeDefensivePower() > 0){
-            g2d.fillRect(885, 60, 60, 30);
-        }
-        if(MyFrame.gameLogic.p2.getChargeDefensivePower() > 1){
-            g2d.fillRect(885, 100, 60, 30);
-        }
-        if(MyFrame.gameLogic.p2.getChargeDefensivePower() > 2){
-            g2d.fillRect(885, 140, 60,35);
             g2d.setPaint(Color.CYAN);
-            g2d.drawRect(875, 50, 80, 135);
+            g2d.setFont(new Font("Comic Sans MS", Font.PLAIN, 10));
+            g2d.drawString(MyFrame.gameLogic.p2.getDefensivePower().getName(), 880, 200);
+
+            g2d.setPaint(Color.GREEN);
+            if(MyFrame.gameLogic.p2.getChargeDefensivePower() > 0){
+                g2d.fillRect(885, 60, 60, 30);
+            }
+            if(MyFrame.gameLogic.p2.getChargeDefensivePower() > 1){
+                g2d.fillRect(885, 100, 60, 30);
+            }
+            if(MyFrame.gameLogic.p2.getChargeDefensivePower() > 2){
+                g2d.fillRect(885, 140, 60,35);
+                g2d.setPaint(Color.CYAN);
+                g2d.drawRect(875, 50, 80, 135);
+            }
         }
     }
 
@@ -188,35 +197,37 @@ public class GamePanel extends JPanel {
         }
 
         //p2
-        g2d.setPaint(Color.gray);
-        g2d.drawRect(50, 55, 70, 125);
-        g2d.drawLine(50, 95, 120, 95);
-        g2d.drawLine(50, 135, 120, 135);
+        if(MyFrame.gameLogic.getGameMode() == GameLogic.GameModes.PVP) {
+            g2d.setPaint(Color.gray);
+            g2d.drawRect(50, 55, 70, 125);
+            g2d.drawLine(50, 95, 120, 95);
+            g2d.drawLine(50, 135, 120, 135);
 
-        g2d.setPaint(Color.RED);
-        g2d.setFont(new Font("Comic Sans MS", Font.PLAIN, 10));
-        g2d.drawString(MyFrame.gameLogic.p2.getOffensivePower().getName(), 50, 200);
-
-        g2d.setPaint(Color.GREEN);
-        if(MyFrame.gameLogic.p2.getChargeOffensivePower() > 0){
-            g2d.fillRect(55, 60, 30, 30);
-        }
-        if(MyFrame.gameLogic.p2.getChargeOffensivePower() > 1){
-            g2d.fillRect(85, 60, 30, 30);
-        }
-        if(MyFrame.gameLogic.p2.getChargeOffensivePower() > 2){
-            g2d.fillRect(55, 100, 30, 30);
-        }
-        if(MyFrame.gameLogic.p2.getChargeOffensivePower() > 3){
-            g2d.fillRect(85, 100, 30, 30);
-        }
-        if(MyFrame.gameLogic.p2.getChargeOffensivePower() > 4){
-            g2d.fillRect(55, 140, 30,35);
-        }
-        if(MyFrame.gameLogic.p2.getChargeOffensivePower() > 5){
-            g2d.fillRect(85, 140, 30, 35);
             g2d.setPaint(Color.RED);
-            g2d.drawRect(45, 50, 80, 135);
+            g2d.setFont(new Font("Comic Sans MS", Font.PLAIN, 10));
+            g2d.drawString(MyFrame.gameLogic.p2.getOffensivePower().getName(), 50, 200);
+
+            g2d.setPaint(Color.GREEN);
+            if (MyFrame.gameLogic.p2.getChargeOffensivePower() > 0) {
+                g2d.fillRect(55, 60, 30, 30);
+            }
+            if (MyFrame.gameLogic.p2.getChargeOffensivePower() > 1) {
+                g2d.fillRect(85, 60, 30, 30);
+            }
+            if (MyFrame.gameLogic.p2.getChargeOffensivePower() > 2) {
+                g2d.fillRect(55, 100, 30, 30);
+            }
+            if (MyFrame.gameLogic.p2.getChargeOffensivePower() > 3) {
+                g2d.fillRect(85, 100, 30, 30);
+            }
+            if (MyFrame.gameLogic.p2.getChargeOffensivePower() > 4) {
+                g2d.fillRect(55, 140, 30, 35);
+            }
+            if (MyFrame.gameLogic.p2.getChargeOffensivePower() > 5) {
+                g2d.fillRect(85, 140, 30, 35);
+                g2d.setPaint(Color.RED);
+                g2d.drawRect(45, 50, 80, 135);
+            }
         }
     }
 

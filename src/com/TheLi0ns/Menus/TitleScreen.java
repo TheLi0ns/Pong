@@ -3,6 +3,7 @@ package com.TheLi0ns.Menus;
 import com.TheLi0ns.GameFrame.GamePanel;
 import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.Logic.GameLogic;
+import com.TheLi0ns.SubMenus.GameModeSubMenu;
 import com.TheLi0ns.Utility.Utils;
 
 import java.awt.*;
@@ -14,7 +15,6 @@ import java.awt.*;
  * @see TitleScreen#QUIT_OPTION
  */
 public class TitleScreen extends Menu{
-
     private static final String GAME_NAME = "PONG";
 
     //TITLE SCREEN OPTIONS
@@ -41,10 +41,7 @@ public class TitleScreen extends Menu{
     @Override
     public void clickOption(){
         switch (selectedOption){
-            case PLAY_OPTION ->{
-                if(MyFrame.gameLogic.arePowersEnabled())MyFrame.gameLogic.setGameState(GameLogic.GameStates.SELECTING_POWERS);
-                else MyFrame.gameLogic.startMatch();
-            }
+            case PLAY_OPTION -> MyFrame.gameLogic.setGameState(GameLogic.GameStates.PLAY_SUBMENU);
             case SETTINGS_OPTION -> MyFrame.gameLogic.setGameState(GameLogic.GameStates.SETTINGS_MENU);
             case QUIT_OPTION -> System.exit(0);
         }
@@ -52,6 +49,8 @@ public class TitleScreen extends Menu{
 
     @Override
     public void draw(Graphics2D g2d){
+
+        int y = 300;
 
         g2d.setColor(Color.WHITE);
 
@@ -67,18 +66,26 @@ public class TitleScreen extends Menu{
         g2d.setFont(font);
 
         //PLAY
+        y += 100;
+
         x = Utils.xForCenteredText(g2d, font, GamePanel.WIDTH, "PLAY");
-        g2d.drawString("PLAY", x, 400);
+        g2d.drawString("PLAY", x, y);
         if(selectedOption == PLAY_OPTION) g2d.drawString(">", x-30, 400);
 
+        if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.PLAY_SUBMENU) y += GameModeSubMenu.getY_OFFSET();
+
         //SETTINGS
+        y += 100;
+
         x = Utils.xForCenteredText(g2d, font, GamePanel.WIDTH, "SETTINGS");
-        g2d.drawString("SETTINGS", x, 500);
+        g2d.drawString("SETTINGS", x, y);
         if(selectedOption == SETTINGS_OPTION) g2d.drawString(">", x-30, 500);
 
         //QUIT
+        y += 100;
+
         x = Utils.xForCenteredText(g2d, font, GamePanel.WIDTH, "QUIT");
-        g2d.drawString("QUIT", x, 600);
+        g2d.drawString("QUIT", x, y);
         if(selectedOption == QUIT_OPTION) g2d.drawString(">", x-30, 600);
     }
 }
