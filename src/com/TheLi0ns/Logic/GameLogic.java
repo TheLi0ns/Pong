@@ -82,7 +82,7 @@ public class GameLogic implements Runnable{
         p1 = new Player(391, 909, 6);
 
         if(gameMode == GameModes.PVP) p2 = new Player(391, 53, 6);
-        else if(gameMode == GameModes.PVE) p2 = new AI(391, 53, 7);
+        else if(gameMode == GameModes.PVE) p2 = new AI(391, 53, 7, GamePanel.gameModeSubMenu.getDifficultyChosen());
 
         ball = new Ball(472, 468, genRandomxVelocity(), 6);
 
