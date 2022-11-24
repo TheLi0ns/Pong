@@ -22,7 +22,6 @@ public class KeyHandler implements KeyListener {
     public static int p2OffensivePower_key = KeyEvent.VK_UP;
     public static int p2DefensivePower_key = KeyEvent.VK_DOWN;
 
-
     @Override
     public void keyTyped(KeyEvent e) {
 

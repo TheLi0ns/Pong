@@ -3,6 +3,7 @@ package com.TheLi0ns.Menus;
 import com.TheLi0ns.GameFrame.GamePanel;
 import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.Logic.GameLogic;
+import com.TheLi0ns.SettingFiles.SettingFilesHandler;
 import com.TheLi0ns.Utility.Sound;
 import com.TheLi0ns.Utility.Utils;
 
@@ -14,6 +15,7 @@ import java.awt.*;
  * @see SettingsMenu#ENABLE_POWERS_OPTION
  * @see SettingsMenu#VOLUME_SLIDER_OPTION
  * @see SettingsMenu#KEYBINDINGS_MENU_OPTION
+ * @see SettingsMenu#DEFAULT_SETTINGS_OPTION
  * @see SettingsMenu#BACK
  */
 public class SettingsMenu extends Menu {
@@ -40,12 +42,17 @@ public class SettingsMenu extends Menu {
     public static final int KEYBINDINGS_MENU_OPTION = 4;
 
     /**
+     * Reset all the settings to their default value
+     */
+    public static final int DEFAULT_SETTINGS_OPTION = 5;
+
+    /**
      * Return to the {@link TitleScreen title screen}
      */
-    public static final int BACK = 5;
+    public static final int BACK = 6;
     
     public SettingsMenu() {
-        super(5);
+        super(6);
     }
 
     @Override
@@ -63,6 +70,8 @@ public class SettingsMenu extends Menu {
             case VOLUME_SLIDER_OPTION -> Sound.increaseVolume();
 
             case KEYBINDINGS_MENU_OPTION -> MyFrame.gameLogic.setGameState(GameLogic.GameStates.KEY_BINDINGS_MENU);
+
+            case DEFAULT_SETTINGS_OPTION -> SettingFilesHandler.loadDefault();
 
             case BACK ->{
                 MyFrame.gameLogic.setGameState(GameLogic.GameStates.TITLE_SCREEN);
@@ -102,6 +111,12 @@ public class SettingsMenu extends Menu {
         y += 60;
         g2d.drawString("KEY BINDINGS", x, y);
         if(selectedOption == KEYBINDINGS_MENU_OPTION) g2d.drawString(">", x-30, y);
+
+        //DEFAULT SETTINGS
+        y += 60;
+        x = Utils.xForCenteredText(g2d, font, GamePanel.WIDTH, "DEFAULT SETTINGS");
+        g2d.drawString("DEFAULT SETTINGS", x, y);
+        if(selectedOption == DEFAULT_SETTINGS_OPTION) g2d.drawString(">", x-30, y);
 
         //BACK
         y += 60;

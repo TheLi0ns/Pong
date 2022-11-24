@@ -1,6 +1,5 @@
 package com.TheLi0ns.SubMenus;
 
-import com.TheLi0ns.AI.AI;
 import com.TheLi0ns.GameFrame.GamePanel;
 import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.Logic.GameLogic;
@@ -8,12 +7,6 @@ import com.TheLi0ns.Utility.Utils;
 
 import java.awt.*;
 
-/**
- * Display a game mode selection sub menu
- * @see GameModeSubMenu#PVP_OPTION
- * @see GameModeSubMenu#NORMAL_PVE_OPTION
- * @see GameModeSubMenu#IMPOSSIBLE_PVE_OPTION
- */
 public class GameModeSubMenu extends SubMenu {
 
     //GAME MODE MENU OPTIONS
@@ -24,23 +17,12 @@ public class GameModeSubMenu extends SubMenu {
     public static final int PVP_OPTION = 1;
 
     /**
-     * Start a pve match with a normal AI
+     * Start a pve match
      */
-    public static final int NORMAL_PVE_OPTION = 2;
-
-    /**
-     * Start a pve match with an impossible AI
-     */
-    public static final int IMPOSSIBLE_PVE_OPTION = 3;
-
-    private static AI.Difficulties difficultyChosen;
+    public static final int PVE_OPTION = 2;
 
     public GameModeSubMenu() {
-        super(3, 160);
-    }
-
-    public AI.Difficulties getDifficultyChosen() {
-        return difficultyChosen;
+        super(2, 100);
     }
 
     @Override
@@ -57,21 +39,12 @@ public class GameModeSubMenu extends SubMenu {
                 else MyFrame.gameLogic.startMatch();
             }
 
-            case NORMAL_PVE_OPTION -> {
-                difficultyChosen = AI.Difficulties.NORMAL;
-                MyFrame.gameLogic.setGameMode(GameLogic.GameModes.PVE);
-                if(MyFrame.gameLogic.arePowersEnabled())MyFrame.gameLogic.setGameState(GameLogic.GameStates.SELECTING_POWERS);
-                else MyFrame.gameLogic.startMatch();
-            }
-
-            case IMPOSSIBLE_PVE_OPTION -> {
-                difficultyChosen = AI.Difficulties.IMPOSSIBLE;
+            case PVE_OPTION -> {
                 MyFrame.gameLogic.setGameMode(GameLogic.GameModes.PVE);
                 if(MyFrame.gameLogic.arePowersEnabled())MyFrame.gameLogic.setGameState(GameLogic.GameStates.SELECTING_POWERS);
                 else MyFrame.gameLogic.startMatch();
             }
         }
-        selectedOption = 1;
     }
 
     @Override
@@ -90,16 +63,10 @@ public class GameModeSubMenu extends SubMenu {
         g2d.drawString("PvP", x, y);
         if(selectedOption == PVP_OPTION) g2d.drawString(">", x-30, y);
 
-        //PVE NORMAL
+        //PVE
         y += 60;
-        x = Utils.xForCenteredText(g2d, font, GamePanel.WIDTH, "PVE NORMAL");
-        g2d.drawString("PvE NORMAL", x, y);
-        if(selectedOption == NORMAL_PVE_OPTION) g2d.drawString(">", x-30, y);
-
-        //PVE IMPOSSIBLE
-        y += 60;
-        x = Utils.xForCenteredText(g2d, font, GamePanel.WIDTH, "PVE IMPOSSIBLE");
-        g2d.drawString("PvE IMPOSSIBLE", x, y);
-        if(selectedOption == IMPOSSIBLE_PVE_OPTION) g2d.drawString(">", x-30, y);
+        x = Utils.xForCenteredText(g2d, font, GamePanel.WIDTH, "PvE");
+        g2d.drawString("PvE", x, y);
+        if(selectedOption == PVE_OPTION) g2d.drawString(">", x-30, y);
     }
 }

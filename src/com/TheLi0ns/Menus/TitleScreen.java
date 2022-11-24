@@ -43,7 +43,7 @@ public class TitleScreen extends Menu{
         switch (selectedOption){
             case PLAY_OPTION -> MyFrame.gameLogic.setGameState(GameLogic.GameStates.PLAY_SUBMENU);
             case SETTINGS_OPTION -> MyFrame.gameLogic.setGameState(GameLogic.GameStates.SETTINGS_MENU);
-            case QUIT_OPTION -> System.exit(0);
+            case QUIT_OPTION -> MyFrame.quit();
         }
     }
 

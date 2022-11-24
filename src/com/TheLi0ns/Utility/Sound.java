@@ -88,7 +88,10 @@ public class Sound {
     public static void increaseVolume(){
         volumeScale++;
         if(volumeScale > MAX_VOLUME_SCALE) volumeScale = 0;
+        setVolume();
+    }
 
+    private static void setVolume(){
         switch (volumeScale) {
             case 0 -> volume = -80f;
             case 1 -> volume = -20f;
@@ -101,6 +104,10 @@ public class Sound {
 
     public static int getVolumeScale() {
         return volumeScale;
+    }
+    public static void setVolumeScale(int volumeScale) {
+        Sound.volumeScale = volumeScale;
+        setVolume();
     }
 }
 

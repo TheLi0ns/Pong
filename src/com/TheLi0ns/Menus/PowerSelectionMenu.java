@@ -13,7 +13,7 @@ import java.awt.*;
  * Display a power selection menu
  * @see PowerSelectionMenu#SET_OFFENSIVE_POWER
  * @see PowerSelectionMenu#SET_OFFENSIVE_POWER
- * @see PowerSelectionMenu#READYorStart
+ * @see PowerSelectionMenu#READY
  */
 public class PowerSelectionMenu extends Menu{
 
@@ -35,9 +35,8 @@ public class PowerSelectionMenu extends Menu{
 
     /**
      * Make the player ready to play
-     * or start the match in PVE
      */
-    public static final int READYorStart = 3;
+    public static final int READY = 3;
 
     //POWERS INDEXES BASED ON THE POSITION IN THE POWERS ENUMS
     public int offensivePower_index = 0;
@@ -80,12 +79,9 @@ public class PowerSelectionMenu extends Menu{
                 if (defensivePower_index > DefensivePowersEnum.values().length - 1) defensivePower_index = 0;
             }
 
-            case READYorStart ->{
-                if(MyFrame.gameLogic.getGameMode() == GameLogic.GameModes.PVE){
-                    MyFrame.gameLogic.startMatch();
-                    selectedOption = 1;
-                }
-                else ready = true;
+            case READY ->{
+                ready = true;
+                if(MyFrame.gameLogic.getGameMode() == GameLogic.GameModes.PVE) MyFrame.gameLogic.startMatch();
             }
         }
     }
@@ -113,21 +109,11 @@ public class PowerSelectionMenu extends Menu{
         if(selectedOption == SET_DEFENSIVE_POWER) g2d.drawString(">", x-30, y);
         g2d.drawString(DefensivePowersEnum.values()[defensivePower_index].name, 700, y);
 
-        //READYorStart
-        y += 60;
-
         //READY
-        if(MyFrame.gameLogic.getGameMode() == GameLogic.GameModes.PVP){
-            g2d.drawString("READY", x, y);
-            if(selectedOption == READYorStart && !ready) g2d.drawString(">", x-30, y);
-            if(ready) g2d.fillRect(700, y-30, 30, 30);
-            else g2d.drawRect(700, y-30, 30, 30);
-        }
-        //START
-        else{
-            int centeredX = Utils.xForCenteredText(g2d, font, GamePanel.WIDTH, "START");
-            g2d.drawString("START", centeredX, y);
-            if(selectedOption == READYorStart) g2d.drawString(">", centeredX-30, y);
-        }
+        y += 60;
+        g2d.drawString("READY", x, y);
+        if(selectedOption == READY && !ready) g2d.drawString(">", x-30, y);
+        if(ready) g2d.fillRect(700, y-30, 30, 30);
+        else g2d.drawRect(700, y-30, 30, 30);
     }
 }
