@@ -1,11 +1,11 @@
 package com.TheLi0ns.GameFrame;
 
 import com.TheLi0ns.Logic.GameLogic;
-import com.TheLi0ns.Menus.KeyBindingsMenu;
-import com.TheLi0ns.Menus.PowerSelectionMenu;
-import com.TheLi0ns.Menus.SettingsMenu;
-import com.TheLi0ns.Menus.TitleScreen;
-import com.TheLi0ns.SubMenus.GameModeSubMenu;
+import com.TheLi0ns.MenusHandling.Menus.KeyBindingsMenu;
+import com.TheLi0ns.MenusHandling.Menus.PowerSelectionMenu;
+import com.TheLi0ns.MenusHandling.Menus.SettingsMenu;
+import com.TheLi0ns.MenusHandling.Menus.TitleScreen;
+import com.TheLi0ns.MenusHandling.SubMenus.GameModeSubMenu;
 
 import javax.swing.*;
 import java.awt.*;

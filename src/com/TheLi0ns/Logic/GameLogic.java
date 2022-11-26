@@ -218,7 +218,7 @@ public class GameLogic implements Runnable{
             }
             if(isDefensivePowerRechargeable){
                 p1.setDefensivePower(GamePanel.p1PowerSelectionMenu.getSelectedDefensivePower());
-                p2.setDefensivePower(GamePanel.p1PowerSelectionMenu.getSelectedDefensivePower());
+                p2.setDefensivePower(GamePanel.p2PowerSelectionMenu.getSelectedDefensivePower());
             }
         }
     }

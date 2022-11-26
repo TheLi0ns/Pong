@@ -1,4 +1,4 @@
-package com.TheLi0ns.Menus;
+package com.TheLi0ns.MenusHandling.Menus;
 
 import java.awt.*;
 

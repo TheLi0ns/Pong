@@ -1,4 +1,4 @@
-package com.TheLi0ns.SubMenus;
+package com.TheLi0ns.MenusHandling.SubMenus;
 
 import java.awt.*;
 

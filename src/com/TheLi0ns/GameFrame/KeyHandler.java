@@ -1,7 +1,7 @@
 package com.TheLi0ns.GameFrame;
 
 import com.TheLi0ns.Logic.GameLogic;
-import com.TheLi0ns.Menus.KeyBindingsMenu;
+import com.TheLi0ns.MenusHandling.Menus.KeyBindingsMenu;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
