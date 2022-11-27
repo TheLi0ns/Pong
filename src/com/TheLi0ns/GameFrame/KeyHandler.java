@@ -122,7 +122,11 @@ public class KeyHandler implements KeyListener {
                 }
             }
 
-            if(code == KeyEvent.VK_ESCAPE) MyFrame.gameLogic.setGameState(GameLogic.GameStates.TITLE_SCREEN);
+            if(code == KeyEvent.VK_ESCAPE){
+                MyFrame.gameLogic.setGameState(GameLogic.GameStates.TITLE_SCREEN);
+                GamePanel.p1PowerSelectionMenu.resetSelectedOption();
+                GamePanel.p2PowerSelectionMenu.resetSelectedOption();
+            }
         }
 
         //KEY BINDINGS MENU

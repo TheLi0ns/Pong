@@ -1,6 +1,7 @@
 package com.TheLi0ns.SettingFiles;
 
 import com.TheLi0ns.SettingFiles.serializable.KeyBindings;
+import com.TheLi0ns.SettingFiles.serializable.PlayersPowers;
 import com.TheLi0ns.SettingFiles.serializable.Settings;
 
 import java.io.File;
@@ -9,6 +10,9 @@ import java.io.File;
  * It handles the {@link SettingFilesHandler#save() save}
  * and {@link SettingFilesHandler#load() load}
  * of the setting files
+ * @see KeyBindings
+ * @see Settings
+ * @see PlayersPowers
  */
 public class SettingFilesHandler {
     /**
@@ -24,15 +28,18 @@ public class SettingFilesHandler {
 
         new KeyBindings().save();
         new Settings().save();
+        new PlayersPowers().save();
     }
 
     public static void load(){
         Settings.load();
         KeyBindings.load();
+        PlayersPowers.load();
     }
 
     public static void loadDefault(){
         Settings.loadDefault();
         KeyBindings.loadDefault();
+        PlayersPowers.loadDefault();
     }
 }

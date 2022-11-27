@@ -5,6 +5,10 @@ import com.TheLi0ns.Utility.Utils;
 
 import java.awt.*;
 
+/**
+ * Option without any value or similar
+ * represented by its name centered
+ */
 public class CenteredOption extends Option{
 
     public CenteredOption(String name, int id) {

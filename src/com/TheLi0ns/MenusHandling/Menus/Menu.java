@@ -27,6 +27,10 @@ public abstract class Menu {
         if(selectedOption <= 0) selectedOption = N_OPTIONS;
     }
 
+    public void resetSelectedOption(){
+        selectedOption = 1;
+    }
+
     /**
      * This method define the action of the options
      * and fires the action of the selected option
