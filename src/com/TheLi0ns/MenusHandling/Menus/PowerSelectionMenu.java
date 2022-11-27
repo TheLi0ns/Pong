@@ -85,8 +85,11 @@ public class PowerSelectionMenu extends Menu{
         }
 
         else if(selectedOption == READY.ID){
-            ready = true;
-            if(MyFrame.gameLogic.getGameMode() == GameLogic.GameModes.PVE) MyFrame.gameLogic.startMatch();
+            if(MyFrame.gameLogic.getGameMode() == GameLogic.GameModes.PVE){
+                MyFrame.gameLogic.startMatch();
+                selectedOption = 1;
+            }
+            else ready = true;
         }
     }
 
