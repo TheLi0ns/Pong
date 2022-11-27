@@ -2,14 +2,20 @@ package com.TheLi0ns.SettingFiles.serializable;
 
 import com.TheLi0ns.GameFrame.KeyHandler;
 import com.TheLi0ns.SettingFiles.SettingFilesHandler;
+import com.google.gson.Gson;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Formatter;
+import java.util.Scanner;
 
 /**
  * Class that represents the keyBindings
- * for serialization and deserialization
+ * for json serialization and deserialization
  */
-public class KeyBindings implements Serializable {
+public class KeyBindings {
     int p1Left_keyCode;
     int p1Right_keyCode;
 
@@ -35,13 +41,15 @@ public class KeyBindings implements Serializable {
     }
 
     public void save(){
+        Gson gson = new Gson();
+        String json = gson.toJson(this);
         try {
-            FileOutputStream fileOut =
-                    new FileOutputStream(SettingFilesHandler.dir + "/keyBindings.ser");
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(this);
-            out.close();
-            fileOut.close();
+            File f = new File(SettingFilesHandler.dir + "/keyBindings.json");
+            if(!f.exists()) f.createNewFile();
+            Formatter formatter = new Formatter(f);
+            formatter.format("%s", json);
+            formatter.flush();
+            formatter.close();
         } catch (IOException i) {
             i.printStackTrace();
         }
@@ -50,13 +58,14 @@ public class KeyBindings implements Serializable {
     public static void load(){
         KeyBindings keyBindings;
 
+        Gson gson = new Gson();
+
         try {
-            FileInputStream fileIn = new FileInputStream(SettingFilesHandler.dir + "/keyBindings.ser");
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            keyBindings = (KeyBindings) in.readObject();
-            in.close();
+            FileInputStream fileIn = new FileInputStream(SettingFilesHandler.dir + "/keyBindings.json");
+            Scanner sc = new Scanner(fileIn);
+            keyBindings = gson.fromJson(sc.nextLine(), KeyBindings.class);
             fileIn.close();
-        } catch (IOException | ClassNotFoundException i) {
+        } catch (IOException i) {
             i.printStackTrace();
             return;
         }
@@ -67,13 +76,14 @@ public class KeyBindings implements Serializable {
     public static void loadDefault(){
         KeyBindings keyBindings;
 
+        Gson gson = new Gson();
+
         try {
-            InputStream fileIn = KeyBindings.class.getResourceAsStream("/default_settings/keyBindings.ser");
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            keyBindings = (KeyBindings) in.readObject();
-            in.close();
+            InputStream fileIn = Settings.class.getResourceAsStream("/default_settings/keyBindings.json");
+            Scanner sc = new Scanner(fileIn);
+            keyBindings = gson.fromJson(sc.nextLine(), KeyBindings.class);
             fileIn.close();
-        } catch (IOException | ClassNotFoundException i) {
+        } catch (IOException i) {
             i.printStackTrace();
             return;
         }

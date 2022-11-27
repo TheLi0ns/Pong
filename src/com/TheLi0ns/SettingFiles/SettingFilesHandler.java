@@ -22,6 +22,7 @@ public class SettingFilesHandler {
     public static String dir = "settings";
     static boolean dirExist;
     public static void save(){
+
         if(!dirExist){
             if(new File(dir).mkdir()) dirExist = true;
         }

@@ -2,10 +2,20 @@ package com.TheLi0ns.SettingFiles.serializable;
 
 import com.TheLi0ns.GameFrame.GamePanel;
 import com.TheLi0ns.SettingFiles.SettingFilesHandler;
+import com.google.gson.Gson;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Formatter;
+import java.util.Scanner;
 
-public class PlayersPowers implements Serializable {
+/**
+ * Class that represents the Players Powers
+ * for json serialization and deserialization
+ */
+public class PlayersPowers {
     int p1OffensivePower_index;
     int p1DefensivePower_index;
 
@@ -20,13 +30,15 @@ public class PlayersPowers implements Serializable {
     }
 
     public void save(){
+        Gson gson = new Gson();
+        String json = gson.toJson(this);
         try {
-            FileOutputStream fileOut =
-                    new FileOutputStream(SettingFilesHandler.dir + "/playersPowers.ser");
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(this);
-            out.close();
-            fileOut.close();
+            File f = new File(SettingFilesHandler.dir + "/playersPowers.json");
+            if(!f.exists()) f.createNewFile();
+            Formatter formatter = new Formatter(f);
+            formatter.format("%s", json);
+            formatter.flush();
+            formatter.close();
         } catch (IOException i) {
             i.printStackTrace();
         }
@@ -35,13 +47,14 @@ public class PlayersPowers implements Serializable {
     public static void load(){
         PlayersPowers playersPowers;
 
+        Gson gson = new Gson();
+
         try {
-            FileInputStream fileIn = new FileInputStream(SettingFilesHandler.dir + "/playersPowers.ser");
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            playersPowers = (PlayersPowers) in.readObject();
-            in.close();
+            FileInputStream fileIn = new FileInputStream(SettingFilesHandler.dir + "/playersPowers.json");
+            Scanner sc = new Scanner(fileIn);
+            playersPowers = gson.fromJson(sc.nextLine(), PlayersPowers.class);
             fileIn.close();
-        } catch (IOException | ClassNotFoundException i) {
+        } catch (IOException i) {
             i.printStackTrace();
             return;
         }
@@ -52,13 +65,14 @@ public class PlayersPowers implements Serializable {
     public static void loadDefault(){
         PlayersPowers playersPowers;
 
+        Gson gson = new Gson();
+
         try {
-            InputStream fileIn = KeyBindings.class.getResourceAsStream("/default_settings/playersPowers.ser");
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            playersPowers = (PlayersPowers) in.readObject();
-            in.close();
+            InputStream fileIn = Settings.class.getResourceAsStream("/default_settings/playersPowers.json");
+            Scanner sc = new Scanner(fileIn);
+            playersPowers = gson.fromJson(sc.nextLine(), PlayersPowers.class);
             fileIn.close();
-        } catch (IOException | ClassNotFoundException i) {
+        } catch (IOException i) {
             i.printStackTrace();
             return;
         }

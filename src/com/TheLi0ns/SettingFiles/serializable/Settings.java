@@ -3,14 +3,20 @@ package com.TheLi0ns.SettingFiles.serializable;
 import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.SettingFiles.SettingFilesHandler;
 import com.TheLi0ns.Utility.Sound;
+import com.google.gson.Gson;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Formatter;
+import java.util.Scanner;
 
 /**
  * Class that represents the general settings
- * for serialization and deserialization
+ * for json serialization and deserialization
  */
-public class Settings implements Serializable {
+public class Settings {
     int pointToWin;
     boolean arePowersEnabled;
     int volumeScale;
@@ -22,13 +28,15 @@ public class Settings implements Serializable {
     }
 
     public void save(){
+        Gson gson = new Gson();
+        String json = gson.toJson(this);
         try {
-            FileOutputStream fileOut =
-                    new FileOutputStream(SettingFilesHandler.dir + "/settings.ser");
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(this);
-            out.close();
-            fileOut.close();
+            File f = new File(SettingFilesHandler.dir + "/settings.json");
+            if(!f.exists()) f.createNewFile();
+            Formatter formatter = new Formatter(f);
+            formatter.format("%s", json);
+            formatter.flush();
+            formatter.close();
         } catch (IOException i) {
             i.printStackTrace();
         }
@@ -37,13 +45,14 @@ public class Settings implements Serializable {
     public static void load(){
         Settings settings;
 
+        Gson gson = new Gson();
+
         try {
-            FileInputStream fileIn = new FileInputStream(SettingFilesHandler.dir + "/settings.ser");
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            settings = (Settings) in.readObject();
-            in.close();
+            FileInputStream fileIn = new FileInputStream(SettingFilesHandler.dir + "/settings.json");
+            Scanner sc = new Scanner(fileIn);
+            settings = gson.fromJson(sc.nextLine(), Settings.class);
             fileIn.close();
-        } catch (IOException | ClassNotFoundException i) {
+        } catch (IOException i) {
             i.printStackTrace();
             return;
         }
@@ -54,17 +63,17 @@ public class Settings implements Serializable {
     public static void loadDefault(){
         Settings settings;
 
+        Gson gson = new Gson();
+
         try {
-            InputStream fileIn = Settings.class.getResourceAsStream("/default_settings/settings.ser");
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            settings = (Settings) in.readObject();
-            in.close();
+            InputStream fileIn = Settings.class.getResourceAsStream("/default_settings/settings.json");
+            Scanner sc = new Scanner(fileIn);
+            settings = gson.fromJson(sc.nextLine(), Settings.class);
             fileIn.close();
-        } catch (IOException | ClassNotFoundException i) {
+        } catch (IOException i) {
             i.printStackTrace();
             return;
         }
-
         setSettings(settings);
     }
 
