@@ -1,46 +1,40 @@
 package com.TheLi0ns.GameObject;
 
+import com.TheLi0ns.GameFrame.GamePanel;
+import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.Utility.Assets;
 import com.TheLi0ns.Utility.Collisions;
 import com.TheLi0ns.Utility.Sound;
+import com.TheLi0ns.Utility.Vector2D;
 
 import java.awt.*;
 
 public class Ball {
     private final Image BALL_IMAGE = Assets.BALL;
     private final Image[] FIREBALL_IMAGES = Assets.FIRE_BALL;
-    private int x;
-    private int y;
+    private Vector2D position;
     private final int WIDTH = BALL_IMAGE.getWidth(null);
     private final int HEIGHT = BALL_IMAGE.getHeight(null);
-    private int xVelocity;
-    private int yVelocity;
+    private Vector2D velocity;
     private boolean fireball = false;
 
     public Ball(int x, int y, int xVelocity, int yVelocity){
-        this.x = x;
-        this.y = y;
-        this.xVelocity = xVelocity;
-        this.yVelocity = yVelocity;
+        position = new Vector2D(x, y);
+        velocity = new Vector2D(xVelocity, yVelocity);
     }
 
     private void move(){
-        if(yVelocity == 0){
-            if(y < 500){
-                yVelocity = 2;
-            }else {
-                yVelocity = -2;
-            }
-        }
-        x += xVelocity;
-        y += yVelocity;
+        //AntiBug
+        if(velocity.getY() == 0) velocity.setY(position.getY() < GamePanel.CENTER ? 2 : -2);
+
+        position.add(velocity);
     }
 
     private void checkCollisions(Player p1, Player p2){
 
         //WALL COLLISION
         if(Collisions.checkWallCollision(this)) {
-            xVelocity *= -1;
+            velocity.flipHorizontally();
             Sound.play(Sound.WALL_HIT_SOUND);
         }
 
@@ -54,7 +48,7 @@ public class Ball {
 
             speedUp();
 
-            yVelocity *= -1;
+            velocity.flipVertically();
 
             player.setMovementEnabled(false);
 
@@ -76,11 +70,12 @@ public class Ball {
             }
 
             //AntiBug
-            if(player.getY() > 500){
-                this.y = player.getY()-1- HEIGHT;
+            if(player.getY() > GamePanel.CENTER){
+                position.setY(player.getY()-1- HEIGHT);
             }else {
-                this.y = player.getY() + player.getHeight() + 1;
+                position.setY(player.getY() + player.getHeight() + 1);
             }
+
         }else if(!player.isMovementEnabled()){
             player.setMovementEnabled(true);
         }
@@ -92,14 +87,11 @@ public class Ball {
      * @param player player who collided
      */
     private void edgeBounce(Player player) {
-        if(xVelocity > 0){
-            xVelocity += 2;
-        }else {
-            xVelocity -= 2;
-        }
+        velocity.increment(new Vector2D(2, 0));
 
-        if((x > (player.getX() + 100) && xVelocity < 0) || (x < (player.getX() + player.getWidth() - 100) && xVelocity > 0)){
-            xVelocity *= -1;
+        if((position.getX() > (player.getX() + 100) && velocity.getX() < 0) ||
+                (position.getX() < (player.getX() + player.getWidth() - 100) && velocity.getX() > 0)){
+            velocity.flipHorizontally();
         }
     }
 
@@ -112,26 +104,16 @@ public class Ball {
     private void fireShot(Player player){
         this.fireball = true;
 
-        if(xVelocity > 0){
-            xVelocity = 2;
-        }else xVelocity = -2;
+        velocity.setX(velocity.getX() > 0 ? 2 : -2);
 
-        if(yVelocity > 0){
-            yVelocity += 15;
-        }else yVelocity -= 15;
+        velocity.add(new Vector2D(0, 15));
 
         Sound.play(Sound.FIRESHOT_SOUND);
         player.setFireShotActivated(false);
     }
 
     private void speedUp(){
-        if(yVelocity > 0){
-            yVelocity++;
-        }else yVelocity--;
-
-        if(xVelocity > 0){
-            xVelocity++;
-        }else xVelocity--;
+        velocity.increment(new Vector2D(1, 1));
     }
 
     public void update(Player p1, Player p2){
@@ -145,24 +127,25 @@ public class Ball {
      *         IN if the ball not scored
      */
     public String checkScored(){
-        if(y < -HEIGHT){
+        if(position.getY() < -HEIGHT){
             return "UP";
-        }else if(y > 1000){
+        }else if(position.getY() > 1000){
             return "DOWN";
         }
         else return "IN";
     }
 
     public Rectangle getHitbox(){
-        return new Rectangle(x, y, WIDTH, HEIGHT);
+        return new Rectangle(position.getX(), position.getY(), WIDTH, HEIGHT);
     }
 
     public int getX() {
-        return x;
+        return position.getX();
     }
     public int getY() {
-        return y;
+        return position.getY();
     }
+    public Vector2D getPosition(){return position;}
     public int getWidth() {
         return WIDTH;
     }
@@ -170,15 +153,16 @@ public class Ball {
         return HEIGHT;
     }
     public int getxVelocity() {
-        return xVelocity;
+        return velocity.getX();
     }
     public int getyVelocity() {
-        return yVelocity;
+        return velocity.getY();
     }
+    public Vector2D getVelocity(){return velocity;}
 
     public void draw(Graphics2D g2d){
         if(fireball){
-            g2d.drawImage(this.FIREBALL_IMAGES[yVelocity>0 ? 1 : 0], this.x, this.y, null);
-        }else g2d.drawImage(this.BALL_IMAGE, this.x, this.y, null);
+            g2d.drawImage(this.FIREBALL_IMAGES[velocity.getY() > 0 ? 1 : 0], position.getX(), position.getY(), null);
+        }else g2d.drawImage(this.BALL_IMAGE, position.getX(), position.getY(), null);
     }
 }

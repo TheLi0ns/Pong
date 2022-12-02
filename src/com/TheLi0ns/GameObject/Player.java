@@ -1,9 +1,11 @@
 package com.TheLi0ns.GameObject;
 
+import com.TheLi0ns.GameFrame.GamePanel;
 import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.Powers.DefensivePowers.*;
 import com.TheLi0ns.Powers.OffensivePowers.*;
 import com.TheLi0ns.Utility.Assets;
+import com.TheLi0ns.Utility.Directions;
 import com.TheLi0ns.Utility.Sound;
 
 import java.awt.*;
@@ -42,38 +44,29 @@ public class Player {
     protected boolean areControlsInverted = false;
     protected boolean isParrying = false;
 
-    protected enum DIRECTION{
-        LEFT,
-        RIGHT
-    }
-
     public Player(int x, int y, int xVelocity){
         this.x = x;
         this.y = y;
         this.xVelocity = xVelocity;
     }
 
-    public void setArePowersEnabled(boolean arePowersEnabled) {
-        this.arePowersEnabled = arePowersEnabled;
-    }
-
-    protected void move(DIRECTION direction){
+    protected void move(Directions direction){
 
         if(areControlsInverted){
-            if(direction == DIRECTION.LEFT) direction = DIRECTION.RIGHT;
-            else direction = DIRECTION.LEFT;
+            if(direction == Directions.LEFT) direction = Directions.RIGHT;
+            else direction = Directions.LEFT;
         }
 
         switch (direction){
             case LEFT ->{
-                if(x - xVelocity < 5){
+                if(x - xVelocity < GamePanel.LEFT_BOUND){
                     return;
                 }
                 x -= xVelocity;
             }
 
             case RIGHT ->{
-                if(x + width + xVelocity > 995){
+                if(x + width + xVelocity > GamePanel.RIGHT_BOUND){
                     return;
                 }
                 x += xVelocity;
@@ -83,10 +76,10 @@ public class Player {
 
     public void update(){
         if(isLeftPressed && isMovementEnabled){
-            move(DIRECTION.LEFT);
+            move(Directions.LEFT);
         }
         if(isRightPressed && isMovementEnabled){
-            move(DIRECTION.RIGHT);
+            move(Directions.RIGHT);
         }
     }
 
