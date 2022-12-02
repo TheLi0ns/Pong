@@ -36,6 +36,12 @@ public class Sound {
 
     public static URL INVERTED_CONTROLS_SOUND;
 
+    public static URL OPTION_SELECTION;
+
+    public static URL OPTION_CLICK;
+
+    public static URL QUIT;
+
     //SET VOLUME VARIABLES
     static FloatControl gain_fc;
     static float volume;
@@ -47,22 +53,27 @@ public class Sound {
 
         WALL_HIT_SOUND = getClass().getResource("/SFX/Wall hit.wav");
 
-        FIRESHOT_SOUND = getClass().getResource("/SFX/FireShot.wav");
+        FIRESHOT_SOUND = getClass().getResource("/SFX/powers/FireShot.wav");
 
-        SPEED_SOUND[0] = getClass().getResource("/SFX/end Speed powerup.wav");
-        SPEED_SOUND[1] = getClass().getResource("/SFX/Speed powerup.wav");
+        SPEED_SOUND[0] = getClass().getResource("/SFX/powers/end Speed powerup.wav");
+        SPEED_SOUND[1] = getClass().getResource("/SFX/powers/Speed powerup.wav");
 
-        LARGE_SOUND[0] = getClass().getResource("/SFX/end Large racket powerup.wav");
-        LARGE_SOUND[1] = getClass().getResource("/SFX/Large racket powerup.wav");
+        LARGE_SOUND[0] = getClass().getResource("/SFX/powers/end Large racket powerup.wav");
+        LARGE_SOUND[1] = getClass().getResource("/SFX/powers/Large racket powerup.wav");
 
-        SHRINK_SOUND[0] = getClass().getResource("/SFX/end Shrink.wav");
-        SHRINK_SOUND[1] = getClass().getResource("/SFX/Shrink.wav");
+        SHRINK_SOUND[0] = getClass().getResource("/SFX/powers/end Shrink.wav");
+        SHRINK_SOUND[1] = getClass().getResource("/SFX/powers/Shrink.wav");
 
-        INVERTED_CONTROLS_SOUND = getClass().getResource("/SFX/Inverted controls powerup.wav");
+        INVERTED_CONTROLS_SOUND = getClass().getResource("/SFX/powers/Inverted controls powerup.wav");
 
         SCORE_SOUND = getClass().getResource("/SFX/point score.wav");
 
-        PARRY_SOUND = getClass().getResource("/SFX/parry.wav");
+        PARRY_SOUND = getClass().getResource("/SFX/powers/parry.wav");
+
+        OPTION_SELECTION = getClass().getResource("/SFX/GUI/option_selection.wav");
+        OPTION_CLICK  = getClass().getResource("/SFX/GUI/option_click.wav");
+
+        QUIT = getClass().getResource("/SFX/GUI/quit.wav");
     }
 
     public static void play(URL url) {

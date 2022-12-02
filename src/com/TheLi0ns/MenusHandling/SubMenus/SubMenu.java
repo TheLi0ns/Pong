@@ -1,5 +1,7 @@
 package com.TheLi0ns.MenusHandling.SubMenus;
 
+import com.TheLi0ns.Utility.Sound;
+
 import java.awt.*;
 
 /**
@@ -23,6 +25,7 @@ public abstract class SubMenu {
     }
 
     public void nextOption(){
+        Sound.play(Sound.OPTION_SELECTION);
         selectedOption++;
         if(selectedOption > N_OPTIONS){
             back();
@@ -31,6 +34,7 @@ public abstract class SubMenu {
     }
 
     public void previousOption(){
+        Sound.play(Sound.OPTION_SELECTION);
         selectedOption--;
         if(selectedOption <= 0){
             back();

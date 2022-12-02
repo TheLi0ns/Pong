@@ -5,6 +5,7 @@ import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.Logic.GameLogic;
 import com.TheLi0ns.MenusHandling.Options.CenteredOption;
 import com.TheLi0ns.MenusHandling.Options.ValueOption;
+import com.TheLi0ns.Utility.Sound;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -115,6 +116,8 @@ public class KeyBindingsMenu extends Menu{
         else if(selectedOption == P2_DEFENSIVE_POWER_KEY_OPTION.ID) isP2DefensivePowerKeyListening = true;
 
         else if(selectedOption == BACK.ID) MyFrame.gameLogic.setGameState(GameLogic.GameStates.SETTINGS_MENU);
+
+        Sound.play(Sound.OPTION_CLICK);
     }
 
     @Override

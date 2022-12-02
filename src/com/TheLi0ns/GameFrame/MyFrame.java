@@ -31,7 +31,13 @@ public class MyFrame extends JFrame {
      * Saves settings and exits the app
      */
     public static void quit(){
+        Sound.play(Sound.QUIT);
         SettingFilesHandler.save();
+        try {
+            Thread.sleep(1650);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         System.exit(0);
     }
 }

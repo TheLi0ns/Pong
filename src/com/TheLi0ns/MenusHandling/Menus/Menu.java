@@ -1,5 +1,7 @@
 package com.TheLi0ns.MenusHandling.Menus;
 
+import com.TheLi0ns.Utility.Sound;
+
 import java.awt.*;
 
 /**
@@ -18,11 +20,13 @@ public abstract class Menu {
     Menu(int nOptions){N_OPTIONS = nOptions;}
 
     public void nextOption(){
+        Sound.play(Sound.OPTION_SELECTION);
         selectedOption++;
         if(selectedOption > N_OPTIONS) selectedOption = 1;
     }
 
     public void previousOption(){
+        Sound.play(Sound.OPTION_SELECTION);
         selectedOption--;
         if(selectedOption <= 0) selectedOption = N_OPTIONS;
     }

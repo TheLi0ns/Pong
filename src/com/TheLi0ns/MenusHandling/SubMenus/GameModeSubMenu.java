@@ -4,6 +4,7 @@ import com.TheLi0ns.AI.AI;
 import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.Logic.GameLogic;
 import com.TheLi0ns.MenusHandling.Options.CenteredOption;
+import com.TheLi0ns.Utility.Sound;
 
 import java.awt.*;
 
@@ -72,6 +73,8 @@ public class GameModeSubMenu extends SubMenu {
         }
 
         selectedOption = 1;
+
+        Sound.play(Sound.OPTION_CLICK);
     }
 
     @Override

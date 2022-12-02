@@ -84,6 +84,8 @@ public class SettingsMenu extends Menu {
             MyFrame.gameLogic.setGameState(GameLogic.GameStates.TITLE_SCREEN);
             selectedOption = 1;
         }
+
+        Sound.play(Sound.OPTION_CLICK);
     }
 
     @Override

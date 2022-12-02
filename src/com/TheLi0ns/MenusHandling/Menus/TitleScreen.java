@@ -5,6 +5,7 @@ import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.Logic.GameLogic;
 import com.TheLi0ns.MenusHandling.Options.CenteredOption;
 import com.TheLi0ns.MenusHandling.SubMenus.GameModeSubMenu;
+import com.TheLi0ns.Utility.Sound;
 import com.TheLi0ns.Utility.Utils;
 
 import java.awt.*;
@@ -43,13 +44,16 @@ public class TitleScreen extends Menu{
     }
 
     @Override
-    public void clickOption(){
+    public void clickOption() {
 
-        if(selectedOption == PLAY_OPTION.ID) MyFrame.gameLogic.setGameState(GameLogic.GameStates.PLAY_SUBMENU);
+        if (selectedOption == PLAY_OPTION.ID) MyFrame.gameLogic.setGameState(GameLogic.GameStates.PLAY_SUBMENU);
 
-        else if(selectedOption == SETTINGS_OPTION.ID) MyFrame.gameLogic.setGameState(GameLogic.GameStates.SETTINGS_MENU);
+        else if (selectedOption == SETTINGS_OPTION.ID)
+            MyFrame.gameLogic.setGameState(GameLogic.GameStates.SETTINGS_MENU);
 
-        else if(selectedOption == QUIT_OPTION.ID) MyFrame.quit();
+        else if (selectedOption == QUIT_OPTION.ID) MyFrame.quit();
+
+        Sound.play(Sound.OPTION_CLICK);
     }
 
     @Override

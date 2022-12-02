@@ -7,6 +7,7 @@ import com.TheLi0ns.MenusHandling.Options.BooleanOption;
 import com.TheLi0ns.MenusHandling.Options.ValueOption;
 import com.TheLi0ns.Powers.DefensivePowers.DefensivePowersEnum;
 import com.TheLi0ns.Powers.OffensivePowers.OffensivePowersEnum;
+import com.TheLi0ns.Utility.Sound;
 import com.TheLi0ns.Utility.Utils;
 
 import java.awt.*;
@@ -91,6 +92,8 @@ public class PowerSelectionMenu extends Menu{
             }
             else ready = true;
         }
+
+        Sound.play(Sound.OPTION_CLICK);
     }
 
     @Override
