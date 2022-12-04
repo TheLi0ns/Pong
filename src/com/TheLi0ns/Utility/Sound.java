@@ -13,6 +13,8 @@ public class Sound {
      */
     static ArrayList<Clip> clips = new ArrayList<>();
 
+    static boolean stopping = false;
+
     public static URL PLAYER_HIT_SOUND;
 
     public static URL WALL_HIT_SOUND;
@@ -86,17 +88,14 @@ public class Sound {
     }
 
     public static void stop(){
-        try {
-            Thread.sleep(10);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        stopping = true;
         for (Clip i : clips) {
             i.stop();
             i.flush();
             i.close();
         }
         clips.clear();
+        stopping = false;
     }
 
     private static void playSound() {
@@ -116,7 +115,7 @@ public class Sound {
 
             //Make the clip self-removing from the clips ArrayList when it stops
             clip.addLineListener(event -> {
-                if(event.getType() == LineEvent.Type.STOP) {
+                if(event.getType() == LineEvent.Type.STOP && !stopping) {
                     clips.remove((Clip) event.getLine());
                 }
             });
