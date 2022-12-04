@@ -1,6 +1,8 @@
 package com.TheLi0ns.Powers.OffensivePowers;
 
+import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.GameObject.Player;
+import com.TheLi0ns.Logic.GameLogic;
 import com.TheLi0ns.Utility.Assets;
 import com.TheLi0ns.Utility.Sound;
 
@@ -32,16 +34,19 @@ public class OffensivePowerInvertedControls extends OffensivePowers_super{
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            effectOnOpponent(false);
+            //CHECK IF THE MATCH IS STILL GOING
+            if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.PLAYING) effectOnOpponent(false);
         }).start();
     }
 
     @Override
     protected void effectOnOpponent(boolean on_off) {
         opponent.setAreControlsInverted(on_off);
-        Sound.play(INVERTED_CONTROLS_SOUND);
 
-        if(on_off) opponent.setPLAYER_IMAGE(INVERTED_PLAYER_IMAGE);
+        if(on_off) {
+            Sound.play(INVERTED_CONTROLS_SOUND);
+            opponent.setPLAYER_IMAGE(INVERTED_PLAYER_IMAGE);
+        }
         else opponent.setPLAYER_IMAGE(opponent.getNORMAL_PLAYER_IMAGE());
     }
 

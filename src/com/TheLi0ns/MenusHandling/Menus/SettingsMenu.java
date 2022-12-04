@@ -80,17 +80,20 @@ public class SettingsMenu extends Menu {
 
         else if(selectedOption == DEFAULT_SETTINGS_OPTION.ID) SettingFilesHandler.loadDefault();
 
-        else if(selectedOption == BACK.ID){
-            MyFrame.gameLogic.setGameState(GameLogic.GameStates.TITLE_SCREEN);
-            selectedOption = 1;
-        }
+        else if(selectedOption == BACK.ID) back();
 
         Sound.play(Sound.OPTION_CLICK);
     }
 
     @Override
+    protected void back() {
+        super.back();
+        MyFrame.gameLogic.setGameState(GameLogic.GameStates.TITLE_SCREEN);
+    }
+
+    @Override
     public void draw(Graphics2D g2d) {
-        Font font = new Font("Comic Sans MS", 0, 30);
+        Font font = new Font("Comic Sans MS", Font.PLAIN, 30);
         g2d.setFont(font);
         g2d.setColor(Color.WHITE);
         int x = 100;

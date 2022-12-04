@@ -83,7 +83,7 @@ public class GameLogic implements Runnable{
         if(gameMode == GameModes.PVP) p2 = new Player(391, 53, 6);
         else if(gameMode == GameModes.PVE) p2 = new AI(391, 53, 7, GamePanel.gameModeSubMenu.getDifficultyChosen());
 
-        ball = new Ball(472, 468, genRandomxVelocity(), 6);
+        ball = new Ball(genRandomxVelocity(), 6);
 
         isOffensivePowerRechargeable = pointsToWin > 5;
         isDefensivePowerRechargeable = pointsToWin > 3;
@@ -150,7 +150,7 @@ public class GameLogic implements Runnable{
                 p1.hasScored();
                 if(arePowersEnabled) p2.ChargingPowers();
                 if(!hasSomeoneWins()) {
-                    ball = new Ball(472, 468, genRandomxVelocity(), 5);
+                    ball = new Ball(genRandomxVelocity(), 5);
                 }else{
                     finish();
                 }
@@ -159,7 +159,7 @@ public class GameLogic implements Runnable{
                 p2.hasScored();
                 if(arePowersEnabled) p1.ChargingPowers();
                 if(!hasSomeoneWins()) {
-                    ball = new Ball(472, 468, genRandomxVelocity(), -5);
+                    ball = new Ball(genRandomxVelocity(), -5);
                 }else{
                     finish();
                 }

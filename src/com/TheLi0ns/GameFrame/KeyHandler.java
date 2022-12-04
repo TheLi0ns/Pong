@@ -2,6 +2,7 @@ package com.TheLi0ns.GameFrame;
 
 import com.TheLi0ns.Logic.GameLogic;
 import com.TheLi0ns.MenusHandling.Menus.KeyBindingsMenu;
+import com.TheLi0ns.Utility.Sound;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -63,7 +64,10 @@ public class KeyHandler implements KeyListener {
 
             else if(code == KeyEvent.VK_P) MyFrame.gameLogic.togglePause();
 
-            else if(code == KeyEvent.VK_ESCAPE) MyFrame.gameLogic.setGameState(GameLogic.GameStates.TITLE_SCREEN);
+            else if(code == KeyEvent.VK_ESCAPE) {
+                MyFrame.gameLogic.setGameState(GameLogic.GameStates.TITLE_SCREEN);
+                Sound.stop();
+            }
 
             else if(code == KeyEvent.VK_R) MyFrame.gameLogic.startMatch();
         }
@@ -114,7 +118,7 @@ public class KeyHandler implements KeyListener {
                 }
             }
 
-            if(!GamePanel.p2PowerSelectionMenu.isReady()) {
+            if(!GamePanel.p2PowerSelectionMenu.isReady() && MyFrame.gameLogic.getGameMode() == GameLogic.GameModes.PVP) {
                 switch (code) {
                     case KeyEvent.VK_UP -> GamePanel.p2PowerSelectionMenu.previousOption();
                     case KeyEvent.VK_DOWN -> GamePanel.p2PowerSelectionMenu.nextOption();

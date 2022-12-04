@@ -35,6 +35,10 @@ public abstract class Menu {
         selectedOption = 1;
     }
 
+    protected void back(){
+        resetSelectedOption();
+    }
+
     /**
      * This method define the action of the options
      * and fires the action of the selected option

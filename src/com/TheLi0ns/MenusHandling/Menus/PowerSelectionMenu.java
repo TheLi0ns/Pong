@@ -82,7 +82,7 @@ public class PowerSelectionMenu extends Menu{
 
         else if(selectedOption == SET_DEFENSIVE_POWER.ID){
             defensivePower_index++;
-            if (defensivePower_index > DefensivePowersEnum.values().length - 1) offensivePower_index = 0;
+            if (defensivePower_index > DefensivePowersEnum.values().length - 1) defensivePower_index = 0;
         }
 
         else if(selectedOption == READY.ID){
@@ -97,8 +97,14 @@ public class PowerSelectionMenu extends Menu{
     }
 
     @Override
+    public void resetSelectedOption() {
+        super.resetSelectedOption();
+        ready = false;
+    }
+
+    @Override
     public void draw(Graphics2D g2d) {
-        Font font = new Font("Comic Sans MS", 0, 30);
+        Font font = new Font("Comic Sans MS", Font.PLAIN, 30);
         g2d.setFont(font);
         g2d.setColor(Color.WHITE);
         int x = 100;

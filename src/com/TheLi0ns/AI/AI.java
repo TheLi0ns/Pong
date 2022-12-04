@@ -5,6 +5,7 @@ import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.GameObject.Player;
 import com.TheLi0ns.Utility.Directions;
 import com.TheLi0ns.Utility.Utils;
+
 import java.awt.*;
 
 public class AI extends Player {

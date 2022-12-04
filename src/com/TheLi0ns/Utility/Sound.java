@@ -1,13 +1,17 @@
 package com.TheLi0ns.Utility;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.*;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class Sound {
+
     static Clip clip;
+
+    /**
+     * List of playing clips
+     */
+    static ArrayList<Clip> clips = new ArrayList<>();
 
     public static URL PLAYER_HIT_SOUND;
 
@@ -81,11 +85,26 @@ public class Sound {
         playSound();
     }
 
+    public static void stop(){
+        try {
+            Thread.sleep(10);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        for (Clip i : clips) {
+            i.stop();
+            i.flush();
+            i.close();
+        }
+        clips.clear();
+    }
+
     private static void playSound() {
         clip.start();
     }
 
     private static void setSound(URL url) {
+
         AudioInputStream ais;
         try {
             ais = AudioSystem.getAudioInputStream(url);
@@ -93,6 +112,15 @@ public class Sound {
             clip.open(ais);
             gain_fc = (FloatControl)clip.getControl(FloatControl.Type.MASTER_GAIN);
             gain_fc.setValue(volume);
+            clips.add(clip);
+
+            //Make the clip self-removing from the clips ArrayList when it stops
+            clip.addLineListener(event -> {
+                if(event.getType() == LineEvent.Type.STOP) {
+                    clips.remove((Clip) event.getLine());
+                }
+            });
+
         } catch (Exception ignored) {}
     }
 

@@ -1,7 +1,6 @@
 package com.TheLi0ns.GameObject;
 
 import com.TheLi0ns.GameFrame.GamePanel;
-import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.Utility.Assets;
 import com.TheLi0ns.Utility.Collisions;
 import com.TheLi0ns.Utility.Sound;
@@ -17,6 +16,11 @@ public class Ball {
     private final int HEIGHT = BALL_IMAGE.getHeight(null);
     private Vector2D velocity;
     private boolean fireball = false;
+
+    public Ball(int xVelocity, int yVelocity){
+        position = new Vector2D(472, 468);
+        velocity = new Vector2D(xVelocity, yVelocity);
+    }
 
     public Ball(int x, int y, int xVelocity, int yVelocity){
         position = new Vector2D(x, y);
@@ -106,7 +110,7 @@ public class Ball {
 
         velocity.setX(velocity.getX() > 0 ? 2 : -2);
 
-        velocity.add(new Vector2D(0, 15));
+        velocity.increment(new Vector2D(0, 15));
 
         Sound.play(Sound.FIRESHOT_SOUND);
         player.setFireShotActivated(false);
@@ -129,7 +133,7 @@ public class Ball {
     public String checkScored(){
         if(position.getY() < -HEIGHT){
             return "UP";
-        }else if(position.getY() > 1000){
+        }else if(position.getY() > GamePanel.HEIGHT){
             return "DOWN";
         }
         else return "IN";

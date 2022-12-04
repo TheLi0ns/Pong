@@ -115,14 +115,20 @@ public class KeyBindingsMenu extends Menu{
         else if(selectedOption == P2_OFFENSIVE_POWER_KEY_OPTION.ID) isP2OffensivePowerKeyListening = true;
         else if(selectedOption == P2_DEFENSIVE_POWER_KEY_OPTION.ID) isP2DefensivePowerKeyListening = true;
 
-        else if(selectedOption == BACK.ID) MyFrame.gameLogic.setGameState(GameLogic.GameStates.SETTINGS_MENU);
+        else if(selectedOption == BACK.ID) back();
 
         Sound.play(Sound.OPTION_CLICK);
     }
 
     @Override
+    protected void back() {
+        super.back();
+        MyFrame.gameLogic.setGameState(GameLogic.GameStates.SETTINGS_MENU);
+    }
+
+    @Override
     public void draw(Graphics2D g2d) {
-        Font font = new Font("Comic Sans MS", 0, 30);
+        Font font = new Font("Comic Sans MS", Font.PLAIN, 30);
         g2d.setFont(font);
         g2d.setColor(Color.WHITE);
         int x = 100;
