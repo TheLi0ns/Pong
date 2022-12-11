@@ -16,6 +16,8 @@ public class Assets {
     private static final Image FIRE_BALL_UP = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/ball/Fire ball up.png"))).getImage();
     private static final Image FIRE_BALL_DOWN = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/ball/Fire ball down.png"))).getImage();
 
+    public static final Image GAME_PREVIEW = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/Game preview.png"))).getImage();
+
     /**
      * 0 UP 1 DOWN
      */

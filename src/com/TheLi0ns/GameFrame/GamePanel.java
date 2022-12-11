@@ -1,10 +1,7 @@
 package com.TheLi0ns.GameFrame;
 
 import com.TheLi0ns.Logic.GameLogic;
-import com.TheLi0ns.MenusHandling.Menus.KeyBindingsMenu;
-import com.TheLi0ns.MenusHandling.Menus.PowerSelectionMenu;
-import com.TheLi0ns.MenusHandling.Menus.SettingsMenu;
-import com.TheLi0ns.MenusHandling.Menus.TitleScreen;
+import com.TheLi0ns.MenusHandling.Menus.*;
 import com.TheLi0ns.MenusHandling.SubMenus.GameModeSubMenu;
 
 import javax.swing.*;
@@ -27,6 +24,7 @@ public class GamePanel extends JPanel {
     public static KeyBindingsMenu keyBindingsMenu = new KeyBindingsMenu();
     public static PowerSelectionMenu p1PowerSelectionMenu = new PowerSelectionMenu(1);
     public static PowerSelectionMenu p2PowerSelectionMenu = new PowerSelectionMenu(2);
+    public static MiniGamesMenu miniGamesMenu = new MiniGamesMenu();
 
     GamePanel(){
         setPreferredSize(new Dimension(WIDTH,HEIGHT));
@@ -74,6 +72,10 @@ public class GamePanel extends JPanel {
         else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.PLAY_SUBMENU){
             titleScreen.draw(g2d);
             gameModeSubMenu.draw(g2d);
+        }
+        //MINI-GAMES MENU
+        else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.MINI_GAMES_MENU){
+            miniGamesMenu.draw(g2d);
         }
         //SETTINGS MENU
         else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.SETTINGS_MENU){
@@ -250,7 +252,7 @@ public class GamePanel extends JPanel {
     }
 
     private void drawPauseScreen(Graphics2D g2d){
-        g2d.setFont(new Font("Comic Sans MS", 0, 30));
+        g2d.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
         g2d.setColor(Color.WHITE);
         int x = 100;
         int y = 200;

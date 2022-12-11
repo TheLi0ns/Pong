@@ -49,6 +49,7 @@ public class GameLogic implements Runnable{
     public enum GameStates {
         TITLE_SCREEN,
         PLAY_SUBMENU,
+        MINI_GAMES_MENU,
         SETTINGS_MENU,
         KEY_BINDINGS_MENU,
         SELECTING_POWERS,
@@ -61,7 +62,12 @@ public class GameLogic implements Runnable{
 
     public enum GameModes{
         PVP,
-        PVE
+        PVE,
+        /**
+         * A mini-game in which you have
+         * to dribble to get the highest score
+         */
+        DRIBBLE,
     }
 
     public GameLogic(){

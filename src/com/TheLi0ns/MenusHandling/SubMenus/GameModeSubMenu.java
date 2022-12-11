@@ -37,7 +37,7 @@ public class GameModeSubMenu extends SubMenu {
     private static AI.Difficulties difficultyChosen;
 
     public GameModeSubMenu() {
-        super(3, 160);
+        super(3, 150);
     }
 
     public AI.Difficulties getDifficultyChosen() {
@@ -80,12 +80,12 @@ public class GameModeSubMenu extends SubMenu {
     @Override
     public void draw(Graphics2D g2d) {
 
-        int y = 460;
-        int y_offset = 60;
+        int y = 480;
+        int y_offset = 50;
 
         g2d.setColor(Color.GRAY);
 
-        Font font = new Font("Comic Sans MS", 0, 30);
+        Font font = new Font("Comic Sans MS", Font.PLAIN, 25);
         g2d.setFont(font);
 
         y = PVP_OPTION.draw(y, 0, PVP_OPTION.isSelected(selectedOption), g2d);

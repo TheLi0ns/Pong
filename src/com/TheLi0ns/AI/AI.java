@@ -7,8 +7,6 @@ import com.TheLi0ns.Utility.Directions;
 import com.TheLi0ns.Utility.Utils;
 import com.TheLi0ns.Utility.Vector2D;
 
-import java.awt.*;
-
 public class AI extends Player {
 
     final Difficulties difficulty;
