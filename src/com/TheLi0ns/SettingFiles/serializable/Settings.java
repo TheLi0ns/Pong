@@ -1,9 +1,11 @@
 package com.TheLi0ns.SettingFiles.serializable;
 
 import com.TheLi0ns.GameFrame.MyFrame;
+import com.TheLi0ns.Logic.GameLogic;
 import com.TheLi0ns.SettingFiles.SettingFilesHandler;
 import com.TheLi0ns.Utility.Sound;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -52,29 +54,57 @@ public class Settings {
             Scanner sc = new Scanner(fileIn);
             settings = gson.fromJson(sc.nextLine(), Settings.class);
             fileIn.close();
-        } catch (IOException i) {
-            i.printStackTrace();
+        } catch (JsonSyntaxException | IOException exception){
+            loadDefault();
             return;
         }
 
+        checkDataIntegrity(settings);
         setSettings(settings);
     }
 
-    public static void loadDefault(){
+    private static Settings getDefaultSettings() throws IOException {
         Settings settings;
 
         Gson gson = new Gson();
 
+        InputStream fileIn = Settings.class.getResourceAsStream("/default_settings/settings.json");
+        Scanner sc = new Scanner(fileIn);
+        settings = gson.fromJson(sc.nextLine(), Settings.class);
+        fileIn.close();
+
+        return settings;
+    }
+
+    public static void loadDefault(){
+        Settings settings;
         try {
-            InputStream fileIn = Settings.class.getResourceAsStream("/default_settings/settings.json");
-            Scanner sc = new Scanner(fileIn);
-            settings = gson.fromJson(sc.nextLine(), Settings.class);
-            fileIn.close();
-        } catch (IOException i) {
-            i.printStackTrace();
-            return;
+            settings = getDefaultSettings();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
         setSettings(settings);
+    }
+
+    static Settings checkDataIntegrity(Settings settings){
+
+        Settings defaultSettings = null;
+
+        boolean checkPointToWin = settings.pointToWin > 0 && settings.pointToWin <= GameLogic.MAX_POINTS;
+        boolean checkVolumeScale = settings.volumeScale >= 0 && settings.pointToWin <= Sound.MAX_VOLUME_SCALE;
+
+        if(!checkVolumeScale || !checkPointToWin){
+            try {
+                defaultSettings = getDefaultSettings();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        if(!checkPointToWin) settings.pointToWin = defaultSettings.pointToWin;
+        if(!checkVolumeScale) settings.volumeScale = defaultSettings.volumeScale;
+
+        return settings;
     }
 
     private static void setSettings(Settings settings){

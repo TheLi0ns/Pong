@@ -1,8 +1,11 @@
 package com.TheLi0ns.SettingFiles.serializable;
 
 import com.TheLi0ns.GameFrame.GamePanel;
+import com.TheLi0ns.Powers.DefensivePowers.DefensivePowersEnum;
+import com.TheLi0ns.Powers.OffensivePowers.OffensivePowersEnum;
 import com.TheLi0ns.SettingFiles.SettingFilesHandler;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -54,6 +57,32 @@ public class PlayersPowers {
             Scanner sc = new Scanner(fileIn);
             playersPowers = gson.fromJson(sc.nextLine(), PlayersPowers.class);
             fileIn.close();
+        } catch (JsonSyntaxException | IOException exception){
+            loadDefault();
+            return;
+        }
+
+        checkDataIntegrity(playersPowers);
+        setPlayersPowersIndex(playersPowers);
+    }
+
+    private static PlayersPowers getDefaultPlayerPowers() throws IOException {
+        PlayersPowers playersPowers;
+
+        Gson gson = new Gson();
+
+        InputStream fileIn = Settings.class.getResourceAsStream("/default_settings/keyBindings.json");
+        Scanner sc = new Scanner(fileIn);
+        playersPowers = gson.fromJson(sc.nextLine(), PlayersPowers.class);
+        fileIn.close();
+
+        return playersPowers;
+    }
+
+    public static void loadDefault(){
+        PlayersPowers playersPowers;
+        try {
+            playersPowers = getDefaultPlayerPowers();
         } catch (IOException i) {
             i.printStackTrace();
             return;
@@ -62,22 +91,27 @@ public class PlayersPowers {
         setPlayersPowersIndex(playersPowers);
     }
 
-    public static void loadDefault(){
-        PlayersPowers playersPowers;
+    private static void checkDataIntegrity(PlayersPowers playersPowers){
+        PlayersPowers defaultPlayerPowers = null;
 
-        Gson gson = new Gson();
+        boolean checkP1OffensivePower_index = playersPowers.p1OffensivePower_index > 0 && playersPowers.p1OffensivePower_index < OffensivePowersEnum.values().length;
+        boolean checkP1DefensivePower_index = playersPowers.p1DefensivePower_index > 0 && playersPowers.p1DefensivePower_index < DefensivePowersEnum.values().length;
 
-        try {
-            InputStream fileIn = Settings.class.getResourceAsStream("/default_settings/playersPowers.json");
-            Scanner sc = new Scanner(fileIn);
-            playersPowers = gson.fromJson(sc.nextLine(), PlayersPowers.class);
-            fileIn.close();
-        } catch (IOException i) {
-            i.printStackTrace();
-            return;
+        boolean checkP2OffensivePower_index = playersPowers.p2OffensivePower_index > 0 && playersPowers.p2OffensivePower_index < OffensivePowersEnum.values().length;
+        boolean checkP2DefensivePower_index = playersPowers.p2DefensivePower_index > 0 && playersPowers.p2DefensivePower_index < DefensivePowersEnum.values().length;
+
+        if(!checkP1DefensivePower_index || !checkP1OffensivePower_index || !checkP2DefensivePower_index || !checkP2OffensivePower_index){
+            try {
+                defaultPlayerPowers = getDefaultPlayerPowers();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
 
-        setPlayersPowersIndex(playersPowers);
+        if(!checkP1DefensivePower_index) playersPowers.p1DefensivePower_index = defaultPlayerPowers.p1DefensivePower_index;
+        if(!checkP1OffensivePower_index) playersPowers.p1OffensivePower_index = defaultPlayerPowers.p1OffensivePower_index;
+        if(!checkP2DefensivePower_index) playersPowers.p2DefensivePower_index = defaultPlayerPowers.p2DefensivePower_index;
+        if(!checkP2OffensivePower_index) playersPowers.p2OffensivePower_index = defaultPlayerPowers.p2OffensivePower_index;
     }
 
     private static void setPlayersPowersIndex(PlayersPowers playersPowers) {

@@ -5,6 +5,7 @@ import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.GameObject.Player;
 import com.TheLi0ns.Utility.Directions;
 import com.TheLi0ns.Utility.Utils;
+import com.TheLi0ns.Utility.Vector2D;
 
 import java.awt.*;
 
@@ -50,9 +51,8 @@ public class AI extends Player {
                 if(MyFrame.gameLogic.ball.getVelocity().getYDirection() == Directions.UP){
 
                     int predictedX = Utils.predictXonY(
-                            MyFrame.gameLogic.ball.getxVelocity(),
-                            MyFrame.gameLogic.ball.getyVelocity(),
-                            new Point(MyFrame.gameLogic.ball.getX() + MyFrame.gameLogic.ball.getWidth()/2, MyFrame.gameLogic.ball.getY()),
+                            MyFrame.gameLogic.ball.getVelocity(),
+                            new Vector2D(MyFrame.gameLogic.ball.getX() + MyFrame.gameLogic.ball.getWidth()/2, MyFrame.gameLogic.ball.getY()),
                             this.y + this.height + 10);
 
                     if(this.x + this.width + 10 < predictedX) move(Directions.RIGHT);

@@ -11,13 +11,12 @@ public class Utils {
     /**
      * Calculate the x position of the object
      * when it will reach the given y
-     * @param xVelocity xVelocity of the object
-     * @param yVelocity yVelocity of the object
+     * @param velocity velocity of the object
      * @param startingPoint startingPoint of the object
      * @param finalY y to reach
      * @return x
      */
-    public static int predictXonY(int xVelocity, int yVelocity, Point startingPoint, int finalY){
-        return startingPoint.x + xVelocity * ((finalY - startingPoint.y) / yVelocity);
+    public static int predictXonY(Vector2D velocity, Vector2D startingPoint, int finalY){
+        return startingPoint.getX() + velocity.getX() * ((finalY - startingPoint.getY()) / velocity.getY());
     }
 }
