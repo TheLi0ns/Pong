@@ -23,8 +23,8 @@ public class Player {
     protected boolean isRightPressed = false;
     protected int score = 0;
     protected boolean arePowersEnabled = true;
-    protected DefensivePowers_super defensivePower;
-    protected OffensivePowers_super offensivePower;
+    protected DefensivePowers_super defensivePower = null;
+    protected OffensivePowers_super offensivePower = null;
 
     /**
      * The powers have to be charged 1 goal 1 charge

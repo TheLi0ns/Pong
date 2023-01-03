@@ -11,10 +11,10 @@ import java.awt.*;
 public class Ball {
     private final Image BALL_IMAGE = Assets.BALL;
     private final Image[] FIREBALL_IMAGES = Assets.FIRE_BALL;
-    private Vector2D position;
+    protected Vector2D position;
     private final int WIDTH = BALL_IMAGE.getWidth(null);
     private final int HEIGHT = BALL_IMAGE.getHeight(null);
-    private Vector2D velocity;
+    protected Vector2D velocity;
     private boolean fireball = false;
 
     public Ball(int xVelocity, int yVelocity){
@@ -34,7 +34,7 @@ public class Ball {
         position.add(velocity);
     }
 
-    private void checkCollisions(Player p1, Player p2){
+    protected void checkCollisions(Player... players){
 
         //WALL COLLISION
         if(Collisions.checkWallCollision(this)) {
@@ -42,12 +42,12 @@ public class Ball {
             Sound.play(Sound.WALL_HIT_SOUND);
         }
 
-        checkPlayerCollision(p1);
-
-        checkPlayerCollision(p2);
+        for (Player player : players) {
+            checkPlayerCollision(player);
+        }
     }
 
-    private void checkPlayerCollision(Player player){
+    protected void checkPlayerCollision(Player player){
         if (Collisions.checkBallPlayerCollision(player, this)) {
 
             speedUp();
@@ -116,12 +116,12 @@ public class Ball {
         player.setFireShotActivated(false);
     }
 
-    private void speedUp(){
+    protected void speedUp(){
         velocity.increment(new Vector2D(1, 1));
     }
 
-    public void update(Player p1, Player p2){
-        checkCollisions(p1, p2);
+    public void update(Player...players){
+        checkCollisions(players);
         move();
     }
 
@@ -169,4 +169,6 @@ public class Ball {
             g2d.drawImage(this.FIREBALL_IMAGES[velocity.getY() > 0 ? 1 : 0], position.getX(), position.getY(), null);
         }else g2d.drawImage(this.BALL_IMAGE, position.getX(), position.getY(), null);
     }
+
+    public boolean fell(){return false;}
 }

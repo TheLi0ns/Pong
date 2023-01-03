@@ -24,6 +24,7 @@ public class MyFrame extends JFrame {
         frame.setResizable(false);
         frame.add(gamePanel);
         frame.pack();
+        frame.setTitle("PONG");
         SettingFilesHandler.load();
     }
 

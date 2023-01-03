@@ -3,6 +3,7 @@ package com.TheLi0ns.MenusHandling.Menus;
 import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.Logic.GameLogic.GameModes;
 import com.TheLi0ns.Logic.GameLogic.GameStates;
+import com.TheLi0ns.Logic.MiniGames.Dribble;
 import com.TheLi0ns.MenusHandling.Options.CenteredOption;
 import com.TheLi0ns.Utility.Sound;
 
@@ -36,7 +37,7 @@ public class MiniGamesMenu extends Menu{
     @Override
     public void clickOption() {
         if(selectedOption == DRIBBLE_OPTION.ID){
-
+            MyFrame.gameLogic.miniGame = new Dribble();
         }
 
         else if (selectedOption == BACK.ID) back();

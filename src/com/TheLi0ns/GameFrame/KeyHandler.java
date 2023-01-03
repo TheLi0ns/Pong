@@ -1,6 +1,7 @@
 package com.TheLi0ns.GameFrame;
 
 import com.TheLi0ns.Logic.GameLogic;
+import com.TheLi0ns.Logic.MiniGames.Dribble;
 import com.TheLi0ns.MenusHandling.Menus.KeyBindingsMenu;
 import com.TheLi0ns.Utility.Sound;
 
@@ -34,11 +35,21 @@ public class KeyHandler implements KeyListener {
         int code = e.getKeyCode();
 
         if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.PLAYING){
-            if(code == p1Left_key) MyFrame.gameLogic.p1.setLeftPressed(true);
-            else if(code == p1Right_key) MyFrame.gameLogic.p1.setRightPressed(true);
+            switch(MyFrame.gameLogic.getGameMode()){
+                case PVP, PVE -> {
+                    if(code == p1Left_key) MyFrame.gameLogic.p1.setLeftPressed(true);
+                    else if(code == p1Right_key) MyFrame.gameLogic.p1.setRightPressed(true);
 
-            else if(code == p2Left_key) MyFrame.gameLogic.p2.setLeftPressed(true);
-            else if(code == p2Right_key) MyFrame.gameLogic.p2.setRightPressed(true);
+                    else if(code == p2Left_key) MyFrame.gameLogic.p2.setLeftPressed(true);
+                    else if(code == p2Right_key) MyFrame.gameLogic.p2.setRightPressed(true);
+                }
+
+                case DRIBBLE -> {
+                    if(code == p1Left_key) MyFrame.gameLogic.miniGame.getPlayer().setLeftPressed(true);
+                    else if(code == p1Right_key) MyFrame.gameLogic.miniGame.getPlayer().setRightPressed(true);
+                }
+            }
+
         }
     }
 
@@ -50,26 +61,46 @@ public class KeyHandler implements KeyListener {
         //MATCH
         if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.PLAYING){
 
-            if(code == p1Left_key) MyFrame.gameLogic.p1.setLeftPressed(false);
-            else if(code == p1Right_key) MyFrame.gameLogic.p1.setRightPressed(false);
+            switch (MyFrame.gameLogic.getGameMode()){
+                case PVP, PVE -> {
+                    if(code == p1Left_key) MyFrame.gameLogic.p1.setLeftPressed(false);
+                    else if(code == p1Right_key) MyFrame.gameLogic.p1.setRightPressed(false);
 
-            else if(code == p2Left_key) MyFrame.gameLogic.p2.setLeftPressed(false);
-            else if(code == p2Right_key) MyFrame.gameLogic.p2.setRightPressed(false);
+                    else if(code == p2Left_key) MyFrame.gameLogic.p2.setLeftPressed(false);
+                    else if(code == p2Right_key) MyFrame.gameLogic.p2.setRightPressed(false);
 
-            else if(code == p1DefensivePower_key) MyFrame.gameLogic.p1.activateDefensivePower();
-            else if(code == p1OffensivePower_key) MyFrame.gameLogic.p1.activateOffensivePower();
+                    else if(code == p1DefensivePower_key) MyFrame.gameLogic.p1.activateDefensivePower();
+                    else if(code == p1OffensivePower_key) MyFrame.gameLogic.p1.activateOffensivePower();
 
-            else if(code == p2DefensivePower_key) MyFrame.gameLogic.p2.activateDefensivePower();
-            else if(code == p2OffensivePower_key) MyFrame.gameLogic.p2.activateOffensivePower();
+                    else if(code == p2DefensivePower_key) MyFrame.gameLogic.p2.activateDefensivePower();
+                    else if(code == p2OffensivePower_key) MyFrame.gameLogic.p2.activateOffensivePower();
 
-            else if(code == KeyEvent.VK_P) MyFrame.gameLogic.togglePause();
+                    else if(code == KeyEvent.VK_P) MyFrame.gameLogic.togglePause();
 
-            else if(code == KeyEvent.VK_ESCAPE) {
-                MyFrame.gameLogic.setGameState(GameLogic.GameStates.TITLE_SCREEN);
-                Sound.stop();
+                    else if(code == KeyEvent.VK_ESCAPE) {
+                        MyFrame.gameLogic.setGameState(GameLogic.GameStates.TITLE_SCREEN);
+                        Sound.stop();
+                    }
+
+                    else if(code == KeyEvent.VK_R) MyFrame.gameLogic.startMatch();
+                }
+
+                case DRIBBLE -> {
+                    if(code == p1Left_key) MyFrame.gameLogic.miniGame.getPlayer().setLeftPressed(false);
+                    else if(code == p1Right_key) MyFrame.gameLogic.miniGame.getPlayer().setRightPressed(false);
+
+                    else if(code == KeyEvent.VK_P) MyFrame.gameLogic.togglePause();
+
+                    else if(code == KeyEvent.VK_ESCAPE) {
+                        MyFrame.gameLogic.setGameState(GameLogic.GameStates.TITLE_SCREEN);
+                        Sound.stop();
+                    }
+
+                    else if(MyFrame.gameLogic.miniGame.isFinished() && code == KeyEvent.VK_SPACE){
+                        MyFrame.gameLogic.miniGame = new Dribble();
+                    }
+                }
             }
-
-            else if(code == KeyEvent.VK_R) MyFrame.gameLogic.startMatch();
         }
 
         //FINISH SCREEN

@@ -5,8 +5,8 @@ import com.TheLi0ns.GameFrame.GamePanel;
 import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.GameObject.Ball;
 import com.TheLi0ns.GameObject.Player;
-
-import java.util.Random;
+import com.TheLi0ns.Logic.MiniGames.MiniGame;
+import com.TheLi0ns.Utility.Utils;
 
 /**
  * Creates the game loop
@@ -70,6 +70,8 @@ public class GameLogic implements Runnable{
         DRIBBLE,
     }
 
+    public MiniGame miniGame;
+
     public GameLogic(){
         Thread gameLoop = new Thread(this);
         gameLoop.start();
@@ -89,7 +91,7 @@ public class GameLogic implements Runnable{
         if(gameMode == GameModes.PVP) p2 = new Player(391, 53, 6);
         else if(gameMode == GameModes.PVE) p2 = new AI(391, 53, 7, GamePanel.gameModeSubMenu.getDifficultyChosen());
 
-        ball = new Ball(genRandomxVelocity(), 6);
+        ball = new Ball(Utils.genRandomXVelocity(), 6);
 
         isOffensivePowerRechargeable = pointsToWin > 5;
         isDefensivePowerRechargeable = pointsToWin > 3;
@@ -120,7 +122,10 @@ public class GameLogic implements Runnable{
 
 
             if(gameState == GameStates.PLAYING) {
-                update();
+                switch(gameMode){
+                    case PVP, PVE -> update();
+                    case DRIBBLE -> miniGame.update();
+                }
             }
 
             MyFrame.gamePanel.repaint();
@@ -156,7 +161,7 @@ public class GameLogic implements Runnable{
                 p1.hasScored();
                 if(arePowersEnabled) p2.ChargingPowers();
                 if(!hasSomeoneWins()) {
-                    ball = new Ball(genRandomxVelocity(), 5);
+                    ball = new Ball(Utils.genRandomXVelocity(), 5);
                 }else{
                     finish();
                 }
@@ -165,7 +170,7 @@ public class GameLogic implements Runnable{
                 p2.hasScored();
                 if(arePowersEnabled) p1.ChargingPowers();
                 if(!hasSomeoneWins()) {
-                    ball = new Ball(genRandomxVelocity(), -5);
+                    ball = new Ball(Utils.genRandomXVelocity(), -5);
                 }else{
                     finish();
                 }
@@ -205,11 +210,6 @@ public class GameLogic implements Runnable{
 
     public String getFinish() {
         return finish;
-    }
-
-    private int genRandomxVelocity(){
-        Random random = new Random(System.currentTimeMillis());
-        return random.nextInt(3, 5) * (random.nextBoolean() ? 1 : -1);
     }
 
     /**

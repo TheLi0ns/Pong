@@ -2,6 +2,7 @@ package com.TheLi0ns.SettingFiles;
 
 import com.TheLi0ns.SettingFiles.serializable.KeyBindings;
 import com.TheLi0ns.SettingFiles.serializable.PlayersPowers;
+import com.TheLi0ns.SettingFiles.serializable.Scores;
 import com.TheLi0ns.SettingFiles.serializable.Settings;
 
 import java.io.File;
@@ -30,12 +31,14 @@ public class SettingFilesHandler {
         new KeyBindings().save();
         new Settings().save();
         new PlayersPowers().save();
+        new Scores().save();
     }
 
     public static void load(){
         Settings.load();
         KeyBindings.load();
         PlayersPowers.load();
+        Scores.load();
     }
 
     public static void loadDefault(){

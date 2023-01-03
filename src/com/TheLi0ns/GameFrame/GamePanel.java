@@ -41,20 +41,26 @@ public class GamePanel extends JPanel {
 
         //MATCH
         if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.PLAYING){
-            drawField(g2d);
+            switch(MyFrame.gameLogic.getGameMode()){
+                case PVP, PVE -> {
+                    drawField(g2d);
 
-            if(MyFrame.gameLogic.arePowersEnabled()){
-                if(MyFrame.gameLogic.isDefensivePowerRechargeable()){
-                    drawDefensivePowerBattery(g2d);
+                    if(MyFrame.gameLogic.arePowersEnabled()){
+                        if(MyFrame.gameLogic.isDefensivePowerRechargeable()){
+                            drawDefensivePowerBattery(g2d);
+                        }
+                        if(MyFrame.gameLogic.isOffensivePowerRechargeable()){
+                            drawOffensivePowerBattery(g2d);
+                        }
+                    }
+
+                    drawGameObjects(g2d);
+
+                    drawScore(g2d);
                 }
-                if(MyFrame.gameLogic.isOffensivePowerRechargeable()){
-                    drawOffensivePowerBattery(g2d);
-                }
+
+                case DRIBBLE -> MyFrame.gameLogic.miniGame.draw(g2d);
             }
-
-            drawGameObjects(g2d);
-
-            drawScore(g2d);
         }
         //PAUSE SCREEN
         else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.PAUSE){
