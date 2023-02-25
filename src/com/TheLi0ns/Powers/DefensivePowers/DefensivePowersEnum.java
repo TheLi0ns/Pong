@@ -21,7 +21,13 @@ public enum DefensivePowersEnum {
      * Make the racket block any shot for 200ms
      * @see DefensivePowerParry
      */
-    PARRY("PARRY");
+    PARRY("PARRY"),
+
+    /**
+     * If the ball is going against the player
+     * stretches it until he hit it
+     */
+    LARGE_BALL("LARGE BALL");
 
     public final String name;
 

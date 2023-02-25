@@ -1,21 +1,20 @@
 package com.TheLi0ns.GameObject;
 
 import com.TheLi0ns.GameFrame.GamePanel;
-import com.TheLi0ns.Utility.Assets;
-import com.TheLi0ns.Utility.Collisions;
-import com.TheLi0ns.Utility.Sound;
-import com.TheLi0ns.Utility.Vector2D;
+import com.TheLi0ns.Utility.*;
 
 import java.awt.*;
 
 public class Ball {
-    private final Image BALL_IMAGE = Assets.BALL;
+    private final Image NORMAL_BALL_IMAGE = Assets.BALL;
     private final Image[] FIREBALL_IMAGES = Assets.FIRE_BALL;
+    private final Image LARGE_BALL = Assets.LARGE_BALL;
     protected Vector2D position;
-    private final int WIDTH = BALL_IMAGE.getWidth(null);
-    private final int HEIGHT = BALL_IMAGE.getHeight(null);
+    private int WIDTH = NORMAL_BALL_IMAGE.getWidth(null);
+    private int HEIGHT = NORMAL_BALL_IMAGE.getHeight(null);
     protected Vector2D velocity;
     private boolean fireball = false;
+    private boolean enlarged = false;
 
     public Ball(int xVelocity, int yVelocity){
         position = new Vector2D(472, 468);
@@ -64,6 +63,14 @@ public class Ball {
             //FireShot
             if (player.isFireShotActivated()) {
                 fireShot(player);
+            }
+            //Deactivate LargeBall
+            if(enlarged){
+                enlarged = false;
+                position.increment(new Vector2D(0, 30));
+                HEIGHT = NORMAL_BALL_IMAGE.getHeight(null);
+                WIDTH = NORMAL_BALL_IMAGE.getWidth(null);
+                Sound.play(Sound.LARGE_SOUND[0]);
             }
             //Parry
             else if(player.isParrying()){
@@ -116,6 +123,17 @@ public class Ball {
         player.setFireShotActivated(false);
     }
 
+    private void stretchBall(Player player){
+        if((player.getY() < GamePanel.CENTER && this.velocity.getYDirection() == Directions.UP) ||
+                (player.getY() > GamePanel.CENTER && this.velocity.getYDirection() == Directions.DOWN)){
+            this.enlarged = true;
+            this.position.increment(new Vector2D(0, -30));
+            this.HEIGHT = this.LARGE_BALL.getHeight(null);
+            this.WIDTH = this.LARGE_BALL.getWidth(null);
+            Sound.play(Sound.LARGE_SOUND[1]);
+        }
+    }
+
     protected void speedUp(){
         velocity.increment(new Vector2D(1, 1));
     }
@@ -123,6 +141,13 @@ public class Ball {
     public void update(Player...players){
         checkCollisions(players);
         move();
+
+        for(Player p : players){
+            if(p.isStretchBallActivated()){
+                stretchBall(p);
+                p.setStretchBallActivated(false);
+            }
+        }
     }
 
     /**
@@ -167,7 +192,9 @@ public class Ball {
     public void draw(Graphics2D g2d){
         if(fireball){
             g2d.drawImage(this.FIREBALL_IMAGES[velocity.getY() > 0 ? 1 : 0], position.getX(), position.getY(), null);
-        }else g2d.drawImage(this.BALL_IMAGE, position.getX(), position.getY(), null);
+        }else if(enlarged){
+            g2d.drawImage(this.LARGE_BALL, position.getX(), position.getY(), null);
+        } else g2d.drawImage(this.NORMAL_BALL_IMAGE, position.getX(), position.getY(), null);
     }
 
     public boolean fell(){return false;}

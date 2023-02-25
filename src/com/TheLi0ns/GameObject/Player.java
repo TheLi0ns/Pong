@@ -41,6 +41,8 @@ public class Player {
     protected int chargeOffensivePower = 0;
 
     protected boolean fireShotActivated = false;
+
+    protected boolean stretchBallActivated = false;
     protected boolean areControlsInverted = false;
     protected boolean isParrying = false;
 
@@ -179,6 +181,7 @@ public class Player {
             case SPEED -> this.defensivePower = new DefensivePowerSpeed(this);
             case PARRY -> this.defensivePower = new DefensivePowerParry(this);
             case LARGE_RACKET -> this.defensivePower = new DefensivePowerLargeRacket(this);
+            case LARGE_BALL -> this.defensivePower = new DefensivePowerLargeBall(this);
         }
     }
     public boolean isDefensivePowerCharged(){
@@ -191,7 +194,7 @@ public class Player {
 
     public void activateDefensivePower(){
         if(isDefensivePowerCharged() && arePowersEnabled){
-            chargeDefensivePower = -2;
+            chargeDefensivePower = 0;
 
             defensivePower.activate();
         }
@@ -203,6 +206,14 @@ public class Player {
 
     public void setParrying(boolean parrying) {
         isParrying = parrying;
+    }
+
+    public boolean isStretchBallActivated() {
+        return stretchBallActivated;
+    }
+
+    public void setStretchBallActivated(boolean stretchBallActivated) {
+        this.stretchBallActivated = stretchBallActivated;
     }
 
     public OffensivePowers_super getOffensivePower() {
@@ -227,7 +238,7 @@ public class Player {
 
     public void activateOffensivePower(){
         if(isOffensivePowerCharged() && arePowersEnabled){
-            chargeOffensivePower = -2;
+            chargeOffensivePower = 0;
 
             offensivePower.activate();
         }
