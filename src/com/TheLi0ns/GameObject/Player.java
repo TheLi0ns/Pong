@@ -11,8 +11,8 @@ import com.TheLi0ns.Utility.Sound;
 import java.awt.*;
 
 public class Player {
-    protected final Image NORMAL_PLAYER_IMAGE = Assets.RACKET;
-    protected Image PLAYER_IMAGE = NORMAL_PLAYER_IMAGE;
+    private final Image NORMAL_PLAYER_IMAGE = Assets.RACKET;
+    private Image PLAYER_IMAGE = NORMAL_PLAYER_IMAGE;
     protected int x;
     protected final int y;
     protected int width = PLAYER_IMAGE.getWidth(null);
@@ -22,29 +22,29 @@ public class Player {
     protected boolean isLeftPressed = false;
     protected boolean isRightPressed = false;
     protected int score = 0;
-    protected boolean arePowersEnabled = true;
-    protected DefensivePowers_super defensivePower = null;
-    protected OffensivePowers_super offensivePower = null;
+    private boolean arePowersEnabled = true;
+    private DefensivePowers_super defensivePower = null;
+    private OffensivePowers_super offensivePower = null;
 
     /**
      * The powers have to be charged 1 goal 1 charge
      * this is the charge of the defensive power
      * it is charged at 3
      */
-    protected int chargeDefensivePower = 0;
+    private int chargeDefensivePower = 0;
 
     /**
      * The powers have to be charged 1 goal 1 charge
      * this is the charge of the offensive power
      * it is charged at 5
      */
-    protected int chargeOffensivePower = 0;
+    private int chargeOffensivePower = 0;
 
-    protected boolean fireShotActivated = false;
+    private boolean fireShotActivated = false;
 
-    protected boolean stretchBallActivated = false;
-    protected boolean areControlsInverted = false;
-    protected boolean isParrying = false;
+    private boolean stretchBallActivated = false;
+    private boolean areControlsInverted = false;
+    private boolean isParrying = false;
 
     public Player(int x, int y, int xVelocity){
         this.x = x;

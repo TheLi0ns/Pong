@@ -9,6 +9,7 @@ public class Ball {
     private final Image NORMAL_BALL_IMAGE = Assets.BALL;
     private final Image[] FIREBALL_IMAGES = Assets.FIRE_BALL;
     private final Image LARGE_BALL = Assets.LARGE_BALL;
+    private Image BALL_IMAGE = NORMAL_BALL_IMAGE;
     protected Vector2D position;
     private int WIDTH = NORMAL_BALL_IMAGE.getWidth(null);
     private int HEIGHT = NORMAL_BALL_IMAGE.getHeight(null);
@@ -52,6 +53,8 @@ public class Ball {
             speedUp();
 
             velocity.flipVertically();
+            //FireBall orientation
+            if(fireball) BALL_IMAGE = FIREBALL_IMAGES[velocity.getY() > 0 ? 1 : 0];
 
             player.setMovementEnabled(false);
 
@@ -68,8 +71,8 @@ public class Ball {
             if(enlarged){
                 enlarged = false;
                 position.increment(new Vector2D(0, 30));
-                HEIGHT = NORMAL_BALL_IMAGE.getHeight(null);
-                WIDTH = NORMAL_BALL_IMAGE.getWidth(null);
+                BALL_IMAGE = this.NORMAL_BALL_IMAGE;
+                updateWidthHeight();
                 Sound.play(Sound.LARGE_SOUND[0]);
             }
             //Parry
@@ -119,6 +122,8 @@ public class Ball {
 
         velocity.increment(new Vector2D(0, 15));
 
+        this.BALL_IMAGE = this.FIREBALL_IMAGES[this.velocity.getY() > 0 ? 1 : 0];
+
         Sound.play(Sound.FIRESHOT_SOUND);
         player.setFireShotActivated(false);
     }
@@ -128,8 +133,8 @@ public class Ball {
                 (player.getY() > GamePanel.CENTER && this.velocity.getYDirection() == Directions.DOWN)){
             this.enlarged = true;
             this.position.increment(new Vector2D(0, -30));
-            this.HEIGHT = this.LARGE_BALL.getHeight(null);
-            this.WIDTH = this.LARGE_BALL.getWidth(null);
+            this.BALL_IMAGE = LARGE_BALL;
+            updateWidthHeight();
             Sound.play(Sound.LARGE_SOUND[1]);
         }
     }
@@ -181,6 +186,10 @@ public class Ball {
     public int getHeight() {
         return HEIGHT;
     }
+    private void updateWidthHeight(){
+        WIDTH = BALL_IMAGE.getWidth(null);
+        HEIGHT = BALL_IMAGE.getHeight(null);
+    }
     public int getxVelocity() {
         return velocity.getX();
     }
@@ -190,11 +199,7 @@ public class Ball {
     public Vector2D getVelocity(){return velocity;}
 
     public void draw(Graphics2D g2d){
-        if(fireball){
-            g2d.drawImage(this.FIREBALL_IMAGES[velocity.getY() > 0 ? 1 : 0], position.getX(), position.getY(), null);
-        }else if(enlarged){
-            g2d.drawImage(this.LARGE_BALL, position.getX(), position.getY(), null);
-        } else g2d.drawImage(this.NORMAL_BALL_IMAGE, position.getX(), position.getY(), null);
+        g2d.drawImage(this.BALL_IMAGE, position.getX(), position.getY(), null);
     }
 
     public boolean fell(){return false;}
