@@ -9,6 +9,7 @@ public class Ball {
     private final Image NORMAL_BALL_IMAGE = Assets.BALL;
     private final Image[] FIREBALL_IMAGES = Assets.FIRE_BALL;
     private final Image LARGE_BALL = Assets.LARGE_BALL;
+    private final Image SMALL_BALL = Assets.SMALL_BALL;
     private Image BALL_IMAGE = NORMAL_BALL_IMAGE;
     protected Vector2D position;
     private int WIDTH = NORMAL_BALL_IMAGE.getWidth(null);
@@ -16,6 +17,7 @@ public class Ball {
     protected Vector2D velocity;
     private boolean fireball = false;
     private boolean enlarged = false;
+    private boolean shrunk = false;
 
     public Ball(int xVelocity, int yVelocity){
         position = new Vector2D(472, 468);
@@ -75,6 +77,14 @@ public class Ball {
                 updateWidthHeight();
                 Sound.play(Sound.LARGE_SOUND[0]);
             }
+            //Deactivate SmallBall
+            if(shrunk){
+                shrunk = false;
+                position.increment(new Vector2D(0, -30));
+                BALL_IMAGE = this.NORMAL_BALL_IMAGE;
+                updateWidthHeight();
+                Sound.play(Sound.SHRINK_SOUND[0]);
+            }
             //Parry
             else if(player.isParrying()){
                 Sound.play(Sound.PARRY_SOUND);
@@ -128,6 +138,10 @@ public class Ball {
         player.setFireShotActivated(false);
     }
 
+    /**
+     * Checks if the ball is going against the player and stretches it
+     * @param player player who activated the power
+     */
     private void stretchBall(Player player){
         if((player.getY() < GamePanel.CENTER && this.velocity.getYDirection() == Directions.UP) ||
                 (player.getY() > GamePanel.CENTER && this.velocity.getYDirection() == Directions.DOWN)){
@@ -139,6 +153,21 @@ public class Ball {
         }
     }
 
+    /**
+     * Checks if the ball is going away from the player and shrinks it
+     * @param player player who activated the power
+     */
+    private void shrinkBall(Player player){
+        if((player.getY() < GamePanel.CENTER && this.velocity.getYDirection() == Directions.DOWN) ||
+                (player.getY() > GamePanel.CENTER && this.velocity.getYDirection() == Directions.UP)){
+            this.shrunk = true;
+            this.position.increment(new Vector2D(0, 30));
+            this.BALL_IMAGE = SMALL_BALL;
+            updateWidthHeight();
+            Sound.play(Sound.SHRINK_SOUND[1]);
+        }
+    }
+
     protected void speedUp(){
         velocity.increment(new Vector2D(1, 1));
     }
@@ -147,10 +176,17 @@ public class Ball {
         checkCollisions(players);
         move();
 
+        //Checks for powers which need to be activated during the movement
         for(Player p : players){
             if(p.isStretchBallActivated()){
                 stretchBall(p);
                 p.setStretchBallActivated(false);
+                continue;
+            }
+            if(p.isSmallBallActivated()){
+                shrinkBall(p);
+                p.setSmallBallActivated(false);
+                continue;
             }
         }
     }

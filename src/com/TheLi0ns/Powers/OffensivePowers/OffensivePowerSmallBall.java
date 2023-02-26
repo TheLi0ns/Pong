@@ -3,31 +3,27 @@ package com.TheLi0ns.Powers.OffensivePowers;
 import com.TheLi0ns.GameObject.Player;
 
 /**
- * @see OffensivePowersEnum#FIRE_SHOT
+ * @see OffensivePowersEnum#SMALL_BALL
  */
-public class OffensivePowerFireShot extends OffensivePowers_super{
-
+public class OffensivePowerSmallBall extends OffensivePowers_super{
     /**
      * @param player   the player who has this power
      * @param opponent the opponent who get the negative effect
      */
-    public OffensivePowerFireShot(Player player, Player opponent) {
+    public OffensivePowerSmallBall(Player player, Player opponent) {
         super(player, opponent);
     }
 
-    /**
-     * Make the fireshot active for 5 secs
-     */
     @Override
     public void activate() {
-        player.setFireShotActivated(true);
+        player.setSmallBallActivated(true);
         new Thread(() -> {
             try {
                 Thread.sleep(5000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            player.setFireShotActivated(false);
+            player.setSmallBallActivated(false);
         }).start();
     }
 
@@ -36,6 +32,6 @@ public class OffensivePowerFireShot extends OffensivePowers_super{
 
     @Override
     public String getName() {
-        return OffensivePowersEnum.FIRE_SHOT.name;
+        return OffensivePowersEnum.SMALL_BALL.name;
     }
 }

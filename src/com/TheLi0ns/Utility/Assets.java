@@ -21,6 +21,7 @@ public class Assets {
      */
     public static final Image[] FIRE_BALL = {FIRE_BALL_UP, FIRE_BALL_DOWN};
     public static final Image LARGE_BALL = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/ball/Large ball.png"))).getImage();
+    public static final Image SMALL_BALL = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/ball/Small ball.png"))).getImage();
 
     public static final Image GAME_PREVIEW = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/Game preview.png"))).getImage();
 }

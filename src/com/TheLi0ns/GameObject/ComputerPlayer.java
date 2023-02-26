@@ -1,13 +1,12 @@
-package com.TheLi0ns.AI;
+package com.TheLi0ns.GameObject;
 
 import com.TheLi0ns.GameFrame.GamePanel;
 import com.TheLi0ns.GameFrame.MyFrame;
-import com.TheLi0ns.GameObject.Player;
 import com.TheLi0ns.Utility.Directions;
 import com.TheLi0ns.Utility.Utils;
 import com.TheLi0ns.Utility.Vector2D;
 
-public class AI extends Player {
+public class ComputerPlayer extends Player {
 
     final Difficulties difficulty;
     public enum Difficulties{
@@ -23,7 +22,7 @@ public class AI extends Player {
     }
 
 
-    public AI(int x, int y, int xVelocity, Difficulties difficulty) {
+    public ComputerPlayer(int x, int y, int xVelocity, Difficulties difficulty) {
         super(x, y, xVelocity);
         this.difficulty = difficulty;
     }
@@ -31,12 +30,12 @@ public class AI extends Player {
     private void decideMove(){
         switch (difficulty){
             case NORMAL -> {
-                //MAKES THE AI FOLLOW THE BALL IF THE BALL IS MOVING AGAINST HIM
+                //MAKES THE ComputerPlayer FOLLOW THE BALL IF THE BALL IS MOVING AGAINST HIM
                 if(MyFrame.gameLogic.ball.getVelocity().getYDirection() == Directions.UP){
                     if(MyFrame.gameLogic.ball.getX() > this.x + this.width/2) move(Directions.RIGHT);
                     else if(MyFrame.gameLogic.ball.getX() < this.x + this.width/2) move(Directions.LEFT);
                 }
-                //MAKES THE AI RETURN TO THE CENTER IF THE BALL IS MOVING AWAY FROM HIM
+                //MAKES THE ComputerPlayer RETURN TO THE CENTER IF THE BALL IS MOVING AWAY FROM HIM
                 else{
                     if(this.x + this.width/2 < GamePanel.CENTER) move(Directions.RIGHT);
                     else if(this.x + this.width/2 > GamePanel.CENTER) move(Directions.LEFT);
@@ -44,7 +43,7 @@ public class AI extends Player {
             }
 
             case IMPOSSIBLE -> {
-                //MAKES THE AI MOVE TOWARD THE PREDICTED POS OF THE BALL
+                //MAKES THE ComputerPlayer MOVE TOWARD THE PREDICTED POS OF THE BALL
                 //IF THE BALL IS MOVING AGAINST HIM
                 if(MyFrame.gameLogic.ball.getVelocity().getYDirection() == Directions.UP){
 
@@ -56,7 +55,7 @@ public class AI extends Player {
                     if(this.x + this.width + 10 < predictedX) move(Directions.RIGHT);
                     else if(this.x - 10 > predictedX) move(Directions.LEFT);
                 }
-                //MAKES THE AI RETURN TO THE CENTER IF THE BALL IS MOVING AWAY FROM HIM
+                //MAKES THE ComputerPlayer RETURN TO THE CENTER IF THE BALL IS MOVING AWAY FROM HIM
                 else{
                     if(this.x + this.width/2 < GamePanel.CENTER) move(Directions.RIGHT);
                     else if(this.x + this.width/2 > GamePanel.CENTER) move(Directions.LEFT);

@@ -23,7 +23,13 @@ public enum OffensivePowersEnum {
      * Shrinks the opponent racket
      * @see OffensivePowerShrink
      */
-    SHRINK("SHRINK");
+    SHRINK("SHRINK"),
+
+    /**
+     * If the ball is going against the opponents
+     * shrinks it until he hit it
+     */
+    SMALL_BALL("SMALL BALL");
 
     public final String name;
 

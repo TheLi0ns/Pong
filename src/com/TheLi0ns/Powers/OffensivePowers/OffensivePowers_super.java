@@ -11,7 +11,7 @@ public abstract class OffensivePowers_super {
     Player player, opponent;
 
     /**
-     * @param player the player who has this power
+     * @param player   the player who has this power
      * @param opponent the opponent who get the negative effect
      */
     OffensivePowers_super(Player player, Player opponent){

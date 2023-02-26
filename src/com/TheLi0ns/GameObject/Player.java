@@ -41,7 +41,7 @@ public class Player {
     private int chargeOffensivePower = 0;
 
     private boolean fireShotActivated = false;
-
+    private boolean smallBallActivated = false;
     private boolean stretchBallActivated = false;
     private boolean areControlsInverted = false;
     private boolean isParrying = false;
@@ -225,6 +225,7 @@ public class Player {
             case FIRE_SHOT -> this.offensivePower = new OffensivePowerFireShot(this, opponent);
             case SHRINK -> this.offensivePower = new OffensivePowerShrink(this, opponent);
             case INVERTED_CONTROLS -> this.offensivePower = new OffensivePowerInvertedControls(this, opponent);
+            case SMALL_BALL -> this.offensivePower = new OffensivePowerSmallBall(this, opponent);
         }
     }
 
@@ -255,6 +256,15 @@ public class Player {
     public void setFireShotActivated(boolean fireShotActivated) {
         this.fireShotActivated = fireShotActivated;
     }
+
+    public boolean isSmallBallActivated() {
+        return smallBallActivated;
+    }
+
+    public void setSmallBallActivated(boolean smallBallActivated) {
+        this.smallBallActivated = smallBallActivated;
+    }
+
 
     public void draw(Graphics2D g2d){
         g2d.drawImage(this.PLAYER_IMAGE, this.x, this.y, null);

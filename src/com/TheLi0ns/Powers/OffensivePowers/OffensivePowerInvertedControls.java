@@ -18,6 +18,10 @@ public class OffensivePowerInvertedControls extends OffensivePowers_super{
 
     private final URL INVERTED_CONTROLS_SOUND = Sound.INVERTED_CONTROLS_SOUND;
 
+    /**
+     * @param player   the player who has this power
+     * @param opponent the opponent who get the negative effect
+     */
     public OffensivePowerInvertedControls(Player player, Player opponent) {
         super(player, opponent);
     }

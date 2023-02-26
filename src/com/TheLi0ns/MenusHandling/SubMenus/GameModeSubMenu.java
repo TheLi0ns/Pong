@@ -1,7 +1,7 @@
 package com.TheLi0ns.MenusHandling.SubMenus;
 
-import com.TheLi0ns.AI.AI;
 import com.TheLi0ns.GameFrame.MyFrame;
+import com.TheLi0ns.GameObject.ComputerPlayer;
 import com.TheLi0ns.Logic.GameLogic;
 import com.TheLi0ns.MenusHandling.Options.CenteredOption;
 import com.TheLi0ns.Utility.Sound;
@@ -23,24 +23,24 @@ public class GameModeSubMenu extends SubMenu {
     public static final CenteredOption PVP_OPTION = new CenteredOption("PvP", 1);
 
     /**
-     * Start a pve match with a normal AI
+     * Start a pve match with a normal ComputerPlayer
      * @see CenteredOption
      */
     public static final CenteredOption NORMAL_PVE_OPTION = new CenteredOption("PvE NORMAL", 2);
 
     /**
-     * Start a pve match with an impossible AI
+     * Start a pve match with an impossible ComputerPlayer
      * @see CenteredOption
      */
     public static final CenteredOption IMPOSSIBLE_PVE_OPTION = new CenteredOption("PvE IMPOSSIBLE", 3);
 
-    private static AI.Difficulties difficultyChosen;
+    private static ComputerPlayer.Difficulties difficultyChosen;
 
     public GameModeSubMenu() {
         super(3, 150);
     }
 
-    public AI.Difficulties getDifficultyChosen() {
+    public ComputerPlayer.Difficulties getDifficultyChosen() {
         return difficultyChosen;
     }
 
@@ -59,14 +59,14 @@ public class GameModeSubMenu extends SubMenu {
         }
 
         else if(selectedOption == NORMAL_PVE_OPTION.ID){
-            difficultyChosen = AI.Difficulties.NORMAL;
+            difficultyChosen = ComputerPlayer.Difficulties.NORMAL;
             MyFrame.gameLogic.setGameMode(GameLogic.GameModes.PVE);
             if(MyFrame.gameLogic.arePowersEnabled())MyFrame.gameLogic.setGameState(GameLogic.GameStates.SELECTING_POWERS);
             else MyFrame.gameLogic.startMatch();
         }
 
         else if(selectedOption == IMPOSSIBLE_PVE_OPTION.ID){
-            difficultyChosen = AI.Difficulties.IMPOSSIBLE;
+            difficultyChosen = ComputerPlayer.Difficulties.IMPOSSIBLE;
             MyFrame.gameLogic.setGameMode(GameLogic.GameModes.PVE);
             if(MyFrame.gameLogic.arePowersEnabled())MyFrame.gameLogic.setGameState(GameLogic.GameStates.SELECTING_POWERS);
             else MyFrame.gameLogic.startMatch();

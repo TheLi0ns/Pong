@@ -19,6 +19,10 @@ public class OffensivePowerShrink extends OffensivePowers_super{
 
     private final URL[] SHRINK_SOUND = Sound.SHRINK_SOUND;
 
+    /**
+     * @param player   the player who has this power
+     * @param opponent the opponent who get the negative effect
+     */
     public OffensivePowerShrink(Player player, Player opponent) {
         super(player, opponent);
     }

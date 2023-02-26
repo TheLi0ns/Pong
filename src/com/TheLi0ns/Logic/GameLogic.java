@@ -1,9 +1,9 @@
 package com.TheLi0ns.Logic;
 
-import com.TheLi0ns.AI.AI;
 import com.TheLi0ns.GameFrame.GamePanel;
 import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.GameObject.Ball;
+import com.TheLi0ns.GameObject.ComputerPlayer;
 import com.TheLi0ns.GameObject.Player;
 import com.TheLi0ns.Logic.MiniGames.MiniGame;
 import com.TheLi0ns.Utility.Utils;
@@ -89,7 +89,7 @@ public class GameLogic implements Runnable{
         p1 = new Player(391, 909, 6);
 
         if(gameMode == GameModes.PVP) p2 = new Player(391, 53, 6);
-        else if(gameMode == GameModes.PVE) p2 = new AI(391, 53, 7, GamePanel.gameModeSubMenu.getDifficultyChosen());
+        else if(gameMode == GameModes.PVE) p2 = new ComputerPlayer(391, 53, 7, GamePanel.gameModeSubMenu.getDifficultyChosen());
 
         ball = new Ball(Utils.genRandomXVelocity(), 6);
 
