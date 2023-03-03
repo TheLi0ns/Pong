@@ -52,6 +52,8 @@ public class Ball {
     protected void checkPlayerCollision(Player player){
         if (Collisions.checkBallPlayerCollision(player, this)) {
 
+            player.hit();
+
             speedUp();
 
             velocity.flipVertically();
@@ -125,7 +127,7 @@ public class Ball {
      * also plays the sound
      * @param player player who used the fireshot powerup
      */
-    private void fireShot(Player player){
+    public void fireShot(Player player){
         this.fireball = true;
 
         velocity.setX(velocity.getX() > 0 ? 2 : -2);

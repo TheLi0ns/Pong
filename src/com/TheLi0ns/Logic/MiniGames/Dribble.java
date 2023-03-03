@@ -2,15 +2,23 @@ package com.TheLi0ns.Logic.MiniGames;
 
 import com.TheLi0ns.GameFrame.GamePanel;
 import com.TheLi0ns.GameFrame.MyFrame;
+import com.TheLi0ns.GameObject.Ball;
 import com.TheLi0ns.GameObject.DribbleBall;
 import com.TheLi0ns.GameObject.Player;
 import com.TheLi0ns.Logic.GameLogic;
+import com.TheLi0ns.Logic.GameLogic.GameModes;
 import com.TheLi0ns.Utility.Utils;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
+/**
+ * @see GameModes#DRIBBLE
+ */
 public class Dribble extends MiniGame {
+
+    Player player;
+    Ball ball;
 
     static int highestScore;
 
@@ -20,7 +28,7 @@ public class Dribble extends MiniGame {
 
     @Override
     public void start() {
-        MyFrame.gameLogic.setGameMode(GameLogic.GameModes.DRIBBLE);
+        MyFrame.gameLogic.setGameMode(GameModes.DRIBBLE);
         MyFrame.gameLogic.setGameState(GameLogic.GameStates.PAUSE);
 
         player = new Player(391, 909, 6);
@@ -74,7 +82,7 @@ public class Dribble extends MiniGame {
         g2d.setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
         g2d.setColor(Color.gray);
         g2d.drawString("Highest Score: " + highestScore,
-                Utils.xForCenteredText(g2d, new Font("Comic Sans MS", Font.PLAIN, 20), GamePanel.WIDTH, "Highest Score: " + highestScore),
+                Utils.xForCenteredText(g2d, GamePanel.WIDTH, "Highest Score: " + highestScore),
                 GamePanel.HEIGHT-10);
         g2d.setColor(Color.WHITE);
 
@@ -83,10 +91,18 @@ public class Dribble extends MiniGame {
             Font font = new Font("Comic Sans MS", Font.PLAIN, 90);
             g2d.setFont(font);
             g2d.drawString(string,
-                            Utils.xForCenteredText(g2d, font, GamePanel.WIDTH, string),
-                            Utils.yForCenteredText(g2d, font, GamePanel.HEIGHT, string)
+                            Utils.xForCenteredText(g2d, GamePanel.WIDTH, string),
+                            Utils.yForCenteredText(g2d, GamePanel.HEIGHT, string)
                         );
         }
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public Ball getBall() {
+        return ball;
     }
 
     public static int getHighestScore() {

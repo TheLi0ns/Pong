@@ -50,6 +50,7 @@ public class GameLogic implements Runnable{
         TITLE_SCREEN,
         PLAY_SUBMENU,
         MINI_GAMES_MENU,
+        BOSS_FIGHTS_SUBMENU,
         SETTINGS_MENU,
         KEY_BINDINGS_MENU,
         SELECTING_POWERS,
@@ -68,6 +69,12 @@ public class GameLogic implements Runnable{
          * to dribble to get the highest score
          */
         DRIBBLE,
+
+        /**
+         * A mini-game in which you will face
+         * some bosses
+         */
+        BOSS_FIGHTS
     }
 
     public MiniGame miniGame;
@@ -124,7 +131,7 @@ public class GameLogic implements Runnable{
             if(gameState == GameStates.PLAYING) {
                 switch(gameMode){
                     case PVP, PVE -> update();
-                    case DRIBBLE -> miniGame.update();
+                    case DRIBBLE, BOSS_FIGHTS -> miniGame.update();
                 }
             }
 
@@ -165,6 +172,8 @@ public class GameLogic implements Runnable{
                 }else{
                     finish();
                 }
+                p1.resetHitPerRound();
+                p2.resetHitPerRound();
             }
             case "DOWN" -> {
                 p2.hasScored();
@@ -174,6 +183,8 @@ public class GameLogic implements Runnable{
                 }else{
                     finish();
                 }
+                p1.resetHitPerRound();
+                p2.resetHitPerRound();
             }
         }
     }

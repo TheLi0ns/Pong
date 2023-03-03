@@ -17,7 +17,7 @@ public class DefensivePowerParry extends DefensivePowers_super {
     }
 
     /**
-     * Make the racket block any shot for 200ms
+     * Make the racket block any shot for 100ms
      */
     @Override
     public void activate() {
@@ -30,7 +30,7 @@ public class DefensivePowerParry extends DefensivePowers_super {
             player.setX(0);
 
             try {
-                Thread.sleep(200);
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

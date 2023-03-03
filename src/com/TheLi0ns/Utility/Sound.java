@@ -25,6 +25,10 @@ public class Sound {
 
     public static URL PARRY_SOUND;
 
+    public static URL FIGHTER_DAMAGED_SOUND;
+
+    public static URL BOSS_DAMAGED_SOUND;
+
     /**
      * 0 ends 1 starts
      */
@@ -41,6 +45,11 @@ public class Sound {
     public static URL[] SHRINK_SOUND = new URL[2];
 
     public static URL INVERTED_CONTROLS_SOUND;
+
+    /**
+     * Music by Marllon Silva (xDeviruchi)
+     */
+    public static URL BOSS_FIGHT_MUSIC;
 
     public static URL OPTION_SELECTION;
 
@@ -76,6 +85,11 @@ public class Sound {
 
         PARRY_SOUND = getClass().getResource("/SFX/powers/parry.wav");
 
+        FIGHTER_DAMAGED_SOUND = getClass().getResource("/SFX/Fighter damaged.wav");
+        BOSS_DAMAGED_SOUND = getClass().getResource("/SFX/Boss damaged.wav");
+
+        BOSS_FIGHT_MUSIC = getClass().getResource("/SFX/music/xDeviruchi - Decisive Battle (Loop).wav");
+
         OPTION_SELECTION = getClass().getResource("/SFX/GUI/option_selection.wav");
         OPTION_CLICK  = getClass().getResource("/SFX/GUI/option_click.wav");
 
@@ -84,6 +98,14 @@ public class Sound {
 
     public static void play(URL url) {
         setSound(url);
+        playSound();
+    }
+
+    public static void playBackground(URL url){
+        setSound(url);
+        gain_fc = (FloatControl)clip.getControl(FloatControl.Type.MASTER_GAIN);
+        gain_fc.setValue(-20f);
+        clip.loop(Clip.LOOP_CONTINUOUSLY);
         playSound();
     }
 

@@ -1,8 +1,10 @@
 package com.TheLi0ns.MenusHandling.Menus;
 
+import com.TheLi0ns.GameFrame.GamePanel;
 import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.Logic.GameLogic.GameModes;
 import com.TheLi0ns.Logic.GameLogic.GameStates;
+import com.TheLi0ns.Logic.MiniGames.BossFights;
 import com.TheLi0ns.Logic.MiniGames.Dribble;
 import com.TheLi0ns.MenusHandling.Options.CenteredOption;
 import com.TheLi0ns.Utility.Sound;
@@ -13,6 +15,7 @@ import java.awt.*;
  * Display the mini-games and make
  * the player plays one of them
  * @see MiniGamesMenu#DRIBBLE_OPTION
+ * @see MiniGamesMenu#BOSS_FIGHT_OPTION
  */
 public class MiniGamesMenu extends Menu{
 
@@ -25,19 +28,29 @@ public class MiniGamesMenu extends Menu{
     public static final CenteredOption DRIBBLE_OPTION = new CenteredOption("DRIBBLE", 1);
 
     /**
+     * Start the {@link BossFights BossFights mini-game}
+     * @see CenteredOption
+     */
+    public static final CenteredOption BOSS_FIGHT_OPTION = new CenteredOption("BOSS FIGHTS", 2);
+
+    /**
      * Return to the {@link TitleScreen title screen}
      * @see CenteredOption
      */
-    public static final CenteredOption BACK = new CenteredOption("BACK", 2);
+    public static final CenteredOption BACK = new CenteredOption("BACK", 3);
 
     public MiniGamesMenu() {
-        super(2);
+        super(3);
     }
 
     @Override
     public void clickOption() {
         if(selectedOption == DRIBBLE_OPTION.ID){
             MyFrame.gameLogic.miniGame = new Dribble();
+        }
+
+        else if(selectedOption == BOSS_FIGHT_OPTION.ID){
+            MyFrame.gameLogic.setGameState(GameStates.BOSS_FIGHTS_SUBMENU);
         }
 
         else if (selectedOption == BACK.ID) back();
@@ -60,6 +73,12 @@ public class MiniGamesMenu extends Menu{
         int y_offset = 80;
 
         y = DRIBBLE_OPTION.draw(y, y_offset, DRIBBLE_OPTION.isSelected(selectedOption), g2d);
+
+        y = BOSS_FIGHT_OPTION.draw(y, y_offset, BOSS_FIGHT_OPTION.isSelected(selectedOption), g2d);
+
+        //SUBMENU OFFSET
+        if(MyFrame.gameLogic.getGameState() == GameStates.BOSS_FIGHTS_SUBMENU) y += GamePanel.bossFightSubMenu.getY_OFFSET();
+
         y = BACK.draw(y, y_offset, BACK.isSelected(selectedOption), g2d);
     }
 }

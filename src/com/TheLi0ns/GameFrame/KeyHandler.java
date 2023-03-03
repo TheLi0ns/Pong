@@ -1,6 +1,7 @@
 package com.TheLi0ns.GameFrame;
 
 import com.TheLi0ns.Logic.GameLogic;
+import com.TheLi0ns.Logic.MiniGames.BossFights;
 import com.TheLi0ns.Logic.MiniGames.Dribble;
 import com.TheLi0ns.MenusHandling.Menus.KeyBindingsMenu;
 import com.TheLi0ns.Utility.Sound;
@@ -42,11 +43,27 @@ public class KeyHandler implements KeyListener {
 
                     else if(code == p2Left_key) MyFrame.gameLogic.p2.setLeftPressed(true);
                     else if(code == p2Right_key) MyFrame.gameLogic.p2.setRightPressed(true);
+
+                    else if(code == p1DefensivePower_key) MyFrame.gameLogic.p1.activateDefensivePower();
+                    else if(code == p1OffensivePower_key) MyFrame.gameLogic.p1.activateOffensivePower();
+
+                    else if(code == p2DefensivePower_key) MyFrame.gameLogic.p2.activateDefensivePower();
+                    else if(code == p2OffensivePower_key) MyFrame.gameLogic.p2.activateOffensivePower();
                 }
 
                 case DRIBBLE -> {
-                    if(code == p1Left_key) MyFrame.gameLogic.miniGame.getPlayer().setLeftPressed(true);
-                    else if(code == p1Right_key) MyFrame.gameLogic.miniGame.getPlayer().setRightPressed(true);
+                    Dribble current_minigame = (Dribble) MyFrame.gameLogic.miniGame;
+
+                    if(code == p1Left_key) current_minigame.getPlayer().setLeftPressed(true);
+                    else if(code == p1Right_key) current_minigame.getPlayer().setRightPressed(true);
+                }
+
+                case BOSS_FIGHTS -> {
+                    BossFights current_minigame = (BossFights) MyFrame.gameLogic.miniGame;
+
+                    if(code == p1Left_key) current_minigame.getFighter().setLeftPressed(true);
+                    else if(code == p1Right_key) current_minigame.getFighter().setRightPressed(true);
+                    else if(code == p1DefensivePower_key)current_minigame.getFighter().parry();
                 }
             }
 
@@ -69,12 +86,6 @@ public class KeyHandler implements KeyListener {
                     else if(code == p2Left_key) MyFrame.gameLogic.p2.setLeftPressed(false);
                     else if(code == p2Right_key) MyFrame.gameLogic.p2.setRightPressed(false);
 
-                    else if(code == p1DefensivePower_key) MyFrame.gameLogic.p1.activateDefensivePower();
-                    else if(code == p1OffensivePower_key) MyFrame.gameLogic.p1.activateOffensivePower();
-
-                    else if(code == p2DefensivePower_key) MyFrame.gameLogic.p2.activateDefensivePower();
-                    else if(code == p2OffensivePower_key) MyFrame.gameLogic.p2.activateOffensivePower();
-
                     else if(code == KeyEvent.VK_P) MyFrame.gameLogic.togglePause();
 
                     else if(code == KeyEvent.VK_ESCAPE) {
@@ -86,8 +97,10 @@ public class KeyHandler implements KeyListener {
                 }
 
                 case DRIBBLE -> {
-                    if(code == p1Left_key) MyFrame.gameLogic.miniGame.getPlayer().setLeftPressed(false);
-                    else if(code == p1Right_key) MyFrame.gameLogic.miniGame.getPlayer().setRightPressed(false);
+                    Dribble current_minigame = (Dribble) MyFrame.gameLogic.miniGame;
+
+                    if(code == p1Left_key) current_minigame.getPlayer().setLeftPressed(false);
+                    else if(code == p1Right_key) current_minigame.getPlayer().setRightPressed(false);
 
                     else if(code == KeyEvent.VK_P) MyFrame.gameLogic.togglePause();
 
@@ -96,8 +109,24 @@ public class KeyHandler implements KeyListener {
                         Sound.stop();
                     }
 
-                    else if(MyFrame.gameLogic.miniGame.isFinished() && code == KeyEvent.VK_SPACE){
+                    else if(current_minigame.isFinished() && code == KeyEvent.VK_SPACE){
                         MyFrame.gameLogic.miniGame = new Dribble();
+                    }
+                }
+
+                case BOSS_FIGHTS -> {
+                    BossFights current_minigame = (BossFights) MyFrame.gameLogic.miniGame;
+
+                    if(code == p1Left_key) current_minigame.getFighter().setLeftPressed(false);
+                    else if(code == p1Right_key) current_minigame.getFighter().setRightPressed(false);
+
+                    else if(code == KeyEvent.VK_ESCAPE) {
+                        MyFrame.gameLogic.setGameState(GameLogic.GameStates.TITLE_SCREEN);
+                        Sound.stop();
+                    }
+
+                    else if(current_minigame.isFinished() && !current_minigame.hasPlayerWon() && code == KeyEvent.VK_SPACE){
+                        MyFrame.gameLogic.miniGame = new BossFights();
                     }
                 }
             }
@@ -135,6 +164,15 @@ public class KeyHandler implements KeyListener {
                 case KeyEvent.VK_UP, KeyEvent.VK_W -> GamePanel.miniGamesMenu.previousOption();
                 case KeyEvent.VK_DOWN, KeyEvent.VK_S -> GamePanel.miniGamesMenu.nextOption();
                 case KeyEvent.VK_ENTER, KeyEvent.VK_E -> GamePanel.miniGamesMenu.clickOption();
+            }
+        }
+
+        //BOSS FIGHTS SUBMENU
+        else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.BOSS_FIGHTS_SUBMENU){
+            switch (code){
+                case KeyEvent.VK_UP, KeyEvent.VK_W -> GamePanel.bossFightSubMenu.previousOption();
+                case KeyEvent.VK_DOWN, KeyEvent.VK_S -> GamePanel.bossFightSubMenu.nextOption();
+                case KeyEvent.VK_ENTER, KeyEvent.VK_E -> GamePanel.bossFightSubMenu.clickOption();
             }
         }
 

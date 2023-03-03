@@ -113,7 +113,7 @@ public class PowerSelectionMenu extends Menu{
         int y_offset = 60;
 
         //PLAYER NAME
-        g2d.drawString(playerName, Utils.xForCenteredText(g2d, font, GamePanel.WIDTH ,playerName), y);
+        g2d.drawString(playerName, Utils.xForCenteredText(g2d, GamePanel.WIDTH ,playerName), y);
 
         y = SET_OFFENSIVE_POWER.draw(x, y, value_x, y_offset, SET_OFFENSIVE_POWER.isSelected(selectedOption), OffensivePowersEnum.values()[offensivePower_index].name, g2d);
 

@@ -2,6 +2,7 @@ package com.TheLi0ns.GameFrame;
 
 import com.TheLi0ns.Logic.GameLogic;
 import com.TheLi0ns.MenusHandling.Menus.*;
+import com.TheLi0ns.MenusHandling.SubMenus.BossFightSubMenu;
 import com.TheLi0ns.MenusHandling.SubMenus.GameModeSubMenu;
 
 import javax.swing.*;
@@ -25,6 +26,7 @@ public class GamePanel extends JPanel {
     public static PowerSelectionMenu p1PowerSelectionMenu = new PowerSelectionMenu(1);
     public static PowerSelectionMenu p2PowerSelectionMenu = new PowerSelectionMenu(2);
     public static MiniGamesMenu miniGamesMenu = new MiniGamesMenu();
+    public static BossFightSubMenu bossFightSubMenu = new BossFightSubMenu();
 
     GamePanel(){
         setPreferredSize(new Dimension(WIDTH,HEIGHT));
@@ -59,7 +61,8 @@ public class GamePanel extends JPanel {
                     drawScore(g2d);
                 }
 
-                case DRIBBLE -> MyFrame.gameLogic.miniGame.draw(g2d);
+                case DRIBBLE, BOSS_FIGHTS -> MyFrame.gameLogic.miniGame.draw(g2d);
+
             }
         }
         //PAUSE SCREEN
@@ -82,6 +85,11 @@ public class GamePanel extends JPanel {
         //MINI-GAMES MENU
         else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.MINI_GAMES_MENU){
             miniGamesMenu.draw(g2d);
+        }
+        //BOSS FIGHTS SUBMENU
+        else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.BOSS_FIGHTS_SUBMENU){
+            miniGamesMenu.draw(g2d);
+            bossFightSubMenu.draw(g2d);
         }
         //SETTINGS MENU
         else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.SETTINGS_MENU){

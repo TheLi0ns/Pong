@@ -13,14 +13,14 @@ public abstract class SubMenu {
 
     private final int N_OPTIONS;
 
-    private static int Y_OFFSET;
+    private final int Y_OFFSET;
 
     SubMenu(int nOptions, int y_offset){
         N_OPTIONS = nOptions;
         Y_OFFSET = y_offset;
     }
 
-    public static int getY_OFFSET() {
+    public int getY_OFFSET() {
         return Y_OFFSET;
     }
 

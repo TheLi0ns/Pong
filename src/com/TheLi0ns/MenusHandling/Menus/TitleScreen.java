@@ -4,7 +4,6 @@ import com.TheLi0ns.GameFrame.GamePanel;
 import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.Logic.GameLogic;
 import com.TheLi0ns.MenusHandling.Options.CenteredOption;
-import com.TheLi0ns.MenusHandling.SubMenus.GameModeSubMenu;
 import com.TheLi0ns.Utility.Assets;
 import com.TheLi0ns.Utility.Sound;
 import com.TheLi0ns.Utility.Utils;
@@ -80,7 +79,7 @@ public class TitleScreen extends Menu{
         g2d.drawImage(Assets.GAME_PREVIEW, 350, 70, null);
 
         //GAME TITLE
-        int x = Utils.xForCenteredText(g2d, font, GamePanel.WIDTH, GAME_NAME);
+        int x = Utils.xForCenteredText(g2d, GamePanel.WIDTH, GAME_NAME);
         g2d.drawString(GAME_NAME, x, y);
 
 
@@ -90,7 +89,7 @@ public class TitleScreen extends Menu{
         y = PLAY_OPTION.draw(y, y_offset, PLAY_OPTION.isSelected(selectedOption), g2d);
 
         //SUBMENU OFFSET
-        if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.PLAY_SUBMENU) y += GameModeSubMenu.getY_OFFSET();
+        if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.PLAY_SUBMENU) y += GamePanel.gameModeSubMenu.getY_OFFSET();
 
         y = MINI_GAMES_OPTION.draw(y, y_offset, MINI_GAMES_OPTION.isSelected(selectedOption), g2d);
 

@@ -18,14 +18,14 @@ public enum DefensivePowersEnum {
     LARGE_RACKET("LARGE RACKET"),
 
     /**
-     * Make the racket block any shot for 200ms
+     * Make the racket block any shot for 100ms
      * @see DefensivePowerParry
      */
     PARRY("PARRY"),
 
     /**
      * If the ball is going against the player
-     * stretches it until he hit it
+     * stretches it until he damaged it
      */
     LARGE_BALL("LARGE BALL");
 

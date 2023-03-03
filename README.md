@@ -13,7 +13,7 @@ defensive ones that can be activated after 3 suffered goals and offensive ones t
 ### Defensive powers:
   * ***speed:*** it increases the movement speed; 
   * ***large racket:*** it stretches the player paddle;
-  * ***parry:*** block any shot for 200ms;
+  * ***parry:*** block any shot for 100ms;
   * ***large ball:*** it enlarges the ball while it's going against the player until the player itself hit it.
 ### Offensive powers:
   * ***fireshot:*** increase the ball speed after the collision;
@@ -24,3 +24,10 @@ defensive ones that can be activated after 3 suffered goals and offensive ones t
 ## Mini-games
 ### Dribble
 This is a single player minigame that simulates juggling with the paddle. It's based on the score that will be the number of juggles
+### Boss fights
+This is a single player minigame that makes the player fights against some bosses.
+The player only have 3 HP, so he can only suffer 3 goals and he can use the parry
+defensive power but only 5 times per round. <br />
+Music by Marllon Silva (xDeviruchi)
+#### Bosses:
+  * ***The Pyromancer:*** an ancient pong player that has mastered the fireshot ability at a level that he can use it when he wants

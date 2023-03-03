@@ -17,7 +17,7 @@ public class CenteredOption extends Option{
 
     public int draw(int y, int y_offset, boolean isSelected, Graphics2D g2d) {
         y += y_offset;
-        int x = Utils.xForCenteredText(g2d, g2d.getFont(), GamePanel.WIDTH, NAME);
+        int x = Utils.xForCenteredText(g2d, GamePanel.WIDTH, NAME);
         g2d.drawString(NAME, x, y);
         if(isSelected) g2d.drawString(">", x-30, y);
         return y;

@@ -32,6 +32,9 @@ public class DribbleBall extends Ball{
         super.checkPlayerCollision(player);
     }
 
+    /**
+     * @return true if the ball has fell
+     */
     @Override
     public boolean fell(){
         return this.position.getY() > GamePanel.HEIGHT;

@@ -22,7 +22,8 @@ public class Player {
     protected boolean isLeftPressed = false;
     protected boolean isRightPressed = false;
     protected int score = 0;
-    private boolean arePowersEnabled = true;
+    protected int hitPerRound = 0;
+    protected boolean arePowersEnabled = true;
     private DefensivePowers_super defensivePower = null;
     private OffensivePowers_super offensivePower = null;
 
@@ -40,7 +41,7 @@ public class Player {
      */
     private int chargeOffensivePower = 0;
 
-    private boolean fireShotActivated = false;
+    protected boolean fireShotActivated = false;
     private boolean smallBallActivated = false;
     private boolean stretchBallActivated = false;
     private boolean areControlsInverted = false;
@@ -135,6 +136,17 @@ public class Player {
 
     public void setMovementEnabled(boolean movementEnabled) {
         isMovementEnabled = movementEnabled;
+    }
+
+    /**
+     * Increases the counter of hit per round
+     */
+    public void hit(){
+        hitPerRound++;
+    }
+
+    public void resetHitPerRound(){
+        hitPerRound = 0;
     }
 
     public void setLeftPressed(boolean leftPressed) {
