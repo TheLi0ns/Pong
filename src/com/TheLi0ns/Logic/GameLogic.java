@@ -56,6 +56,7 @@ public class GameLogic implements Runnable{
         SELECTING_POWERS,
         PLAYING,
         PAUSE,
+        CUTSCENE,
         FINISH,
     }
 

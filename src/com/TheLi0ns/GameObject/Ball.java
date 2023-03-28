@@ -17,7 +17,15 @@ public class Ball {
     protected Vector2D velocity;
     private boolean fireball = false;
     private boolean enlarged = false;
+    /**
+     * Locks the ball in the enlarged state
+     */
+    private boolean enlarged_lock = false;
     private boolean shrunk = false;
+    /**
+     * Locks the ball in the shrunk state
+     */
+    private boolean shrunk_lock = false;
 
     public Ball(int xVelocity, int yVelocity){
         position = new Vector2D(472, 468);
@@ -72,7 +80,7 @@ public class Ball {
                 fireShot(player);
             }
             //Deactivate LargeBall
-            if(enlarged){
+            if(enlarged && !enlarged_lock){
                 enlarged = false;
                 position.increment(new Vector2D(0, 30));
                 BALL_IMAGE = this.NORMAL_BALL_IMAGE;
@@ -80,7 +88,7 @@ public class Ball {
                 Sound.play(Sound.LARGE_SOUND[0]);
             }
             //Deactivate SmallBall
-            if(shrunk){
+            if(shrunk && !shrunk_lock){
                 shrunk = false;
                 position.increment(new Vector2D(0, -30));
                 BALL_IMAGE = this.NORMAL_BALL_IMAGE;
@@ -155,11 +163,19 @@ public class Ball {
         }
     }
 
+    public boolean isEnlarged_lock() {
+        return enlarged_lock;
+    }
+
+    public void setEnlarged_lock(boolean enlarged_lock) {
+        this.enlarged_lock = enlarged_lock;
+    }
+
     /**
      * Checks if the ball is going away from the player and shrinks it
      * @param player player who activated the power
      */
-    private void shrinkBall(Player player){
+    public void shrinkBall(Player player){
         if((player.getY() < GamePanel.CENTER && this.velocity.getYDirection() == Directions.DOWN) ||
                 (player.getY() > GamePanel.CENTER && this.velocity.getYDirection() == Directions.UP)){
             this.shrunk = true;
@@ -168,6 +184,14 @@ public class Ball {
             updateWidthHeight();
             Sound.play(Sound.SHRINK_SOUND[1]);
         }
+    }
+
+    public boolean isShrunk_lock() {
+        return shrunk_lock;
+    }
+
+    public void setShrunk_lock(boolean shrunk_lock) {
+        this.shrunk_lock = shrunk_lock;
     }
 
     protected void speedUp(){
@@ -214,8 +238,14 @@ public class Ball {
     public int getX() {
         return position.getX();
     }
+    public void setX(int x){
+        this.position.setX(x);
+    }
     public int getY() {
         return position.getY();
+    }
+    public void setY(int y){
+        this.position.setY(y);
     }
     public Vector2D getPosition(){return position;}
     public int getWidth() {
@@ -228,11 +258,18 @@ public class Ball {
         WIDTH = BALL_IMAGE.getWidth(null);
         HEIGHT = BALL_IMAGE.getHeight(null);
     }
+
     public int getxVelocity() {
         return velocity.getX();
     }
+    public void setxVelocity(int xVelocity){
+        this.velocity.setX(xVelocity);
+    }
     public int getyVelocity() {
         return velocity.getY();
+    }
+    public void setyVelocity(int yVelocity){
+        this.velocity.setY(yVelocity);
     }
     public Vector2D getVelocity(){return velocity;}
 

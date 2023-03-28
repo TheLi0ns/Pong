@@ -42,8 +42,8 @@ public class Player {
     private int chargeOffensivePower = 0;
 
     protected boolean fireShotActivated = false;
-    private boolean smallBallActivated = false;
-    private boolean stretchBallActivated = false;
+    protected boolean smallBallActivated = false;
+    protected boolean stretchBallActivated = false;
     private boolean areControlsInverted = false;
     private boolean isParrying = false;
 
@@ -110,12 +110,16 @@ public class Player {
         return width;
     }
 
-    public void updateWidth() {
+    private void updateWidth() {
         this.width = this.PLAYER_IMAGE.getWidth(null);
     }
 
     public int getHeight() {
         return height;
+    }
+
+    public Image getPLAYER_IMAGE() {
+        return PLAYER_IMAGE;
     }
 
     public Image getNORMAL_PLAYER_IMAGE() {
@@ -124,6 +128,7 @@ public class Player {
 
     public void setPLAYER_IMAGE(Image PLAYER_IMAGE) {
         this.PLAYER_IMAGE = PLAYER_IMAGE;
+        updateWidth();
     }
 
     public int getxVelocity() {

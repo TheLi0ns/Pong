@@ -2,6 +2,8 @@ package com.TheLi0ns.MenusHandling.SubMenus;
 
 import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.GameObject.Bosses.BossEnum;
+import com.TheLi0ns.GameObject.Bosses.BossThePyromancer;
+import com.TheLi0ns.GameObject.Bosses.BossTheShrinker;
 import com.TheLi0ns.Logic.GameLogic;
 import com.TheLi0ns.Logic.MiniGames.BossFights;
 import com.TheLi0ns.MenusHandling.Options.CenteredOption;
@@ -15,10 +17,20 @@ import java.awt.*;
  */
 public class BossFightSubMenu extends SubMenu{
 
+    /**
+     * Starts the fight against {@link BossThePyromancer The Pyromancer}
+     * @see CenteredOption
+     */
     public static final CenteredOption THE_PYROMANCER_OPTION = new CenteredOption("The Pyromancer", 1);
 
+    /**
+     * Starts the fight against {@link BossTheShrinker The Shrinker}
+     * @see CenteredOption
+     */
+    public static final CenteredOption THE_SHRINKER_OPTION = new CenteredOption("The Shrinker", 2);
+
     public BossFightSubMenu() {
-        super(1, 30);
+        super(2, 80);
     }
 
     @Override
@@ -30,6 +42,10 @@ public class BossFightSubMenu extends SubMenu{
     public void clickOption() {
         if(selectedOption == THE_PYROMANCER_OPTION.ID){
             MyFrame.gameLogic.miniGame = new BossFights(BossEnum.THE_PYROMANCER);
+        }
+
+        else if(selectedOption == THE_SHRINKER_OPTION.ID){
+            MyFrame.gameLogic.miniGame = new BossFights(BossEnum.THE_SHRINKER);
         }
 
         selectedOption = 1;
@@ -50,5 +66,6 @@ public class BossFightSubMenu extends SubMenu{
 
         y = THE_PYROMANCER_OPTION.draw(y, y_offset, THE_PYROMANCER_OPTION.isSelected(selectedOption), g2d);
 
+        y = THE_SHRINKER_OPTION.draw(y, y_offset, THE_SHRINKER_OPTION.isSelected(selectedOption), g2d);
     }
 }

@@ -1,12 +1,15 @@
 package com.TheLi0ns.Utility;
 
 import javax.sound.sampled.*;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
 public class Sound {
 
     static Clip clip;
+
+    static Clip backgroundMusic_clip;
 
     /**
      * List of playing clips
@@ -25,9 +28,17 @@ public class Sound {
 
     public static URL PARRY_SOUND;
 
+    public static URL LASER_SOUND;
+
+    public static URL GIGALASER_SOUND;
+
     public static URL FIGHTER_DAMAGED_SOUND;
 
     public static URL BOSS_DAMAGED_SOUND;
+
+    public static URL GAME_OVER_SOUND;
+
+    public static URL YOU_WIN_SOUND;
 
     /**
      * 0 ends 1 starts
@@ -83,12 +94,20 @@ public class Sound {
 
         SCORE_SOUND = getClass().getResource("/SFX/point score.wav");
 
+        LASER_SOUND = getClass().getResource("/SFX/bossfights/theShrinker/laser.wav");
+
+        GIGALASER_SOUND = getClass().getResource("/SFX/bossfights/theShrinker/gigalaser.wav");
+
         PARRY_SOUND = getClass().getResource("/SFX/powers/parry.wav");
 
-        FIGHTER_DAMAGED_SOUND = getClass().getResource("/SFX/Fighter damaged.wav");
-        BOSS_DAMAGED_SOUND = getClass().getResource("/SFX/Boss damaged.wav");
+        FIGHTER_DAMAGED_SOUND = getClass().getResource("/SFX/bossfights/Fighter damaged.wav");
+        BOSS_DAMAGED_SOUND = getClass().getResource("/SFX/bossfights/Boss damaged.wav");
 
-        BOSS_FIGHT_MUSIC = getClass().getResource("/SFX/music/xDeviruchi - Decisive Battle (Loop).wav");
+        BOSS_FIGHT_MUSIC = getClass().getResource("/SFX/bossfights/music/xDeviruchi - Decisive Battle (Loop).wav");
+
+        GAME_OVER_SOUND = getClass().getResource("/SFX/bossfights/Game Over.wav");
+
+        YOU_WIN_SOUND = getClass().getResource("/SFX/bossfights/You win.wav");
 
         OPTION_SELECTION = getClass().getResource("/SFX/GUI/option_selection.wav");
         OPTION_CLICK  = getClass().getResource("/SFX/GUI/option_click.wav");
@@ -101,31 +120,7 @@ public class Sound {
         playSound();
     }
 
-    public static void playBackground(URL url){
-        setSound(url);
-        gain_fc = (FloatControl)clip.getControl(FloatControl.Type.MASTER_GAIN);
-        gain_fc.setValue(-20f);
-        clip.loop(Clip.LOOP_CONTINUOUSLY);
-        playSound();
-    }
-
-    public static void stop(){
-        stopping = true;
-        for (Clip i : clips) {
-            i.stop();
-            i.flush();
-            i.close();
-        }
-        clips.clear();
-        stopping = false;
-    }
-
-    private static void playSound() {
-        clip.start();
-    }
-
     private static void setSound(URL url) {
-
         AudioInputStream ais;
         try {
             ais = AudioSystem.getAudioInputStream(url);
@@ -143,6 +138,48 @@ public class Sound {
             });
 
         } catch (Exception ignored) {}
+    }
+
+    private static void playSound() {
+        clip.start();
+    }
+
+    public static void stop(){
+        stopping = true;
+        for (Clip i : clips) {
+            i.stop();
+            i.flush();
+            i.close();
+        }
+        clips.clear();
+        stopping = false;
+    }
+
+    public static void playBackgroundMusic(URL url) {
+        AudioInputStream ais;
+        try {
+            ais = AudioSystem.getAudioInputStream(url);
+            backgroundMusic_clip = AudioSystem.getClip();
+            backgroundMusic_clip.open(ais);
+            gain_fc = (FloatControl) backgroundMusic_clip.getControl(FloatControl.Type.MASTER_GAIN);
+            gain_fc.setValue(-20f);
+            backgroundMusic_clip.loop(Clip.LOOP_CONTINUOUSLY);
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            throw new RuntimeException(e);
+        }
+        backgroundMusic_clip.start();
+    }
+
+    public static void stopBackgroundMusic(){
+        stopping = true;
+
+        if (backgroundMusic_clip.isRunning()) {
+            backgroundMusic_clip.stop();
+            backgroundMusic_clip.flush();
+            backgroundMusic_clip.close();
+        }
+
+        stopping = false;
     }
 
     public static void increaseVolume(){

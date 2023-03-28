@@ -29,9 +29,10 @@ public class DefensivePowerLargeRacket extends DefensivePowers_super {
     @Override
     public void activate() {
         new Thread(() -> {
+            Image previous_player_image = player.getPLAYER_IMAGE() == Assets.PARRY_RACKET ?
+                                            player.getNORMAL_PLAYER_IMAGE() : player.getPLAYER_IMAGE();
             player.setPLAYER_IMAGE(LARGE_PLAYER_IMAGE);
             Sound.play(LARGE_SOUND[1]);
-            player.updateWidth();
             player.setX(player.getX() - 35);
 
             if(player.getX() < GamePanel.LEFT_BOUND){
@@ -49,9 +50,8 @@ public class DefensivePowerLargeRacket extends DefensivePowers_super {
             //CHECK IF THE MATCH IS STILL GOING
             if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.PLAYING){
                 player.setX(player.getX() + 35);
-                player.setPLAYER_IMAGE(player.getNORMAL_PLAYER_IMAGE());
+                player.setPLAYER_IMAGE(previous_player_image);
                 Sound.play(LARGE_SOUND[0]);
-                player.updateWidth();
             }
         }).start();
     }

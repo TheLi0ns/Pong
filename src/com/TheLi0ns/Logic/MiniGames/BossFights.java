@@ -1,14 +1,17 @@
 package com.TheLi0ns.Logic.MiniGames;
 
-import com.TheLi0ns.GameFrame.GamePanel;
+import com.TheLi0ns.Cutscenes.CutsceneEnum;
+import com.TheLi0ns.Cutscenes.CutsceneHandler;
 import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.GameObject.Ball;
 import com.TheLi0ns.GameObject.Bosses.BossEnum;
 import com.TheLi0ns.GameObject.Bosses.BossThePyromancer;
+import com.TheLi0ns.GameObject.Bosses.BossTheShrinker;
 import com.TheLi0ns.GameObject.Bosses.Boss_super;
 import com.TheLi0ns.GameObject.Fighter;
 import com.TheLi0ns.Logic.GameLogic;
 import com.TheLi0ns.Logic.GameLogic.GameModes;
+import com.TheLi0ns.Utility.Assets;
 import com.TheLi0ns.Utility.Sound;
 import com.TheLi0ns.Utility.Utils;
 
@@ -26,8 +29,6 @@ public class BossFights extends MiniGame{
     Ball ball;
 
     static BossEnum selectedBoss;
-
-    String finish;
 
     boolean hasPlayerWon = false;
 
@@ -52,25 +53,31 @@ public class BossFights extends MiniGame{
 
         switch(selectedBoss){
             case THE_PYROMANCER -> boss = new BossThePyromancer(this);
+            case THE_SHRINKER -> boss = new BossTheShrinker(this);
         }
 
         ball = new Ball(Utils.genRandomXVelocity(), 6);
 
-        Sound.playBackground(Sound.BOSS_FIGHT_MUSIC);
+        Sound.playBackgroundMusic(Sound.BOSS_FIGHT_MUSIC);
 
         MyFrame.gameLogic.setGameState(GameLogic.GameStates.PLAYING);
     }
 
     @Override
     public void update() {
-        if(hasSomeoneWins()) return;
-        scoreUpdate();
-        boss.update();
-        fighter.update();
-        ball.update(fighter, boss);
+        if(!finished && !scoreUpdate()){
+            boss.update();
+            fighter.update();
+            ball.update(fighter, boss);
+        }
     }
 
-    private void scoreUpdate(){
+    /**
+     * checks if someone has scored and then
+     * update the health of the player and boss
+     * @return true if the fight ended after the update of the healts
+     */
+    private boolean scoreUpdate(){
         switch(ball.checkScored()){
             case "UP" -> {
                 boss.damaged();
@@ -93,16 +100,15 @@ public class BossFights extends MiniGame{
                 boss.roundFinished();
             }
         }
+        return finished;
     }
 
     public void finish(){
-        if(boss.getHealth() == 0){
-            finish = "BOSS\nDEFEATED";
-            hasPlayerWon = true;
-        }else{
-            finish = "GAME\nOVER";
-        }
         finished = true;
+        Sound.stop();
+        Sound.stopBackgroundMusic();
+        if(fighter.getHealth() == 0) CutsceneHandler.playCutscene(CutsceneEnum.GameOver);
+        else CutsceneHandler.playCutscene(CutsceneEnum.YOU_WIN);
     }
 
     private boolean hasSomeoneWins(){
@@ -117,18 +123,17 @@ public class BossFights extends MiniGame{
             boss.draw(g2d);
             fighter.draw(g2d);
             ball.draw(g2d);
-        }else {
-            g2d.setFont(new Font("Algerian", Font.PLAIN, 100));
-            g2d.setColor(Color.RED);
-            int y = Utils.yForCenteredText(g2d, GamePanel.HEIGHT+50, finish);
-            for (String line : finish.split("\n")){
-                g2d.drawString(line, Utils.xForCenteredText(g2d, GamePanel.WIDTH, line), y);
-                y += g2d.getFontMetrics().getHeight();
-            }
+        }else if(fighter.getHealth() == 0) {
+            g2d.drawImage(Assets.GAME_OVER[0], 200, 380, null);
+            g2d.drawImage(Assets.GAME_OVER[1], 210, 500, null);
+        }else{
+            g2d.drawImage(Assets.YOU_WIN[0], 280, 330, null);
+            g2d.drawImage(Assets.YOU_WIN[1], 280, 530, null);
         }
     }
 
-    private void drawField(Graphics2D g2d){
+
+    public static void drawField(Graphics2D g2d){
         g2d.setStroke(new BasicStroke(5));
         g2d.setPaint(Color.WHITE);
         g2d.drawLine(0, 0, 0, 1000);

@@ -1,5 +1,6 @@
 package com.TheLi0ns.GameFrame;
 
+import com.TheLi0ns.Cutscenes.CutsceneHandler;
 import com.TheLi0ns.Logic.GameLogic;
 import com.TheLi0ns.Logic.MiniGames.BossFights;
 import com.TheLi0ns.Logic.MiniGames.Dribble;
@@ -63,7 +64,7 @@ public class KeyHandler implements KeyListener {
 
                     if(code == p1Left_key) current_minigame.getFighter().setLeftPressed(true);
                     else if(code == p1Right_key) current_minigame.getFighter().setRightPressed(true);
-                    else if(code == p1DefensivePower_key)current_minigame.getFighter().parry();
+                    else if(code == p1DefensivePower_key || code == KeyEvent.VK_SPACE)current_minigame.getFighter().parry();
                 }
             }
 
@@ -123,12 +124,20 @@ public class KeyHandler implements KeyListener {
                     else if(code == KeyEvent.VK_ESCAPE) {
                         MyFrame.gameLogic.setGameState(GameLogic.GameStates.TITLE_SCREEN);
                         Sound.stop();
+                        Sound.stopBackgroundMusic();
                     }
 
                     else if(current_minigame.isFinished() && !current_minigame.hasPlayerWon() && code == KeyEvent.VK_SPACE){
                         MyFrame.gameLogic.miniGame = new BossFights();
                     }
                 }
+            }
+        }
+
+        //CUTSCENE
+        else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.CUTSCENE){
+            switch (code){
+                case KeyEvent.VK_ENTER -> CutsceneHandler.skip();
             }
         }
 

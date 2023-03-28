@@ -1,5 +1,6 @@
 package com.TheLi0ns.GameFrame;
 
+import com.TheLi0ns.Cutscenes.CutsceneHandler;
 import com.TheLi0ns.Logic.GameLogic;
 import com.TheLi0ns.MenusHandling.Menus.*;
 import com.TheLi0ns.MenusHandling.SubMenus.BossFightSubMenu;
@@ -64,6 +65,10 @@ public class GamePanel extends JPanel {
                 case DRIBBLE, BOSS_FIGHTS -> MyFrame.gameLogic.miniGame.draw(g2d);
 
             }
+        }
+        //CUTSCENE
+        if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.CUTSCENE){
+            CutsceneHandler.draw(g2d);
         }
         //PAUSE SCREEN
         else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.PAUSE){

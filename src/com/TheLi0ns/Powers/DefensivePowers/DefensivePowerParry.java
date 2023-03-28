@@ -22,11 +22,11 @@ public class DefensivePowerParry extends DefensivePowers_super {
     @Override
     public void activate() {
         new Thread(() -> {
+            Image previous_player_image = player.getPLAYER_IMAGE();
             int x_tmp = player.getX();
 
             player.setParrying(true);
             player.setPLAYER_IMAGE(PARRY_IMAGE);
-            player.updateWidth();
             player.setX(0);
 
             try {
@@ -35,8 +35,7 @@ public class DefensivePowerParry extends DefensivePowers_super {
                 throw new RuntimeException(e);
             }
 
-            player.setPLAYER_IMAGE(player.getNORMAL_PLAYER_IMAGE());
-            player.updateWidth();
+            player.setPLAYER_IMAGE(previous_player_image);
             player.setX(x_tmp);
             player.setParrying(false);
         }).start();

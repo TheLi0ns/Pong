@@ -16,7 +16,7 @@ public abstract class Boss_super extends Player {
 
     final BossFights ENV;
 
-    final Color BASE_COLOR;
+    final protected Color BASE_COLOR;
 
     Image BOSS_IMAGE;
 
@@ -136,6 +136,10 @@ public abstract class Boss_super extends Player {
      * The skill that will be always used if the boss is in second phase
      */
     public abstract void secondPhaseSkill();
+
+    public void setBOSS_IMAGE(Image BOSS_IMAGE) {
+        this.BOSS_IMAGE = BOSS_IMAGE;
+    }
 
     public abstract String getName();
 

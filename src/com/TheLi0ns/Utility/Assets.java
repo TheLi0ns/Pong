@@ -10,9 +10,19 @@ public class Assets {
     public static final Image LARGE_RACKET = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/player/Long racket.png"))).getImage();
     public static final Image INVERTED_RACKET = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/player/Inverted racket.png"))).getImage();
     public static final Image SHRUNK_RACKET = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/player/Shrunk racket.png"))).getImage();
+    public static final Image MEDIUM_SHRUNK_RACKET = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/player/Medium shrunk racket.png"))).getImage();
     public static final Image PARRY_RACKET = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/player/Parry racket.png"))).getImage();
 
-    public static final Image THE_PYROMANCER = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/bosses/The Pyromancer.png"))).getImage();
+    public static final Image THE_PYROMANCER = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/bosses/ThePyromancer/The Pyromancer.png"))).getImage();
+
+    private static final Image THE_SHRINKER_FIRST_PHASE_NORMAL = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/bosses/TheShrinker/The Shrinker first phase base.png"))).getImage();
+    private static final Image THE_SHRINKER_FIRST_PHASE_SKILL = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/bosses/TheShrinker/The Shrinker first phase smallball.png"))).getImage();
+    /**
+     * 0 normal
+     * 1 skill
+     */
+    public static final Image[] THE_SHRINKER_FIRST_PHASE = {THE_SHRINKER_FIRST_PHASE_NORMAL, THE_SHRINKER_FIRST_PHASE_SKILL};
+    public static final Image THE_SHRINKER_SECOND_PHASE = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/bosses/TheShrinker/The Shrinker second phase.png"))).getImage();
 
     private static final Image HEART = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/player/Heart.png"))).getImage();
     private static final Image HEART_EMPTY = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/player/Heart empty.png"))).getImage();
@@ -33,6 +43,24 @@ public class Assets {
     public static final Image[] FIRE_BALL = {FIRE_BALL_UP, FIRE_BALL_DOWN};
     public static final Image LARGE_BALL = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/ball/Large ball.png"))).getImage();
     public static final Image SMALL_BALL = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/ball/Small ball.png"))).getImage();
+
+    private static final Image GAME_OVER_PT1 = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/gameOver/Game over pt1.png"))).getImage();
+    private static final Image GAME_OVER_PT2 = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/gameOver/Game over pt2.png"))).getImage();
+    /**
+     * 0 pt1
+     * 1 pt2
+     */
+    public static final Image[] GAME_OVER = {GAME_OVER_PT1, GAME_OVER_PT2};
+    public static final Image GAME_OVER_FULL_IMAGE = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/gameOver/Game over.png"))).getImage();
+
+    private static final Image YOU_WIN_PT1 = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/youWin/You win pt1.png"))).getImage();
+    private static final Image YOU_WIN_PT2 = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/youWin/You win pt2.png"))).getImage();
+    /**
+     * 0 pt1
+     * 1 pt2
+     */
+    public static final Image[] YOU_WIN = {YOU_WIN_PT1, YOU_WIN_PT2};
+    public static final Image YOU_WIN_FULL_IMAGE = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/youWin/You win.png"))).getImage();
 
     public static final Image GAME_PREVIEW = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/Game preview.png"))).getImage();
 }

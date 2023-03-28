@@ -38,6 +38,11 @@ public class Vector2D {
         this.y += getYDirection() == Directions.DOWN ? vector2D.getY() : vector2D.getY() * -1;
     }
 
+    public void decrement(Vector2D vector2D){
+        this.x -= getXDirection() == Directions.RIGHT ? vector2D.getX() : vector2D.getX() * -1;
+        this.y -= getYDirection() == Directions.DOWN ? vector2D.getY() : vector2D.getY() * -1;
+    }
+
     public void add(Vector2D vector2D){
         this.x += vector2D.getX();
         this.y += vector2D.getY();

@@ -19,6 +19,8 @@ public class OffensivePowerShrink extends OffensivePowers_super{
 
     private final URL[] SHRINK_SOUND = Sound.SHRINK_SOUND;
 
+    private Image previous_opponent_image;
+
     /**
      * @param player   the player who has this power
      * @param opponent the opponent who get the negative effect
@@ -33,6 +35,8 @@ public class OffensivePowerShrink extends OffensivePowers_super{
     @Override
     public void activate() {
         new Thread(() -> {
+            previous_opponent_image = opponent.getPLAYER_IMAGE();
+            if(previous_opponent_image == Assets.PARRY_RACKET) previous_opponent_image = opponent.getNORMAL_PLAYER_IMAGE();
             effectOnOpponent(true);
             try {
                 Thread.sleep(7000);
@@ -48,13 +52,11 @@ public class OffensivePowerShrink extends OffensivePowers_super{
     protected void effectOnOpponent(boolean on_off) {
         if(on_off){
             opponent.setPLAYER_IMAGE(SHRUNK_PLAYER_IMAGE);
-            opponent.updateWidth();
             opponent.setX(opponent.getX() + 35);
             Sound.play(SHRINK_SOUND[1]);
         }
         else{
-            opponent.setPLAYER_IMAGE(opponent.getNORMAL_PLAYER_IMAGE());
-            opponent.updateWidth();
+            opponent.setPLAYER_IMAGE(previous_opponent_image);
             opponent.setX(opponent.getX() - 35);
             Sound.play(SHRINK_SOUND[0]);
         }
