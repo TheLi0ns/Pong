@@ -16,7 +16,7 @@ public class BossTheShrinker extends Boss_super{
     int[] rayPos = new int[4];
 
     public BossTheShrinker(BossFights env) {
-        super(1, Assets.THE_SHRINKER_FIRST_PHASE[0], new Color(0, 75, 212), env);
+        super(12, Assets.THE_SHRINKER_FIRST_PHASE[0], new Color(0, 75, 212), env);
     }
 
     @Override
