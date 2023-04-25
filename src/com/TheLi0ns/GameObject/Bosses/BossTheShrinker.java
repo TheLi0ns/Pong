@@ -9,6 +9,9 @@ import com.TheLi0ns.Utility.Sound;
 
 import java.awt.*;
 
+/**
+ * @see BossEnum#THE_SHRINKER
+ */
 public class BossTheShrinker extends Boss_super{
 
     final int RAY_DURATION = 3;
@@ -31,6 +34,7 @@ public class BossTheShrinker extends Boss_super{
         Sound.play(Sound.LASER_SOUND);
         ENV.getBall().setShrunk_lock(true);
         ray_remaining_time = RAY_DURATION;
+        //Points for the ray
         rayPos[0] = ENV.getBoss().getX() + ENV.getBoss().getWidth() / 2;
         rayPos[1] = ENV.getBoss().getY() + ENV.getBoss().getHeight() / 2;
         rayPos[2] = ENV.getBall().getX() + ENV.getBall().getWidth() / 2;

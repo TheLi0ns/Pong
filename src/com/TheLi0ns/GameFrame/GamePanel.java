@@ -106,7 +106,7 @@ public class GamePanel extends JPanel {
             if(MyFrame.gameLogic.getGameMode() == GameLogic.GameModes.PVP) p2PowerSelectionMenu.draw(g2d);
         }
         //KEY BINDINGS MENU
-        else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.KEY_BINDINGS_MENU){
+        else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.KEY_BINDINGS_MENU) {
             keyBindingsMenu.draw(g2d);
         }
 

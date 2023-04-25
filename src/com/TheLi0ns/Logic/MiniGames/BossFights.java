@@ -4,10 +4,7 @@ import com.TheLi0ns.Cutscenes.CutsceneEnum;
 import com.TheLi0ns.Cutscenes.CutsceneHandler;
 import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.GameObject.Ball;
-import com.TheLi0ns.GameObject.Bosses.BossEnum;
-import com.TheLi0ns.GameObject.Bosses.BossThePyromancer;
-import com.TheLi0ns.GameObject.Bosses.BossTheShrinker;
-import com.TheLi0ns.GameObject.Bosses.Boss_super;
+import com.TheLi0ns.GameObject.Bosses.*;
 import com.TheLi0ns.GameObject.Fighter;
 import com.TheLi0ns.Logic.GameLogic;
 import com.TheLi0ns.Logic.GameLogic.GameModes;
@@ -54,6 +51,7 @@ public class BossFights extends MiniGame{
         switch(selectedBoss){
             case THE_PYROMANCER -> boss = new BossThePyromancer(this);
             case THE_SHRINKER -> boss = new BossTheShrinker(this);
+            case THE_DISORIENTATOR -> boss = new BossTheDisorientator(this);
         }
 
         ball = new Ball(Utils.genRandomXVelocity(), 6);
@@ -80,21 +78,19 @@ public class BossFights extends MiniGame{
     private boolean scoreUpdate(){
         switch(ball.checkScored()){
             case "UP" -> {
-                boss.damaged();
-                if(!hasSomeoneWins()) {
-                    ball = new Ball(Utils.genRandomXVelocity(), 5);
-                }else{
+                if(boss.damaged()) {
                     finish();
+                }else{
+                    ball = new Ball(Utils.genRandomXVelocity(), 5);
                 }
                 fighter.roundFinished();
                 boss.roundFinished();
             }
             case "DOWN" -> {
-                fighter.damaged();
-                if(!hasSomeoneWins()) {
-                    ball = new Ball(Utils.genRandomXVelocity(), -5);
-                }else{
+                if(fighter.damaged()) {
                     finish();
+                }else{
+                    ball = new Ball(Utils.genRandomXVelocity(), -5);
                 }
                 fighter.roundFinished();
                 boss.roundFinished();
@@ -110,11 +106,6 @@ public class BossFights extends MiniGame{
         if(fighter.getHealth() == 0) CutsceneHandler.playCutscene(CutsceneEnum.GameOver);
         else CutsceneHandler.playCutscene(CutsceneEnum.YOU_WIN);
     }
-
-    private boolean hasSomeoneWins(){
-        return boss.getHealth() == 0 || fighter.getHealth() == 0;
-    }
-
 
     @Override
     public void draw(Graphics2D g2d) {

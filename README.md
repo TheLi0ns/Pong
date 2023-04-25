@@ -30,5 +30,6 @@ The player only have 3 HP, so he can only suffer 3 goals and he can use the parr
 defensive power but only 5 times per round. <br />
 Music by Marllon Silva (xDeviruchi)
 #### Bosses:
-  * ***The Pyromancer:*** an ancient pong player that has mastered the fireshot ability at a level that he can use it whenever he wants
-  * ***The Shrinker:*** a young pong player that created a shrinker-ray and he use it to win the game by shrinking both the ball and the enemy 
+  * ***The Pyromancer:*** an ancient sage that has mastered the pyromancy to fight in war, when the conflicts ended he decided to start playing ping pong. He uses pyromancies to set the ball on fire to increase the power of his shot. 
+  * ***The Shrinker:*** a young engineer that used to play ping pong in free time. When he has created a shrinker-ray, he started winning so many tournament using it.
+  * ***The Disorientator:*** a beautiful girl that uses her beauty to disorient the enemy. Thanks to this she has won a lot of tournament 

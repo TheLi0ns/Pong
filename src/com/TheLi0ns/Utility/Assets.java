@@ -24,6 +24,12 @@ public class Assets {
     public static final Image[] THE_SHRINKER_FIRST_PHASE = {THE_SHRINKER_FIRST_PHASE_NORMAL, THE_SHRINKER_FIRST_PHASE_SKILL};
     public static final Image THE_SHRINKER_SECOND_PHASE = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/bosses/TheShrinker/The Shrinker second phase.png"))).getImage();
 
+    public static final Image THE_DISORIENTATOR = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/bosses/TheDisorientator/The Disorientator.png"))).getImage();
+    private static final Image THE_DISORIENTATOR_EYES_OPENING_F1 = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/bosses/TheDisorientator/eyesOpening/The disorientator open f1.png"))).getImage();
+    private static final Image THE_DISORIENTATOR_EYES_OPENING_F2 = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/bosses/TheDisorientator/eyesOpening/The disorientator open f2.png"))).getImage();
+    public static final Image[] THE_DISORIENTATOR_SKILL_ACTIVATION = {THE_DISORIENTATOR,THE_DISORIENTATOR_EYES_OPENING_F1, THE_DISORIENTATOR_EYES_OPENING_F2};
+    public static final Image THE_DISORIENTATOR_SKILL = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/bosses/TheDisorientator/The disorientator skill.gif"))).getImage();
+
     private static final Image HEART = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/player/Heart.png"))).getImage();
     private static final Image HEART_EMPTY = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/player/Heart empty.png"))).getImage();
 
@@ -51,7 +57,6 @@ public class Assets {
      * 1 pt2
      */
     public static final Image[] GAME_OVER = {GAME_OVER_PT1, GAME_OVER_PT2};
-    public static final Image GAME_OVER_FULL_IMAGE = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/gameOver/Game over.png"))).getImage();
 
     private static final Image YOU_WIN_PT1 = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/youWin/You win pt1.png"))).getImage();
     private static final Image YOU_WIN_PT2 = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/youWin/You win pt2.png"))).getImage();
@@ -60,7 +65,6 @@ public class Assets {
      * 1 pt2
      */
     public static final Image[] YOU_WIN = {YOU_WIN_PT1, YOU_WIN_PT2};
-    public static final Image YOU_WIN_FULL_IMAGE = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/youWin/You win.png"))).getImage();
 
     public static final Image GAME_PREVIEW = new ImageIcon(Objects.requireNonNull(Assets.class.getResource("/ASSETS/Game preview.png"))).getImage();
 }

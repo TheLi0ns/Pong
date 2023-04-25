@@ -1,11 +1,13 @@
 package com.TheLi0ns.Cutscenes;
 
 import com.TheLi0ns.GameFrame.MyFrame;
+import com.TheLi0ns.GameObject.Bosses.BossTheDisorientator;
 import com.TheLi0ns.Logic.MiniGames.BossFights;
 import com.TheLi0ns.Utility.Assets;
 import com.TheLi0ns.Utility.Directions;
 import com.TheLi0ns.Utility.Sound;
 
+import javax.sound.sampled.Clip;
 import java.awt.*;
 
 import static com.TheLi0ns.Logic.GameLogic.GameStates;
@@ -22,6 +24,8 @@ public class CutsceneHandler {
         else timeRemaining--;
         switch (currentCutscene){
             case TheShrinker_SecondPhase -> draw_TheShrinkerSecondPhase_cutscene(g2d);
+            case TheDisorientator_SkillActivation -> draw_TheDisorientatorSkillActivation_cutscene(g2d);
+            case TheDisorientator_SkillDeactivation -> draw_TheDisorientatorSkillDeactivation_cutscene(g2d);
             case GameOver -> draw_GameOver(g2d);
             case YOU_WIN -> draw_YouWin(g2d);
         }
@@ -30,17 +34,28 @@ public class CutsceneHandler {
     public static void playCutscene(CutsceneEnum cutscene){
         currentCutscene = cutscene;
         timeRemaining = cutscene.duration + 1;
-        previousGameState = MyFrame.gameLogic.getGameState();
+        if(MyFrame.gameLogic.getGameState() != GameStates.CUTSCENE){
+            previousGameState = MyFrame.gameLogic.getGameState();
+        }
         MyFrame.gameLogic.setGameState(GameStates.CUTSCENE);
 
         switch (currentCutscene){
-            case TheShrinker_SecondPhase -> TheShrinkerSecondPhase_cutscene_setup();
+            case TheShrinker_SecondPhase -> theShrinkerSecondPhase_cutscene_setup();
+            case TheDisorientator_SkillActivation -> theDisorientatorSkillActivation_cutscene_setup();
+            case TheDisorientator_SkillDeactivation -> theDisorientatorSkillDeactivation_cutscene_setup();
             case GameOver -> Sound.play(Sound.GAME_OVER_SOUND);
             case YOU_WIN -> Sound.play(Sound.YOU_WIN_SOUND);
         }
     }
 
-    private static void TheShrinkerSecondPhase_cutscene_setup() {
+    private static void bossFight_cutscene_generalSetup(){
+        BossFights ENV = (BossFights) MyFrame.gameLogic.miniGame;
+        ENV.getFighter().setLeftPressed(false);
+        ENV.getFighter().setRightPressed(false);
+        ENV.getFighter().setParrying(false);
+    }
+
+    private static void theShrinkerSecondPhase_cutscene_setup() {
         BossFights ENV = (BossFights)MyFrame.gameLogic.miniGame;
         ENV.getBoss().setX(391);
         ENV.getFighter().setX(391);
@@ -129,6 +144,51 @@ public class CutsceneHandler {
             g2d.drawImage(Assets.YOU_WIN[0], 280, 330, null);
             g2d.drawImage(Assets.YOU_WIN[1], 280, 530, null);
         }
+    }
+
+    private static void theDisorientatorSkillActivation_cutscene_setup() {
+        bossFight_cutscene_generalSetup();
+        BossFights ENV = (BossFights)MyFrame.gameLogic.miniGame;
+        new Thread(() -> {
+            try {
+                Thread.sleep(600);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            ((BossTheDisorientator)(ENV.getBoss())).setSkillSound_clip(Sound.playLoop(Sound.DISORIENTATOR_SKILL_LOOPABLE_SOUND));
+        }).start();
+    }
+
+    private static void draw_TheDisorientatorSkillActivation_cutscene(Graphics2D g2d){
+        BossFights ENV = (BossFights) MyFrame.gameLogic.miniGame;
+        ENV.draw(g2d);
+        if(timeRemaining > 110) g2d.drawImage(Assets.THE_DISORIENTATOR_SKILL_ACTIVATION[0], ENV.getBoss().getX(), ENV.getBoss().getY(), null);
+        else if(timeRemaining > 92) g2d.drawImage(Assets.THE_DISORIENTATOR_SKILL_ACTIVATION[1], ENV.getBoss().getX(), ENV.getBoss().getY(), null);
+        else if(timeRemaining > 74) g2d.drawImage(Assets.THE_DISORIENTATOR_SKILL_ACTIVATION[2], ENV.getBoss().getX(), ENV.getBoss().getY(), null);
+        else g2d.drawImage(Assets.THE_DISORIENTATOR_SKILL, ENV.getBoss().getX(), ENV.getBoss().getY(), null);
+    }
+
+    private static void theDisorientatorSkillDeactivation_cutscene_setup() {
+        bossFight_cutscene_generalSetup();
+        BossFights ENV = (BossFights)MyFrame.gameLogic.miniGame;
+        new Thread(() -> {
+            try {
+                Thread.sleep(800);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            Clip clip = ((BossTheDisorientator)(ENV.getBoss())).getSkillSound_clip();
+            if(clip != null && clip.isRunning()) Sound.stopClip(clip);
+        }).start();
+    }
+
+    private static void draw_TheDisorientatorSkillDeactivation_cutscene(Graphics2D g2d){
+        BossFights ENV = (BossFights) MyFrame.gameLogic.miniGame;
+        ENV.draw(g2d);
+        if(timeRemaining > 64) g2d.drawImage(Assets.THE_DISORIENTATOR_SKILL, ENV.getBoss().getX(), ENV.getBoss().getY(), null);
+        else if(timeRemaining > 46) g2d.drawImage(Assets.THE_DISORIENTATOR_SKILL_ACTIVATION[2], ENV.getBoss().getX(), ENV.getBoss().getY(), null);
+        else if(timeRemaining > 28) g2d.drawImage(Assets.THE_DISORIENTATOR_SKILL_ACTIVATION[1], ENV.getBoss().getX(), ENV.getBoss().getY(), null);
+        else g2d.drawImage(Assets.THE_DISORIENTATOR_SKILL_ACTIVATION[0], ENV.getBoss().getX(), ENV.getBoss().getY(), null);
     }
 
     public static void skip(){

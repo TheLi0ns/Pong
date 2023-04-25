@@ -32,6 +32,8 @@ public class Sound {
 
     public static URL GIGALASER_SOUND;
 
+    public static URL DISORIENTATOR_SKILL_LOOPABLE_SOUND;
+
     public static URL FIGHTER_DAMAGED_SOUND;
 
     public static URL BOSS_DAMAGED_SOUND;
@@ -98,6 +100,8 @@ public class Sound {
 
         GIGALASER_SOUND = getClass().getResource("/SFX/bossfights/theShrinker/gigalaser.wav");
 
+        DISORIENTATOR_SKILL_LOOPABLE_SOUND = getClass().getResource("/SFX/bossfights/theDisorientator/TheDisorientator skill loopable.wav");
+
         PARRY_SOUND = getClass().getResource("/SFX/powers/parry.wav");
 
         FIGHTER_DAMAGED_SOUND = getClass().getResource("/SFX/bossfights/Fighter damaged.wav");
@@ -118,6 +122,13 @@ public class Sound {
     public static void play(URL url) {
         setSound(url);
         playSound();
+    }
+
+    public static Clip playLoop(URL url){
+        setSound(url);
+        clip.loop(Clip.LOOP_CONTINUOUSLY);
+        clip.start();
+        return clip;
     }
 
     private static void setSound(URL url) {
@@ -144,13 +155,15 @@ public class Sound {
         clip.start();
     }
 
+    public static void stopClip(Clip clip){
+        clip.stop();
+        clip.flush();
+        clip.close();
+    }
+
     public static void stop(){
         stopping = true;
-        for (Clip i : clips) {
-            i.stop();
-            i.flush();
-            i.close();
-        }
+        for (Clip i : clips) stopClip(i);
         clips.clear();
         stopping = false;
     }

@@ -29,8 +29,10 @@ public class BossFightSubMenu extends SubMenu{
      */
     public static final CenteredOption THE_SHRINKER_OPTION = new CenteredOption("The Shrinker", 2);
 
+    public static final CenteredOption THE_DISORIENTATOR_OPTION = new CenteredOption("The Disorientator", 3);
+
     public BossFightSubMenu() {
-        super(2, 80);
+        super(3, 120);
     }
 
     @Override
@@ -46,6 +48,10 @@ public class BossFightSubMenu extends SubMenu{
 
         else if(selectedOption == THE_SHRINKER_OPTION.ID){
             MyFrame.gameLogic.miniGame = new BossFights(BossEnum.THE_SHRINKER);
+        }
+
+        else if(selectedOption == THE_DISORIENTATOR_OPTION.ID){
+            MyFrame.gameLogic.miniGame = new BossFights(BossEnum.THE_DISORIENTATOR);
         }
 
         selectedOption = 1;
@@ -67,5 +73,7 @@ public class BossFightSubMenu extends SubMenu{
         y = THE_PYROMANCER_OPTION.draw(y, y_offset, THE_PYROMANCER_OPTION.isSelected(selectedOption), g2d);
 
         y = THE_SHRINKER_OPTION.draw(y, y_offset, THE_SHRINKER_OPTION.isSelected(selectedOption), g2d);
+
+        y = THE_DISORIENTATOR_OPTION.draw(y, y_offset, THE_DISORIENTATOR_OPTION.isSelected(selectedOption), g2d);
     }
 }

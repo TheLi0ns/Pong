@@ -56,8 +56,8 @@ public abstract class Boss_super extends Player {
         }
 
         if(!skillActivated && skillCondition()){
-            activateSkill();
             skillActivated = true;
+            activateSkill();
         }
         if(!secondPhase && secondPhaseCondition()) {
             enterSecondPhase();
@@ -98,9 +98,8 @@ public abstract class Boss_super extends Player {
         Sound.play(Sound.BOSS_DAMAGED_SOUND);
 
         this.health--;
-        if(health == 0) return true;
 
-        return false;
+        return health == 0;
     }
 
     /**
