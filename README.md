@@ -1,5 +1,5 @@
 # Pong
-[Download the setup](https://github.com/TheLi0ns/Pong/releases/download/v2.2.0/Pong_setup.exe) <br />
+[Download the setup](https://github.com/TheLi0ns/Pong/releases/latest/download/Pong_setup.exe) <br />
 I've recreated the classic game Pong. I want to learn game dev this is my third project
 
 ## Description
