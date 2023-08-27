@@ -23,7 +23,10 @@ public class CutsceneHandler {
         if(timeRemaining == 0) MyFrame.gameLogic.setGameState(previousGameState);
         else timeRemaining--;
         switch (currentCutscene){
+            case ThePyromancer_Cutscene -> draw_ThePyromancer_cutscene(g2d);
+            case TheShrinker_Cutscene -> draw_TheShrinker_cutscene(g2d);
             case TheShrinker_SecondPhase -> draw_TheShrinkerSecondPhase_cutscene(g2d);
+            case TheDisorientator_Cutscene -> draw_TheDisorientator_cutscene(g2d);
             case TheDisorientator_SkillActivation -> draw_TheDisorientatorSkillActivation_cutscene(g2d);
             case TheDisorientator_SkillDeactivation -> draw_TheDisorientatorSkillDeactivation_cutscene(g2d);
             case GameOver -> draw_GameOver(g2d);
@@ -40,7 +43,10 @@ public class CutsceneHandler {
         MyFrame.gameLogic.setGameState(GameStates.CUTSCENE);
 
         switch (currentCutscene){
+            case ThePyromancer_Cutscene -> bossFight_cutscene_generalSetup();
+            case TheShrinker_Cutscene -> bossFight_cutscene_generalSetup();
             case TheShrinker_SecondPhase -> theShrinkerSecondPhase_cutscene_setup();
+            case TheDisorientator_Cutscene -> bossFight_cutscene_generalSetup();
             case TheDisorientator_SkillActivation -> theDisorientatorSkillActivation_cutscene_setup();
             case TheDisorientator_SkillDeactivation -> theDisorientatorSkillDeactivation_cutscene_setup();
             case GameOver -> Sound.play(Sound.GAME_OVER_SOUND);
@@ -55,6 +61,56 @@ public class CutsceneHandler {
         ENV.getFighter().setParrying(false);
     }
 
+    private static void draw_ThePyromancer_cutscene(Graphics2D g2d){
+        if(timeRemaining == 260) Sound.play(Sound.BOSS_BANNER_SOUND);
+
+        if(timeRemaining >= 590) g2d.drawImage(Assets.THE_PYROMANCER_CUTSCENE[0], 0, 0, null);
+        else if(timeRemaining >= 580) g2d.drawImage(Assets.THE_PYROMANCER_CUTSCENE[1], 0, 0, null);
+        else if(timeRemaining >= 570) g2d.drawImage(Assets.THE_PYROMANCER_CUTSCENE[2], 0, 0, null);
+        else if(timeRemaining >= 560) g2d.drawImage(Assets.THE_PYROMANCER_CUTSCENE[3], 0, 0, null);
+        else if(timeRemaining >= 470) g2d.drawImage(Assets.THE_PYROMANCER_CUTSCENE[4], 0, 0, null);
+        else if(timeRemaining >= 460) g2d.drawImage(Assets.THE_PYROMANCER_CUTSCENE[5], 0, 0, null);
+        else if(timeRemaining >= 450) g2d.drawImage(Assets.THE_PYROMANCER_CUTSCENE[6], 0, 0, null);
+        else if(timeRemaining >= 440) g2d.drawImage(Assets.THE_PYROMANCER_CUTSCENE[7], 0, 0, null);
+        else if(timeRemaining >= 350) g2d.drawImage(Assets.THE_PYROMANCER_CUTSCENE[8], 0, 0, null);
+        else if(timeRemaining >= 340) g2d.drawImage(Assets.THE_PYROMANCER_CUTSCENE[9], 0, 0, null);
+        else if(timeRemaining >= 330) g2d.drawImage(Assets.THE_PYROMANCER_CUTSCENE[10], 0, 0, null);
+        else if(timeRemaining >= 320) g2d.drawImage(Assets.THE_PYROMANCER_CUTSCENE[11], 0, 0, null);
+        else if(timeRemaining >= 230) g2d.drawImage(Assets.THE_PYROMANCER_CUTSCENE[12], 0, 0, null);
+        else if(timeRemaining >= 140) g2d.drawImage(Assets.THE_PYROMANCER_CUTSCENE[13], 0, 0, null);
+        else if(timeRemaining >= 130) g2d.drawImage(Assets.THE_PYROMANCER_CUTSCENE[14], 0, 0, null);
+        else if(timeRemaining >= 120) g2d.drawImage(Assets.THE_PYROMANCER_CUTSCENE[15], 0, 0, null);
+        else if(timeRemaining >= 110) g2d.drawImage(Assets.THE_PYROMANCER_CUTSCENE[16], 0, 0, null);
+        else if(timeRemaining >= 100) g2d.drawImage(Assets.THE_PYROMANCER_CUTSCENE[17], 0, 0, null);
+        else if(timeRemaining >= 90) g2d.drawImage(Assets.THE_PYROMANCER_CUTSCENE[18], 0, 0, null);
+        else if(timeRemaining >= 0) g2d.drawImage(Assets.THE_PYROMANCER_CUTSCENE[19], 0, 0, null);
+    }
+
+    private static void draw_TheShrinker_cutscene(Graphics2D g2d){
+        if(timeRemaining == 260) Sound.play(Sound.BOSS_BANNER_SOUND);
+
+        if(timeRemaining >= 590) g2d.drawImage(Assets.THE_SHRINKER_CUTSCENE[0], 0, 0, null);
+        else if(timeRemaining >= 580) g2d.drawImage(Assets.THE_SHRINKER_CUTSCENE[1], 0, 0, null);
+        else if(timeRemaining >= 570) g2d.drawImage(Assets.THE_SHRINKER_CUTSCENE[2], 0, 0, null);
+        else if(timeRemaining >= 560) g2d.drawImage(Assets.THE_SHRINKER_CUTSCENE[3], 0, 0, null);
+        else if(timeRemaining >= 470) g2d.drawImage(Assets.THE_SHRINKER_CUTSCENE[4], 0, 0, null);
+        else if(timeRemaining >= 460) g2d.drawImage(Assets.THE_SHRINKER_CUTSCENE[5], 0, 0, null);
+        else if(timeRemaining >= 450) g2d.drawImage(Assets.THE_SHRINKER_CUTSCENE[6], 0, 0, null);
+        else if(timeRemaining >= 440) g2d.drawImage(Assets.THE_SHRINKER_CUTSCENE[7], 0, 0, null);
+        else if(timeRemaining >= 350) g2d.drawImage(Assets.THE_SHRINKER_CUTSCENE[8], 0, 0, null);
+        else if(timeRemaining >= 340) g2d.drawImage(Assets.THE_SHRINKER_CUTSCENE[9], 0, 0, null);
+        else if(timeRemaining >= 330) g2d.drawImage(Assets.THE_SHRINKER_CUTSCENE[10], 0, 0, null);
+        else if(timeRemaining >= 320) g2d.drawImage(Assets.THE_SHRINKER_CUTSCENE[11], 0, 0, null);
+        else if(timeRemaining >= 230) g2d.drawImage(Assets.THE_SHRINKER_CUTSCENE[12], 0, 0, null);
+        else if(timeRemaining >= 140) g2d.drawImage(Assets.THE_SHRINKER_CUTSCENE[13], 0, 0, null);
+        else if(timeRemaining >= 130) g2d.drawImage(Assets.THE_SHRINKER_CUTSCENE[14], 0, 0, null);
+        else if(timeRemaining >= 120) g2d.drawImage(Assets.THE_SHRINKER_CUTSCENE[15], 0, 0, null);
+        else if(timeRemaining >= 110) g2d.drawImage(Assets.THE_SHRINKER_CUTSCENE[16], 0, 0, null);
+        else if(timeRemaining >= 100) g2d.drawImage(Assets.THE_SHRINKER_CUTSCENE[17], 0, 0, null);
+        else if(timeRemaining >= 90) g2d.drawImage(Assets.THE_SHRINKER_CUTSCENE[18], 0, 0, null);
+        else if(timeRemaining >= 0) g2d.drawImage(Assets.THE_SHRINKER_CUTSCENE[19], 0, 0, null);
+    }
+    
     private static void theShrinkerSecondPhase_cutscene_setup() {
         BossFights ENV = (BossFights)MyFrame.gameLogic.miniGame;
         ENV.getBoss().setX(391);
@@ -146,6 +202,31 @@ public class CutsceneHandler {
         }
     }
 
+    private static void draw_TheDisorientator_cutscene(Graphics2D g2d){
+        if(timeRemaining == 260) Sound.play(Sound.BOSS_BANNER_SOUND);
+
+        if(timeRemaining >= 590) g2d.drawImage(Assets.THE_DISORIENTATOR_CUTSCENE[0], 0, 0, null);
+        else if(timeRemaining >= 580) g2d.drawImage(Assets.THE_DISORIENTATOR_CUTSCENE[1], 0, 0, null);
+        else if(timeRemaining >= 570) g2d.drawImage(Assets.THE_DISORIENTATOR_CUTSCENE[2], 0, 0, null);
+        else if(timeRemaining >= 560) g2d.drawImage(Assets.THE_DISORIENTATOR_CUTSCENE[3], 0, 0, null);
+        else if(timeRemaining >= 470) g2d.drawImage(Assets.THE_DISORIENTATOR_CUTSCENE[4], 0, 0, null);
+        else if(timeRemaining >= 460) g2d.drawImage(Assets.THE_DISORIENTATOR_CUTSCENE[5], 0, 0, null);
+        else if(timeRemaining >= 450) g2d.drawImage(Assets.THE_DISORIENTATOR_CUTSCENE[6], 0, 0, null);
+        else if(timeRemaining >= 440) g2d.drawImage(Assets.THE_DISORIENTATOR_CUTSCENE[7], 0, 0, null);
+        else if(timeRemaining >= 350) g2d.drawImage(Assets.THE_DISORIENTATOR_CUTSCENE[8], 0, 0, null);
+        else if(timeRemaining >= 340) g2d.drawImage(Assets.THE_DISORIENTATOR_CUTSCENE[9], 0, 0, null);
+        else if(timeRemaining >= 330) g2d.drawImage(Assets.THE_DISORIENTATOR_CUTSCENE[10], 0, 0, null);
+        else if(timeRemaining >= 320) g2d.drawImage(Assets.THE_DISORIENTATOR_CUTSCENE[11], 0, 0, null);
+        else if(timeRemaining >= 230) g2d.drawImage(Assets.THE_DISORIENTATOR_CUTSCENE[12], 0, 0, null);
+        else if(timeRemaining >= 140) g2d.drawImage(Assets.THE_DISORIENTATOR_CUTSCENE[13], 0, 0, null);
+        else if(timeRemaining >= 130) g2d.drawImage(Assets.THE_DISORIENTATOR_CUTSCENE[14], 0, 0, null);
+        else if(timeRemaining >= 120) g2d.drawImage(Assets.THE_DISORIENTATOR_CUTSCENE[15], 0, 0, null);
+        else if(timeRemaining >= 110) g2d.drawImage(Assets.THE_DISORIENTATOR_CUTSCENE[16], 0, 0, null);
+        else if(timeRemaining >= 100) g2d.drawImage(Assets.THE_DISORIENTATOR_CUTSCENE[17], 0, 0, null);
+        else if(timeRemaining >= 90) g2d.drawImage(Assets.THE_DISORIENTATOR_CUTSCENE[18], 0, 0, null);
+        else if(timeRemaining >= 0) g2d.drawImage(Assets.THE_DISORIENTATOR_CUTSCENE[19], 0, 0, null);
+    }
+    
     private static void theDisorientatorSkillActivation_cutscene_setup() {
         bossFight_cutscene_generalSetup();
         BossFights ENV = (BossFights)MyFrame.gameLogic.miniGame;

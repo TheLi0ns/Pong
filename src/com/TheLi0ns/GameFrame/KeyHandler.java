@@ -38,7 +38,15 @@ public class KeyHandler implements KeyListener {
 
         if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.PLAYING){
             switch(MyFrame.gameLogic.getGameMode()){
-                case PVP, PVE -> {
+                case PVE -> {
+                    if(code == p1Left_key) MyFrame.gameLogic.p1.setLeftPressed(true);
+                    else if(code == p1Right_key) MyFrame.gameLogic.p1.setRightPressed(true);
+
+                    else if(code == p1DefensivePower_key) MyFrame.gameLogic.p1.activateDefensivePower();
+                    else if(code == p1OffensivePower_key) MyFrame.gameLogic.p1.activateOffensivePower();
+                }
+
+                case PVP -> {
                     if(code == p1Left_key) MyFrame.gameLogic.p1.setLeftPressed(true);
                     else if(code == p1Right_key) MyFrame.gameLogic.p1.setRightPressed(true);
 
@@ -80,7 +88,21 @@ public class KeyHandler implements KeyListener {
         if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.PLAYING){
 
             switch (MyFrame.gameLogic.getGameMode()){
-                case PVP, PVE -> {
+                case PVE ->{
+                    if(code == p1Left_key) MyFrame.gameLogic.p1.setLeftPressed(false);
+                    else if(code == p1Right_key) MyFrame.gameLogic.p1.setRightPressed(false);
+
+                    else if(code == KeyEvent.VK_P) MyFrame.gameLogic.togglePause();
+
+                    else if(code == KeyEvent.VK_ESCAPE) {
+                        MyFrame.gameLogic.setGameState(GameLogic.GameStates.TITLE_SCREEN);
+                        Sound.stop();
+                    }
+
+                    else if(code == KeyEvent.VK_R) MyFrame.gameLogic.startMatch();
+                }
+
+                case PVP -> {
                     if(code == p1Left_key) MyFrame.gameLogic.p1.setLeftPressed(false);
                     else if(code == p1Right_key) MyFrame.gameLogic.p1.setRightPressed(false);
 

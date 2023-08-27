@@ -1,5 +1,7 @@
 package com.TheLi0ns.MenusHandling.SubMenus;
 
+import com.TheLi0ns.Cutscenes.CutsceneEnum;
+import com.TheLi0ns.Cutscenes.CutsceneHandler;
 import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.GameObject.Bosses.BossEnum;
 import com.TheLi0ns.GameObject.Bosses.BossThePyromancer;
@@ -44,14 +46,17 @@ public class BossFightSubMenu extends SubMenu{
     public void clickOption() {
         if(selectedOption == THE_PYROMANCER_OPTION.ID){
             MyFrame.gameLogic.miniGame = new BossFights(BossEnum.THE_PYROMANCER);
+            CutsceneHandler.playCutscene(CutsceneEnum.ThePyromancer_Cutscene);
         }
 
         else if(selectedOption == THE_SHRINKER_OPTION.ID){
             MyFrame.gameLogic.miniGame = new BossFights(BossEnum.THE_SHRINKER);
+            CutsceneHandler.playCutscene(CutsceneEnum.TheShrinker_Cutscene);
         }
 
         else if(selectedOption == THE_DISORIENTATOR_OPTION.ID){
             MyFrame.gameLogic.miniGame = new BossFights(BossEnum.THE_DISORIENTATOR);
+            CutsceneHandler.playCutscene(CutsceneEnum.TheDisorientator_Cutscene);
         }
 
         selectedOption = 1;

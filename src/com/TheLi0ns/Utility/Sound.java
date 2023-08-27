@@ -34,6 +34,8 @@ public class Sound {
 
     public static URL DISORIENTATOR_SKILL_LOOPABLE_SOUND;
 
+    public static URL BOSS_BANNER_SOUND;
+
     public static URL FIGHTER_DAMAGED_SOUND;
 
     public static URL BOSS_DAMAGED_SOUND;
@@ -103,6 +105,8 @@ public class Sound {
         DISORIENTATOR_SKILL_LOOPABLE_SOUND = getClass().getResource("/SFX/bossfights/theDisorientator/TheDisorientator skill loopable.wav");
 
         PARRY_SOUND = getClass().getResource("/SFX/powers/parry.wav");
+
+        BOSS_BANNER_SOUND = getClass().getResource("/SFX/bossfights/Boss banner.wav");
 
         FIGHTER_DAMAGED_SOUND = getClass().getResource("/SFX/bossfights/Fighter damaged.wav");
         BOSS_DAMAGED_SOUND = getClass().getResource("/SFX/bossfights/Boss damaged.wav");
