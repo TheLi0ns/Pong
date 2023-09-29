@@ -14,7 +14,7 @@ public class DefensivePowerLargeBall extends DefensivePowers_super{
     }
 
     @Override
-    public void activate() {
+    public void performAction() {
         player.setStretchBallActivated(true);
         new Thread(() -> {
             try {

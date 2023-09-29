@@ -20,7 +20,7 @@ public class DefensivePowerParry extends DefensivePowers_super {
      * Make the racket block any shot for 100ms
      */
     @Override
-    public void activate() {
+    public void performAction() {
         new Thread(() -> {
             Image previous_player_image = player.getPLAYER_IMAGE();
             int x_tmp = player.getX();

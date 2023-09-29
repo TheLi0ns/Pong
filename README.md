@@ -7,7 +7,7 @@ Pong is a two-dimensional sports game that simulates table tennis.
 The player controls an in-game paddle by moving it horizontally across the down or up side of the screen. 
 They can compete against another player controlling a second paddle on the opposing side or it can be controlled by the computer. 
 Players use the paddles to hit a ball back and forth and score a point when the opponent fails to hit the ball. Plus the players have some powers: 
-defensive ones that can be activated after 3 suffered goals and offensive ones that can be activated after 5 suffered goals
+defensive ones that can be activated after 3 suffered goals and offensive ones that can be activated after 6 suffered goals
 
 ## Powers
 ### Defensive powers:

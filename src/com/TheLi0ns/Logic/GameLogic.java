@@ -27,18 +27,6 @@ public class GameLogic implements Runnable{
     private boolean arePowersEnabled = true;
 
     /**
-     * The defensive power is rechargeable if the points to win
-     * are greater than 3 the charge of defensive powers
-     */
-    private boolean isDefensivePowerRechargeable;
-
-    /**
-     * The offensive power is rechargeable if the points to win
-     * are greater than 5 the charge of offensive powers
-     */
-    private boolean isOffensivePowerRechargeable;
-
-    /**
      * The string that will be displayed
      * when someone wins
      */
@@ -87,7 +75,6 @@ public class GameLogic implements Runnable{
 
     /**
      * Creates the player and the first ball
-     * Calculate if the powers are rechargeable
      * {@link GameLogic#setUpPowers() Assigns to the players their powers}
      * And set the playing game state
      */
@@ -100,9 +87,6 @@ public class GameLogic implements Runnable{
         else if(gameMode == GameModes.PVE) p2 = new ComputerPlayer(391, 53, 7, GamePanel.gameModeSubMenu.getDifficultyChosen());
 
         ball = new Ball(Utils.genRandomXVelocity(), 6);
-
-        isOffensivePowerRechargeable = pointsToWin > 5;
-        isDefensivePowerRechargeable = pointsToWin > 3;
 
         setUpPowers();
 
@@ -230,13 +214,13 @@ public class GameLogic implements Runnable{
      */
     public void setUpPowers(){
         if(arePowersEnabled){
-            if(isOffensivePowerRechargeable){
+            if(isDefensivePowerRechargeable()){
                 p1.setOffensivePower(GamePanel.p1PowerSelectionMenu.getSelectedOffensivePower(), p2);
-                p2.setOffensivePower(GamePanel.p2PowerSelectionMenu.getSelectedOffensivePower(), p1);
+                if(gameMode == GameModes.PVP) p2.setOffensivePower(GamePanel.p2PowerSelectionMenu.getSelectedOffensivePower(), p1);
             }
-            if(isDefensivePowerRechargeable){
+            if(isDefensivePowerRechargeable()){
                 p1.setDefensivePower(GamePanel.p1PowerSelectionMenu.getSelectedDefensivePower());
-                p2.setDefensivePower(GamePanel.p2PowerSelectionMenu.getSelectedDefensivePower());
+                if(gameMode == GameModes.PVP) p2.setDefensivePower(GamePanel.p2PowerSelectionMenu.getSelectedDefensivePower());
             }
         }
     }
@@ -264,12 +248,20 @@ public class GameLogic implements Runnable{
         return gameMode;
     }
 
+    /**
+     * The defensive power is rechargeable if the points to win
+     * are greater than 3 the charge of defensive powers
+     */
     public boolean isDefensivePowerRechargeable() {
-        return isDefensivePowerRechargeable;
+        return pointsToWin > 3;
     }
 
+    /**
+     * The offensive power is rechargeable if the points to win
+     * are greater than 6 the charge of offensive powers
+     */
     public boolean isOffensivePowerRechargeable() {
-        return isOffensivePowerRechargeable;
+        return pointsToWin > 6;
     }
 
 }
