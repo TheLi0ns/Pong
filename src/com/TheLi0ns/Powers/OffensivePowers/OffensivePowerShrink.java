@@ -33,7 +33,7 @@ public class OffensivePowerShrink extends OffensivePowers_super{
      * Shrinks the opponent racket for 7 secs
      */
     @Override
-    public void performAction() {
+    public void activate() {
         new Thread(() -> {
             previous_opponent_image = opponent.getPLAYER_IMAGE();
             if(previous_opponent_image == Assets.PARRY_RACKET) previous_opponent_image = opponent.getNORMAL_PLAYER_IMAGE();

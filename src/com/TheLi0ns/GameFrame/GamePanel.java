@@ -47,7 +47,18 @@ public class GamePanel extends JPanel {
             switch(MyFrame.gameLogic.getGameMode()){
                 case PVP, PVE -> {
                     drawField(g2d);
+
+                    if(MyFrame.gameLogic.arePowersEnabled()){
+                        if(MyFrame.gameLogic.isDefensivePowerRechargeable()){
+                            drawDefensivePowerBattery(g2d);
+                        }
+                        if(MyFrame.gameLogic.isOffensivePowerRechargeable()){
+                            drawOffensivePowerBattery(g2d);
+                        }
+                    }
+
                     drawGameObjects(g2d);
+
                     drawScore(g2d);
                 }
 
@@ -119,6 +130,127 @@ public class GamePanel extends JPanel {
         g2d.drawLine(0, 954, 1000,954);
     }
 
+    private void drawDefensivePowerBattery(Graphics2D g2d){
+
+        //p1
+        g2d.setPaint(Color.gray);
+        g2d.setStroke(new BasicStroke(5));
+        g2d.drawRect(50, 820, 70, 125);
+        g2d.drawLine(50, 860, 120, 860);
+        g2d.drawLine(50, 900, 120, 900);
+
+        g2d.setPaint(Color.CYAN);
+        g2d.setFont(new Font("Comic Sans MS", Font.PLAIN, 10));
+        g2d.drawString(MyFrame.gameLogic.p1.getDefensivePower().getName(), 50, 810);
+
+        g2d.setPaint(Color.GREEN);
+        if(MyFrame.gameLogic.p1.getChargeDefensivePower() > 0){
+            g2d.fillRect(55, 905, 60, 35);
+        }
+        if(MyFrame.gameLogic.p1.getChargeDefensivePower() > 1){
+            g2d.fillRect(55, 865, 60, 30);
+        }
+        if(MyFrame.gameLogic.p1.getChargeDefensivePower() > 2){
+            g2d.fillRect(55, 825, 60,30);
+            g2d.setPaint(Color.CYAN);
+            g2d.drawRect(45, 815, 80, 135);
+        }
+
+        //p2
+        if(MyFrame.gameLogic.getGameMode() == GameLogic.GameModes.PVP){
+            g2d.setPaint(Color.gray);
+            g2d.setStroke(new BasicStroke(5));
+            g2d.drawRect(880, 55, 70, 125);
+            g2d.drawLine(880, 95, 950, 95);
+            g2d.drawLine(885, 135, 950, 135);
+
+            g2d.setPaint(Color.CYAN);
+            g2d.setFont(new Font("Comic Sans MS", Font.PLAIN, 10));
+            g2d.drawString(MyFrame.gameLogic.p2.getDefensivePower().getName(), 880, 200);
+
+            g2d.setPaint(Color.GREEN);
+            if(MyFrame.gameLogic.p2.getChargeDefensivePower() > 0){
+                g2d.fillRect(885, 60, 60, 30);
+            }
+            if(MyFrame.gameLogic.p2.getChargeDefensivePower() > 1){
+                g2d.fillRect(885, 100, 60, 30);
+            }
+            if(MyFrame.gameLogic.p2.getChargeDefensivePower() > 2){
+                g2d.fillRect(885, 140, 60,35);
+                g2d.setPaint(Color.CYAN);
+                g2d.drawRect(875, 50, 80, 135);
+            }
+        }
+    }
+
+    private void drawOffensivePowerBattery(Graphics2D g2d){
+
+        //p1
+        g2d.setPaint(Color.gray);
+        g2d.drawRect(880, 820, 70, 125);
+        g2d.drawLine(880, 860, 950, 860);
+        g2d.drawLine(880, 900, 950, 900);
+
+        g2d.setPaint(Color.RED);
+        g2d.setFont(new Font("Comic Sans MS", Font.PLAIN, 10));
+        g2d.drawString(MyFrame.gameLogic.p1.getOffensivePower().getName(), 880, 810);
+
+        g2d.setPaint(Color.GREEN);
+        if(MyFrame.gameLogic.p1.getChargeOffensivePower() > 0){
+            g2d.fillRect(885, 905, 30, 35);
+        }
+        if(MyFrame.gameLogic.p1.getChargeOffensivePower() > 1){
+            g2d.fillRect(915, 905, 30, 35);
+        }
+        if(MyFrame.gameLogic.p1.getChargeOffensivePower() > 2){
+            g2d.fillRect(885, 865, 30, 30);
+        }
+        if(MyFrame.gameLogic.p1.getChargeOffensivePower() > 3){
+            g2d.fillRect(915, 865, 30, 30);
+        }
+        if(MyFrame.gameLogic.p1.getChargeOffensivePower() > 4){
+            g2d.fillRect(885, 825, 30,30);
+        }
+        if(MyFrame.gameLogic.p1.getChargeOffensivePower() > 5){
+            g2d.fillRect(915, 825, 30, 30);
+            g2d.setPaint(Color.RED);
+            g2d.drawRect(875, 815, 80, 135);
+        }
+
+        //p2
+        if(MyFrame.gameLogic.getGameMode() == GameLogic.GameModes.PVP) {
+            g2d.setPaint(Color.gray);
+            g2d.drawRect(50, 55, 70, 125);
+            g2d.drawLine(50, 95, 120, 95);
+            g2d.drawLine(50, 135, 120, 135);
+
+            g2d.setPaint(Color.RED);
+            g2d.setFont(new Font("Comic Sans MS", Font.PLAIN, 10));
+            g2d.drawString(MyFrame.gameLogic.p2.getOffensivePower().getName(), 50, 200);
+
+            g2d.setPaint(Color.GREEN);
+            if (MyFrame.gameLogic.p2.getChargeOffensivePower() > 0) {
+                g2d.fillRect(55, 60, 30, 30);
+            }
+            if (MyFrame.gameLogic.p2.getChargeOffensivePower() > 1) {
+                g2d.fillRect(85, 60, 30, 30);
+            }
+            if (MyFrame.gameLogic.p2.getChargeOffensivePower() > 2) {
+                g2d.fillRect(55, 100, 30, 30);
+            }
+            if (MyFrame.gameLogic.p2.getChargeOffensivePower() > 3) {
+                g2d.fillRect(85, 100, 30, 30);
+            }
+            if (MyFrame.gameLogic.p2.getChargeOffensivePower() > 4) {
+                g2d.fillRect(55, 140, 30, 35);
+            }
+            if (MyFrame.gameLogic.p2.getChargeOffensivePower() > 5) {
+                g2d.fillRect(85, 140, 30, 35);
+                g2d.setPaint(Color.RED);
+                g2d.drawRect(45, 50, 80, 135);
+            }
+        }
+    }
 
     private void drawGameObjects(Graphics2D g2d){
         MyFrame.gameLogic.p1.draw(g2d);

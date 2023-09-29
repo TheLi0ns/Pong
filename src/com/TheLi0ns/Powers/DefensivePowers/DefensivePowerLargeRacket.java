@@ -27,7 +27,7 @@ public class DefensivePowerLargeRacket extends DefensivePowers_super {
      * Stretches the racket for 7 secs
      */
     @Override
-    public void performAction() {
+    public void activate() {
         new Thread(() -> {
             Image previous_player_image = player.getPLAYER_IMAGE() == Assets.PARRY_RACKET ?
                                             player.getNORMAL_PLAYER_IMAGE() : player.getPLAYER_IMAGE();

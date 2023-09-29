@@ -15,7 +15,7 @@ public class OffensivePowerSmallBall extends OffensivePowers_super{
     }
 
     @Override
-    public void performAction() {
+    public void activate() {
         player.setSmallBallActivated(true);
         new Thread(() -> {
             try {

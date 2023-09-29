@@ -14,11 +14,10 @@ public class Fighter extends Player{
 
     final Image[] HEART_IMAGES = Assets.HEARTS;
     int health = 3;
-
-    final Image PARRY_IMAGE = Assets.PARRY_RACKET;
-
     final int MAX_PARRY_PER_ROUND = 5;
     int parry_counter = 5;
+
+    DefensivePowerParry parry = new DefensivePowerParry(this);
 
     public Fighter() {
         super(391, 909, 6);
@@ -32,27 +31,8 @@ public class Fighter extends Player{
      * Makes the player {@link DefensivePowerParry parry} and decrease the parry counter
      */
     public void parry(){
-        if(parry_counter > 0){
-            new Thread(() -> {
-                Image previous_player_image = getPLAYER_IMAGE();
-                int x_tmp = this.x;
-
-                setParrying(true);
-                setPLAYER_IMAGE(PARRY_IMAGE);
-                this.x = 0;
-
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-
-                setPLAYER_IMAGE(previous_player_image);
-                this.x = x_tmp;
-                setParrying(false);
-            }).start();
-            parry_counter--;
-        }
+        if(parry_counter > 0) parry.activate();
+        parry_counter--;
     }
 
     /**
@@ -64,7 +44,9 @@ public class Fighter extends Player{
         Sound.play(Sound.FIGHTER_DAMAGED_SOUND);
 
         this.health--;
-        return health == 0;
+        if(health == 0) return true;
+
+        return false;
     }
 
     /**

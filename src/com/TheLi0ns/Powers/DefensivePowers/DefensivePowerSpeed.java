@@ -25,7 +25,7 @@ public class DefensivePowerSpeed extends DefensivePowers_super {
      * Increase the xVelocity for 7 secs
      */
     @Override
-    public void performAction() {
+    public void activate() {
         new Thread(() -> {
             int initialxVelocity = player.getxVelocity();
 

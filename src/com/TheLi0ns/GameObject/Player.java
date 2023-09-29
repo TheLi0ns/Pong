@@ -23,8 +23,23 @@ public class Player {
     protected boolean isRightPressed = false;
     protected int score = 0;
     protected int hitPerRound = 0;
+    protected boolean arePowersEnabled = true;
     private DefensivePowers_super defensivePower = null;
     private OffensivePowers_super offensivePower = null;
+
+    /**
+     * The powers have to be charged 1 goal 1 charge
+     * this is the charge of the defensive power
+     * it is charged at 3
+     */
+    private int chargeDefensivePower = 0;
+
+    /**
+     * The powers have to be charged 1 goal 1 charge
+     * this is the charge of the offensive power
+     * it is charged at 5
+     */
+    private int chargeOffensivePower = 0;
 
     protected boolean fireShotActivated = false;
     protected boolean smallBallActivated = false;
@@ -32,14 +47,10 @@ public class Player {
     private boolean areControlsInverted = false;
     private boolean isParrying = false;
 
-    public enum Positions{UP, DOWN}
-    private final Positions pos;
-
     public Player(int x, int y, int xVelocity){
         this.x = x;
         this.y = y;
         this.xVelocity = xVelocity;
-        this.pos = y > 500 ? Positions.UP : Positions.DOWN;
     }
 
     protected void move(Directions direction){
@@ -107,10 +118,6 @@ public class Player {
         return height;
     }
 
-    public Positions getPos(){
-        return pos;
-    }
-
     public Image getPLAYER_IMAGE() {
         return PLAYER_IMAGE;
     }
@@ -175,8 +182,12 @@ public class Player {
      * Increase by 1 the charge of the rechargeable powerUps
      */
     public void ChargingPowers(){
-        defensivePower.charge();
-        offensivePower.charge();
+        if(!isDefensivePowerCharged() && MyFrame.gameLogic.isDefensivePowerRechargeable()) {
+            chargeDefensivePower++;
+        }
+        if(!isOffensivePowerCharged() && MyFrame.gameLogic.isOffensivePowerRechargeable()) {
+            chargeOffensivePower++;
+        }
     }
     public DefensivePowers_super getDefensivePower() {
         return defensivePower;
@@ -190,9 +201,20 @@ public class Player {
             case LARGE_BALL -> this.defensivePower = new DefensivePowerLargeBall(this);
         }
     }
+    public boolean isDefensivePowerCharged(){
+        return chargeDefensivePower == 3;
+    }
+
+    public int getChargeDefensivePower() {
+        return chargeDefensivePower;
+    }
 
     public void activateDefensivePower(){
-        defensivePower.activate();
+        if(isDefensivePowerCharged() && arePowersEnabled){
+            chargeDefensivePower = 0;
+
+            defensivePower.activate();
+        }
     }
 
     public boolean isParrying() {
@@ -224,8 +246,20 @@ public class Player {
         }
     }
 
+    public boolean isOffensivePowerCharged(){
+        return chargeOffensivePower == 6;
+    }
+
+    public int getChargeOffensivePower() {
+        return chargeOffensivePower;
+    }
+
     public void activateOffensivePower(){
-        offensivePower.activate();
+        if(isOffensivePowerCharged() && arePowersEnabled){
+            chargeOffensivePower = 0;
+
+            offensivePower.activate();
+        }
     }
 
     public void setAreControlsInverted(boolean areControlsInverted) {
@@ -251,7 +285,5 @@ public class Player {
 
     public void draw(Graphics2D g2d){
         g2d.drawImage(this.PLAYER_IMAGE, this.x, this.y, null);
-        if(defensivePower != null) defensivePower.drawBattery(g2d);
-        if(offensivePower != null) offensivePower.drawBattery(g2d);
     }
 }

@@ -19,7 +19,7 @@ public class OffensivePowerFireShot extends OffensivePowers_super{
      * Make the fireshot active for 5 secs
      */
     @Override
-    public void performAction() {
+    public void activate() {
         player.setFireShotActivated(true);
         new Thread(() -> {
             try {

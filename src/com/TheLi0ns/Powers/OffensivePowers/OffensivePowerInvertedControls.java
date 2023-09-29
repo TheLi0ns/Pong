@@ -30,7 +30,7 @@ public class OffensivePowerInvertedControls extends OffensivePowers_super{
      * Inverts the opponent controls for 7 secs
      */
     @Override
-    public void performAction() {
+    public void activate() {
         effectOnOpponent(true);
         new Thread(() -> {
             try {
