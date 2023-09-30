@@ -4,6 +4,7 @@ import com.TheLi0ns.GameFrame.GamePanel;
 import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.Logic.GameLogic;
 import com.TheLi0ns.MenusHandling.Options.CenteredOption;
+import com.TheLi0ns.MenusHandling.SubMenus.GameModeSubMenu;
 import com.TheLi0ns.Utility.Assets;
 import com.TheLi0ns.Utility.Sound;
 import com.TheLi0ns.Utility.Utils;
@@ -18,6 +19,7 @@ import java.awt.*;
  */
 public class TitleScreen extends Menu{
     private static final String GAME_NAME = "PONG";
+
 
     //TITLE SCREEN OPTIONS
 
@@ -47,12 +49,13 @@ public class TitleScreen extends Menu{
 
     public TitleScreen() {
         super(4);
+        subMenu = new GameModeSubMenu(this);
     }
 
     @Override
-    public void clickOption() {
+    public void performOption() {
 
-        if (selectedOption == PLAY_OPTION.ID) MyFrame.gameLogic.setGameState(GameLogic.GameStates.PLAY_SUBMENU);
+        if (selectedOption == PLAY_OPTION.ID) isInSubMenu = true;
 
         else if(selectedOption == MINI_GAMES_OPTION.ID) MyFrame.gameLogic.setGameState(GameLogic.GameStates.MINI_GAMES_MENU);
 
@@ -88,8 +91,8 @@ public class TitleScreen extends Menu{
 
         y = PLAY_OPTION.draw(y, y_offset, PLAY_OPTION.isSelected(selectedOption), g2d);
 
-        //SUBMENU OFFSET
-        if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.PLAY_SUBMENU) y += GamePanel.gameModeSubMenu.getY_OFFSET();
+        //SUBMENU
+        if(isInSubMenu) y = subMenu.draw(g2d, y);
 
         y = MINI_GAMES_OPTION.draw(y, y_offset, MINI_GAMES_OPTION.isSelected(selectedOption), g2d);
 

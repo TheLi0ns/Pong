@@ -64,7 +64,7 @@ public class SettingsMenu extends Menu {
     }
 
     @Override
-    public void clickOption() {
+    public void performOption() {
 
         if(selectedOption == SET_POINTS_TO_WIN_OPTION.ID){
             MyFrame.gameLogic.setPointsToWin(MyFrame.gameLogic.getPointsToWin()+1);

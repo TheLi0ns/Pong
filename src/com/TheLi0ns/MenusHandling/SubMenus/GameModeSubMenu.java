@@ -3,6 +3,7 @@ package com.TheLi0ns.MenusHandling.SubMenus;
 import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.GameObject.ComputerPlayer;
 import com.TheLi0ns.Logic.GameLogic;
+import com.TheLi0ns.MenusHandling.Menus.Menu;
 import com.TheLi0ns.MenusHandling.Options.CenteredOption;
 import com.TheLi0ns.Utility.Sound;
 
@@ -34,23 +35,12 @@ public class GameModeSubMenu extends SubMenu {
      */
     public static final CenteredOption IMPOSSIBLE_PVE_OPTION = new CenteredOption("PvE IMPOSSIBLE", 3);
 
-    private static ComputerPlayer.Difficulties difficultyChosen;
-
-    public GameModeSubMenu() {
-        super(3, 150);
-    }
-
-    public ComputerPlayer.Difficulties getDifficultyChosen() {
-        return difficultyChosen;
+    public GameModeSubMenu(Menu menu) {
+        super(3, 150, menu);
     }
 
     @Override
-    public void back() {
-        MyFrame.gameLogic.setGameState(GameLogic.GameStates.TITLE_SCREEN);
-    }
-
-    @Override
-    public void clickOption() {
+    public void performOption() {
 
         if(selectedOption == PVP_OPTION.ID){
             MyFrame.gameLogic.setGameMode(GameLogic.GameModes.PVP);
@@ -59,14 +49,14 @@ public class GameModeSubMenu extends SubMenu {
         }
 
         else if(selectedOption == NORMAL_PVE_OPTION.ID){
-            difficultyChosen = ComputerPlayer.Difficulties.NORMAL;
+            MyFrame.gameLogic.setComputer_difficulty(ComputerPlayer.Difficulties.NORMAL);
             MyFrame.gameLogic.setGameMode(GameLogic.GameModes.PVE);
             if(MyFrame.gameLogic.arePowersEnabled())MyFrame.gameLogic.setGameState(GameLogic.GameStates.SELECTING_POWERS);
             else MyFrame.gameLogic.startMatch();
         }
 
         else if(selectedOption == IMPOSSIBLE_PVE_OPTION.ID){
-            difficultyChosen = ComputerPlayer.Difficulties.IMPOSSIBLE;
+            MyFrame.gameLogic.setComputer_difficulty(ComputerPlayer.Difficulties.NORMAL);
             MyFrame.gameLogic.setGameMode(GameLogic.GameModes.PVE);
             if(MyFrame.gameLogic.arePowersEnabled())MyFrame.gameLogic.setGameState(GameLogic.GameStates.SELECTING_POWERS);
             else MyFrame.gameLogic.startMatch();
@@ -78,10 +68,10 @@ public class GameModeSubMenu extends SubMenu {
     }
 
     @Override
-    public void draw(Graphics2D g2d) {
+    public void drawOptions(Graphics2D g2d, int y) {
 
-        int y = 480;
         int y_offset = 50;
+        y += y_offset;
 
         g2d.setColor(Color.GRAY);
 
@@ -93,6 +83,5 @@ public class GameModeSubMenu extends SubMenu {
         y = NORMAL_PVE_OPTION.draw(y, y_offset, NORMAL_PVE_OPTION.isSelected(selectedOption), g2d);
 
         y = IMPOSSIBLE_PVE_OPTION.draw(y, y_offset, IMPOSSIBLE_PVE_OPTION.isSelected(selectedOption), g2d);
-
     }
 }

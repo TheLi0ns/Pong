@@ -3,8 +3,6 @@ package com.TheLi0ns.GameFrame;
 import com.TheLi0ns.Cutscenes.CutsceneHandler;
 import com.TheLi0ns.Logic.GameLogic;
 import com.TheLi0ns.MenusHandling.Menus.*;
-import com.TheLi0ns.MenusHandling.SubMenus.BossFightSubMenu;
-import com.TheLi0ns.MenusHandling.SubMenus.GameModeSubMenu;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,13 +19,11 @@ public class GamePanel extends JPanel {
 
     //MENUS
     public static TitleScreen titleScreen = new TitleScreen();
-    public static GameModeSubMenu gameModeSubMenu = new GameModeSubMenu();
     public static SettingsMenu settingsMenu = new SettingsMenu();
     public static KeyBindingsMenu keyBindingsMenu = new KeyBindingsMenu();
     public static PowerSelectionMenu p1PowerSelectionMenu = new PowerSelectionMenu(1);
     public static PowerSelectionMenu p2PowerSelectionMenu = new PowerSelectionMenu(2);
     public static MiniGamesMenu miniGamesMenu = new MiniGamesMenu();
-    public static BossFightSubMenu bossFightSubMenu = new BossFightSubMenu();
 
     GamePanel(){
         setPreferredSize(new Dimension(WIDTH,HEIGHT));
@@ -71,19 +67,9 @@ public class GamePanel extends JPanel {
         else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.TITLE_SCREEN){
             titleScreen.draw(g2d);
         }
-        //GAME MODE SUBMENU
-        else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.PLAY_SUBMENU){
-            titleScreen.draw(g2d);
-            gameModeSubMenu.draw(g2d);
-        }
         //MINI-GAMES MENU
         else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.MINI_GAMES_MENU){
             miniGamesMenu.draw(g2d);
-        }
-        //BOSS FIGHTS SUBMENU
-        else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.BOSS_FIGHTS_SUBMENU){
-            miniGamesMenu.draw(g2d);
-            bossFightSubMenu.draw(g2d);
         }
         //SETTINGS MENU
         else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.SETTINGS_MENU){

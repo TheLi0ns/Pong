@@ -103,7 +103,7 @@ public class KeyBindingsMenu extends Menu{
     }
 
     @Override
-    public void clickOption() {
+    public void performOption() {
         
         if(selectedOption == P1_LEFT_KEY_OPTION.ID) isP1LeftKeyListening = true;
         else if(selectedOption == P1_RIGHT_KEY_OPTION.ID) isP1RightKeyListening = true;

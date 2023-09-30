@@ -14,9 +14,9 @@ public class KeyHandler implements KeyListener {
 
     //KEYBINDINGS
     public static int p1Left_key = KeyEvent.VK_A;
-    public static  int p1Right_key = KeyEvent.VK_D;
+    public static int p1Right_key = KeyEvent.VK_D;
 
-    public static  int p1OffensivePower_key = KeyEvent.VK_W;
+    public static int p1OffensivePower_key = KeyEvent.VK_W;
     public static int p1DefensivePower_key = KeyEvent.VK_S;
 
 
@@ -180,30 +180,12 @@ public class KeyHandler implements KeyListener {
             }
         }
 
-        //GAME MODE SUBMENU
-        else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.PLAY_SUBMENU){
-            switch (code){
-                case KeyEvent.VK_UP, KeyEvent.VK_W -> GamePanel.gameModeSubMenu.previousOption();
-                case KeyEvent.VK_DOWN, KeyEvent.VK_S -> GamePanel.gameModeSubMenu.nextOption();
-                case KeyEvent.VK_ENTER, KeyEvent.VK_E -> GamePanel.gameModeSubMenu.clickOption();
-            }
-        }
-
         //MINI-GAMES MENU
         else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.MINI_GAMES_MENU){
             switch (code){
                 case KeyEvent.VK_UP, KeyEvent.VK_W -> GamePanel.miniGamesMenu.previousOption();
                 case KeyEvent.VK_DOWN, KeyEvent.VK_S -> GamePanel.miniGamesMenu.nextOption();
                 case KeyEvent.VK_ENTER, KeyEvent.VK_E -> GamePanel.miniGamesMenu.clickOption();
-            }
-        }
-
-        //BOSS FIGHTS SUBMENU
-        else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.BOSS_FIGHTS_SUBMENU){
-            switch (code){
-                case KeyEvent.VK_UP, KeyEvent.VK_W -> GamePanel.bossFightSubMenu.previousOption();
-                case KeyEvent.VK_DOWN, KeyEvent.VK_S -> GamePanel.bossFightSubMenu.nextOption();
-                case KeyEvent.VK_ENTER, KeyEvent.VK_E -> GamePanel.bossFightSubMenu.clickOption();
             }
         }
 

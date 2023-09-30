@@ -36,9 +36,7 @@ public class GameLogic implements Runnable{
 
     public enum GameStates {
         TITLE_SCREEN,
-        PLAY_SUBMENU,
         MINI_GAMES_MENU,
-        BOSS_FIGHTS_SUBMENU,
         SETTINGS_MENU,
         KEY_BINDINGS_MENU,
         SELECTING_POWERS,
@@ -66,6 +64,8 @@ public class GameLogic implements Runnable{
         BOSS_FIGHTS
     }
 
+    private ComputerPlayer.Difficulties computer_difficulty;
+
     public MiniGame miniGame;
 
     public GameLogic(){
@@ -84,7 +84,7 @@ public class GameLogic implements Runnable{
         p1 = new Player(391, 909, 6);
 
         if(gameMode == GameModes.PVP) p2 = new Player(391, 53, 6);
-        else if(gameMode == GameModes.PVE) p2 = new ComputerPlayer(391, 53, 7, GamePanel.gameModeSubMenu.getDifficultyChosen());
+        else if(gameMode == GameModes.PVE) p2 = new ComputerPlayer(391, 53, 7, computer_difficulty);
 
         ball = new Ball(Utils.genRandomXVelocity(), 6);
 
@@ -218,7 +218,7 @@ public class GameLogic implements Runnable{
                 p1.setOffensivePower(GamePanel.p1PowerSelectionMenu.getSelectedOffensivePower(), p2);
                 if(gameMode == GameModes.PVP) p2.setOffensivePower(GamePanel.p2PowerSelectionMenu.getSelectedOffensivePower(), p1);
             }
-            if(isDefensivePowerRechargeable()){
+            if(isOffensivePowerRechargeable()){
                 p1.setDefensivePower(GamePanel.p1PowerSelectionMenu.getSelectedDefensivePower());
                 if(gameMode == GameModes.PVP) p2.setDefensivePower(GamePanel.p2PowerSelectionMenu.getSelectedDefensivePower());
             }
@@ -246,6 +246,10 @@ public class GameLogic implements Runnable{
 
     public GameModes getGameMode() {
         return gameMode;
+    }
+
+    public void setComputer_difficulty(ComputerPlayer.Difficulties computer_difficulty) {
+        this.computer_difficulty = computer_difficulty;
     }
 
     /**

@@ -6,8 +6,8 @@ import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.GameObject.Bosses.BossEnum;
 import com.TheLi0ns.GameObject.Bosses.BossThePyromancer;
 import com.TheLi0ns.GameObject.Bosses.BossTheShrinker;
-import com.TheLi0ns.Logic.GameLogic;
 import com.TheLi0ns.Logic.MiniGames.BossFights;
+import com.TheLi0ns.MenusHandling.Menus.Menu;
 import com.TheLi0ns.MenusHandling.Options.CenteredOption;
 import com.TheLi0ns.Utility.Sound;
 
@@ -33,17 +33,12 @@ public class BossFightSubMenu extends SubMenu{
 
     public static final CenteredOption THE_DISORIENTATOR_OPTION = new CenteredOption("The Disorientator", 3);
 
-    public BossFightSubMenu() {
-        super(3, 120);
+    public BossFightSubMenu(Menu menu) {
+        super(3, 130, menu);
     }
 
     @Override
-    public void back() {
-        MyFrame.gameLogic.setGameState(GameLogic.GameStates.MINI_GAMES_MENU);
-    }
-
-    @Override
-    public void clickOption() {
+    public void performOption() {
         if(selectedOption == THE_PYROMANCER_OPTION.ID){
             MyFrame.gameLogic.miniGame = new BossFights(BossEnum.THE_PYROMANCER);
             CutsceneHandler.playCutscene(CutsceneEnum.ThePyromancer_Cutscene);
@@ -65,9 +60,7 @@ public class BossFightSubMenu extends SubMenu{
     }
 
     @Override
-    public void draw(Graphics2D g2d) {
-
-        int y = 460;
+    public void drawOptions(Graphics2D g2d, int y) {
         int y_offset = 50;
 
         g2d.setColor(Color.GRAY);

@@ -1,12 +1,12 @@
 package com.TheLi0ns.MenusHandling.Menus;
 
-import com.TheLi0ns.GameFrame.GamePanel;
 import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.Logic.GameLogic.GameModes;
 import com.TheLi0ns.Logic.GameLogic.GameStates;
 import com.TheLi0ns.Logic.MiniGames.BossFights;
 import com.TheLi0ns.Logic.MiniGames.Dribble;
 import com.TheLi0ns.MenusHandling.Options.CenteredOption;
+import com.TheLi0ns.MenusHandling.SubMenus.BossFightSubMenu;
 import com.TheLi0ns.Utility.Sound;
 
 import java.awt.*;
@@ -41,16 +41,17 @@ public class MiniGamesMenu extends Menu{
 
     public MiniGamesMenu() {
         super(3);
+        subMenu = new BossFightSubMenu(this);
     }
 
     @Override
-    public void clickOption() {
+    public void performOption() {
         if(selectedOption == DRIBBLE_OPTION.ID){
             MyFrame.gameLogic.miniGame = new Dribble();
         }
 
         else if(selectedOption == BOSS_FIGHT_OPTION.ID){
-            MyFrame.gameLogic.setGameState(GameStates.BOSS_FIGHTS_SUBMENU);
+            isInSubMenu = true;
         }
 
         else if (selectedOption == BACK.ID) back();
@@ -76,8 +77,8 @@ public class MiniGamesMenu extends Menu{
 
         y = BOSS_FIGHT_OPTION.draw(y, y_offset, BOSS_FIGHT_OPTION.isSelected(selectedOption), g2d);
 
-        //SUBMENU OFFSET
-        if(MyFrame.gameLogic.getGameState() == GameStates.BOSS_FIGHTS_SUBMENU) y += GamePanel.bossFightSubMenu.getY_OFFSET();
+        //SUBMENU
+        if(isInSubMenu) y = subMenu.draw(g2d, y);
 
         y = BACK.draw(y, y_offset, BACK.isSelected(selectedOption), g2d);
     }

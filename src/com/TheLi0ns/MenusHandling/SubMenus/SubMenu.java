@@ -1,5 +1,6 @@
 package com.TheLi0ns.MenusHandling.SubMenus;
 
+import com.TheLi0ns.MenusHandling.Menus.Menu;
 import com.TheLi0ns.Utility.Sound;
 
 import java.awt.*;
@@ -15,13 +16,12 @@ public abstract class SubMenu {
 
     private final int Y_OFFSET;
 
-    SubMenu(int nOptions, int y_offset){
+    private final Menu MENU;
+
+    SubMenu(int nOptions, int y_offset, Menu menu){
         N_OPTIONS = nOptions;
         Y_OFFSET = y_offset;
-    }
-
-    public int getY_OFFSET() {
-        return Y_OFFSET;
+        MENU = menu;
     }
 
     public void nextOption(){
@@ -45,12 +45,31 @@ public abstract class SubMenu {
     /**
      * This method makes the player return to the menu
      */
-    public abstract void back();
+    public final void back(){
+        MENU.exitSubMenu();
+    }
+
+    public final void clickOption(){
+        performOption();
+        MENU.exitSubMenu();
+    }
 
     /**
      * This method define the action of the options
      * and fires the action of the selected option
      */
-    public abstract void clickOption();
-    public abstract void draw(Graphics2D g2d);
+    public abstract void performOption();
+
+    public final int draw(Graphics2D g2d, int y){
+        Stroke s = g2d.getStroke();
+        Color c = g2d.getColor();
+        Font f = g2d.getFont();
+        drawOptions(g2d, y);
+        g2d.setStroke(s);
+        g2d.setColor(c);
+        g2d.setFont(f);
+        return y + Y_OFFSET;
+    }
+
+    public abstract void drawOptions(Graphics2D g2d, int y);
 }

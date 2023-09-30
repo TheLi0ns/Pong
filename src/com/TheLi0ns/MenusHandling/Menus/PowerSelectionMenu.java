@@ -73,7 +73,7 @@ public class PowerSelectionMenu extends Menu{
     }
 
     @Override
-    public void clickOption() {
+    public void performOption() {
 
         if(selectedOption == SET_OFFENSIVE_POWER.ID){
             offensivePower_index++;
