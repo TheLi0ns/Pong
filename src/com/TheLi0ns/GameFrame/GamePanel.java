@@ -21,8 +21,8 @@ public class GamePanel extends JPanel {
     public static TitleScreen titleScreen = new TitleScreen();
     public static SettingsMenu settingsMenu = new SettingsMenu();
     public static KeyBindingsMenu keyBindingsMenu = new KeyBindingsMenu();
-    public static PowerSelectionMenu p1PowerSelectionMenu = new PowerSelectionMenu(1);
-    public static PowerSelectionMenu p2PowerSelectionMenu = new PowerSelectionMenu(2);
+    public static PowersSelectionMenu_PvE powersSelectionMenuPvE = new PowersSelectionMenu_PvE();
+    public static PowersSelectionMenu_PvP powersSelectionMenuPvP = new PowersSelectionMenu_PvP();
     public static MiniGamesMenu miniGamesMenu = new MiniGamesMenu();
 
     GamePanel(){
@@ -77,8 +77,8 @@ public class GamePanel extends JPanel {
         }
         //SELECTING POWERS MENU
         else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.SELECTING_POWERS){
-            p1PowerSelectionMenu.draw(g2d);
-            if(MyFrame.gameLogic.getGameMode() == GameLogic.GameModes.PVP) p2PowerSelectionMenu.draw(g2d);
+            if(MyFrame.gameLogic.getGameMode() == GameLogic.GameModes.PVE) powersSelectionMenuPvE.draw(g2d);
+            else powersSelectionMenuPvP.draw(g2d);
         }
         //KEY BINDINGS MENU
         else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.KEY_BINDINGS_MENU) {

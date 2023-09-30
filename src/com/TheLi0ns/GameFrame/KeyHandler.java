@@ -95,7 +95,7 @@ public class KeyHandler implements KeyListener {
                     else if(code == KeyEvent.VK_P) MyFrame.gameLogic.togglePause();
 
                     else if(code == KeyEvent.VK_ESCAPE) {
-                        MyFrame.gameLogic.setGameState(GameLogic.GameStates.TITLE_SCREEN);
+                        MyFrame.gameLogic.backToMainMenu();
                         Sound.stop();
                     }
 
@@ -112,7 +112,7 @@ public class KeyHandler implements KeyListener {
                     else if(code == KeyEvent.VK_P) MyFrame.gameLogic.togglePause();
 
                     else if(code == KeyEvent.VK_ESCAPE) {
-                        MyFrame.gameLogic.setGameState(GameLogic.GameStates.TITLE_SCREEN);
+                        MyFrame.gameLogic.backToMainMenu();
                         Sound.stop();
                     }
 
@@ -128,7 +128,7 @@ public class KeyHandler implements KeyListener {
                     else if(code == KeyEvent.VK_P) MyFrame.gameLogic.togglePause();
 
                     else if(code == KeyEvent.VK_ESCAPE) {
-                        MyFrame.gameLogic.setGameState(GameLogic.GameStates.TITLE_SCREEN);
+                        MyFrame.gameLogic.backToMainMenu();
                         Sound.stop();
                     }
 
@@ -144,7 +144,7 @@ public class KeyHandler implements KeyListener {
                     else if(code == p1Right_key) current_minigame.getFighter().setRightPressed(false);
 
                     else if(code == KeyEvent.VK_ESCAPE) {
-                        MyFrame.gameLogic.setGameState(GameLogic.GameStates.TITLE_SCREEN);
+                        MyFrame.gameLogic.backToMainMenu();
                         Sound.stop();
                         Sound.stopBackgroundMusic();
                     }
@@ -167,7 +167,7 @@ public class KeyHandler implements KeyListener {
         else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.FINISH){
             switch (code){
                 case KeyEvent.VK_SPACE -> MyFrame.gameLogic.startMatch();
-                case KeyEvent.VK_ESCAPE -> MyFrame.gameLogic.setGameState(GameLogic.GameStates.TITLE_SCREEN);
+                case KeyEvent.VK_ESCAPE -> MyFrame.gameLogic.backToMainMenu();
             }
         }
 
@@ -201,26 +201,28 @@ public class KeyHandler implements KeyListener {
         //SELECTING POWER MENU
         else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.SELECTING_POWERS){
 
-            if(!GamePanel.p1PowerSelectionMenu.isReady()){
+            if(MyFrame.gameLogic.getGameMode() == GameLogic.GameModes.PVE){
                 switch (code) {
-                    case KeyEvent.VK_W -> GamePanel.p1PowerSelectionMenu.previousOption();
-                    case KeyEvent.VK_S -> GamePanel.p1PowerSelectionMenu.nextOption();
-                    case KeyEvent.VK_E -> GamePanel.p1PowerSelectionMenu.clickOption();
+                    case KeyEvent.VK_W -> GamePanel.powersSelectionMenuPvE.previousOption();
+                    case KeyEvent.VK_S -> GamePanel.powersSelectionMenuPvE.nextOption();
+                    case KeyEvent.VK_E -> GamePanel.powersSelectionMenuPvE.clickOption();
+                    case KeyEvent.VK_ESCAPE -> {
+                        MyFrame.gameLogic.backToMainMenu();
+                        GamePanel.powersSelectionMenuPvE.resetSelectedOption();
+                    }
                 }
             }
 
-            if(!GamePanel.p2PowerSelectionMenu.isReady() && MyFrame.gameLogic.getGameMode() == GameLogic.GameModes.PVP) {
+            if(MyFrame.gameLogic.getGameMode() == GameLogic.GameModes.PVP) {
                 switch (code) {
-                    case KeyEvent.VK_UP -> GamePanel.p2PowerSelectionMenu.previousOption();
-                    case KeyEvent.VK_DOWN -> GamePanel.p2PowerSelectionMenu.nextOption();
-                    case KeyEvent.VK_ENTER -> GamePanel.p2PowerSelectionMenu.clickOption();
+                    case KeyEvent.VK_UP, KeyEvent.VK_W -> GamePanel.powersSelectionMenuPvP.previousOption();
+                    case KeyEvent.VK_DOWN, KeyEvent.VK_S -> GamePanel.powersSelectionMenuPvP.nextOption();
+                    case KeyEvent.VK_ENTER, KeyEvent.VK_E -> GamePanel.powersSelectionMenuPvP.clickOption();
+                    case KeyEvent.VK_ESCAPE -> {
+                        MyFrame.gameLogic.backToMainMenu();
+                        GamePanel.powersSelectionMenuPvP.resetSelectedOption();
+                    }
                 }
-            }
-
-            if(code == KeyEvent.VK_ESCAPE){
-                MyFrame.gameLogic.setGameState(GameLogic.GameStates.TITLE_SCREEN);
-                GamePanel.p1PowerSelectionMenu.resetSelectedOption();
-                GamePanel.p2PowerSelectionMenu.resetSelectedOption();
             }
         }
 
@@ -279,7 +281,7 @@ public class KeyHandler implements KeyListener {
         }
 
         else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.PAUSE){
-            if(code == KeyEvent.VK_ESCAPE) MyFrame.gameLogic.setGameState(GameLogic.GameStates.TITLE_SCREEN);
+            if(code == KeyEvent.VK_ESCAPE) MyFrame.gameLogic.backToMainMenu();
             else if(code == KeyEvent.VK_R) MyFrame.gameLogic.startMatch();
             else if(code == KeyEvent.VK_P) MyFrame.gameLogic.togglePause();
         }

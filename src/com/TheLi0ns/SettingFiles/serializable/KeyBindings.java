@@ -61,11 +61,11 @@ public class KeyBindings {
 
         Gson gson = new Gson();
 
-        try {
+        try(
             FileInputStream fileIn = new FileInputStream(SettingFilesHandler.dir + "/keyBindings.json");
-            Scanner sc = new Scanner(fileIn);
+            Scanner sc = new Scanner(fileIn)
+        ){
             keyBindings = gson.fromJson(sc.nextLine(), KeyBindings.class);
-            fileIn.close();
         } catch (JsonSyntaxException | IOException exception){
             loadDefault();
             return;

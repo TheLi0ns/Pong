@@ -19,23 +19,26 @@ import java.util.Scanner;
  * for json serialization and deserialization
  */
 public class PlayersPowers {
+
     int p1OffensivePower_index;
     int p1DefensivePower_index;
 
     int p2OffensivePower_index;
     int p2DefensivePower_index;
 
+
+
     public PlayersPowers(){
-        this.p1DefensivePower_index = GamePanel.p1PowerSelectionMenu.defensivePower_index;
-        this.p1OffensivePower_index = GamePanel.p1PowerSelectionMenu.offensivePower_index;
-        this.p2DefensivePower_index = GamePanel.p2PowerSelectionMenu.defensivePower_index;
-        this.p2OffensivePower_index = GamePanel.p2PowerSelectionMenu.offensivePower_index;
+        this.p1DefensivePower_index = GamePanel.powersSelectionMenuPvP.p1_defensivePower_index;
+        this.p1OffensivePower_index = GamePanel.powersSelectionMenuPvP.p1_offensivePower_index;
+        this.p2DefensivePower_index = GamePanel.powersSelectionMenuPvP.p2_defensivePower_index;
+        this.p2OffensivePower_index = GamePanel.powersSelectionMenuPvP.p2_offensivePower_index;
     }
 
     public void save(){
         Gson gson = new Gson();
         String json = gson.toJson(this);
-        try {
+        try{
             File f = new File(SettingFilesHandler.dir + "/playersPowers.json");
             if(!f.exists()) f.createNewFile();
             Formatter formatter = new Formatter(f);
@@ -52,11 +55,11 @@ public class PlayersPowers {
 
         Gson gson = new Gson();
 
-        try {
+        try(
             FileInputStream fileIn = new FileInputStream(SettingFilesHandler.dir + "/playersPowers.json");
-            Scanner sc = new Scanner(fileIn);
+            Scanner sc = new Scanner(fileIn)
+        ){
             playersPowers = gson.fromJson(sc.nextLine(), PlayersPowers.class);
-            fileIn.close();
         } catch (JsonSyntaxException | IOException exception){
             loadDefault();
             return;
@@ -115,9 +118,11 @@ public class PlayersPowers {
     }
 
     private static void setPlayersPowersIndex(PlayersPowers playersPowers) {
-        GamePanel.p1PowerSelectionMenu.defensivePower_index = playersPowers.p1DefensivePower_index;
-        GamePanel.p1PowerSelectionMenu.offensivePower_index = playersPowers.p1OffensivePower_index;
-        GamePanel.p2PowerSelectionMenu.defensivePower_index = playersPowers.p2DefensivePower_index;
-        GamePanel.p2PowerSelectionMenu.offensivePower_index = playersPowers.p2OffensivePower_index;
+        GamePanel.powersSelectionMenuPvE.defensivePower_index = playersPowers.p1DefensivePower_index;
+        GamePanel.powersSelectionMenuPvE.offensivePower_index = playersPowers.p1OffensivePower_index;
+        GamePanel.powersSelectionMenuPvP.p1_defensivePower_index = playersPowers.p1DefensivePower_index;
+        GamePanel.powersSelectionMenuPvP.p1_offensivePower_index = playersPowers.p1OffensivePower_index;
+        GamePanel.powersSelectionMenuPvP.p2_defensivePower_index = playersPowers.p2DefensivePower_index;
+        GamePanel.powersSelectionMenuPvP.p2_offensivePower_index = playersPowers.p2OffensivePower_index;
     }
 }

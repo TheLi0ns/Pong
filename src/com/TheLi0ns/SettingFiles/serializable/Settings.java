@@ -49,11 +49,11 @@ public class Settings {
 
         Gson gson = new Gson();
 
-        try {
+        try(
             FileInputStream fileIn = new FileInputStream(SettingFilesHandler.dir + "/settings.json");
-            Scanner sc = new Scanner(fileIn);
+            Scanner sc = new Scanner(fileIn)
+        ){
             settings = gson.fromJson(sc.nextLine(), Settings.class);
-            fileIn.close();
         } catch (JsonSyntaxException | IOException exception){
             loadDefault();
             return;
@@ -86,7 +86,7 @@ public class Settings {
         setSettings(settings);
     }
 
-    static Settings checkDataIntegrity(Settings settings){
+    static void checkDataIntegrity(Settings settings){
 
         Settings defaultSettings = null;
 
@@ -103,8 +103,6 @@ public class Settings {
 
         if(!checkPointToWin) settings.pointToWin = defaultSettings.pointToWin;
         if(!checkVolumeScale) settings.volumeScale = defaultSettings.volumeScale;
-
-        return settings;
     }
 
     private static void setSettings(Settings settings){

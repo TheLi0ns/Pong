@@ -9,21 +9,22 @@ import java.awt.*;
  * Super class for Menus
  * @see SettingsMenu
  * @see TitleScreen
- * @see PowerSelectionMenu
+ * @see PowersSelectionMenu_PvP
+ * @see PowersSelectionMenu_PvE
  * @see KeyBindingsMenu
  */
 public abstract class Menu {
 
     protected int selectedOption = 1;
 
-    private final int N_OPTIONS;
+    protected final int N_OPTIONS;
 
     protected boolean isInSubMenu = false;
     protected SubMenu subMenu;
 
     Menu(int nOptions){N_OPTIONS = nOptions;}
 
-    public final void nextOption(){
+    public void nextOption(){
         if(!isInSubMenu){
             Sound.play(Sound.OPTION_SELECTION);
             selectedOption++;
@@ -31,7 +32,7 @@ public abstract class Menu {
         }else subMenu.nextOption();
     }
 
-    public final void previousOption(){
+    public void previousOption(){
         if(!isInSubMenu){
             Sound.play(Sound.OPTION_SELECTION);
             selectedOption--;

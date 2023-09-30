@@ -104,15 +104,6 @@ public class GameLogic implements Runnable{
             throw new RuntimeException(e);
         }
         while(true) {
-            if(gameState == GameStates.SELECTING_POWERS &&
-                    (GamePanel.p1PowerSelectionMenu.isReady() &&
-                            GamePanel.p2PowerSelectionMenu.isReady())){
-                startMatch();
-                GamePanel.p1PowerSelectionMenu.setReady(false);
-                GamePanel.p2PowerSelectionMenu.setReady(false);
-            }
-
-
             if(gameState == GameStates.PLAYING) {
                 switch(gameMode){
                     case PVP, PVE -> update();
@@ -151,7 +142,7 @@ public class GameLogic implements Runnable{
         switch(ball.checkScored()){
             case "UP" -> {
                 p1.hasScored();
-                if(arePowersEnabled) p2.ChargingPowers();
+                if(arePowersEnabled && gameMode == GameModes.PVP) p2.ChargingPowers();
                 if(!hasSomeoneWins()) {
                     ball = new Ball(Utils.genRandomXVelocity(), 5);
                 }else{
@@ -174,8 +165,16 @@ public class GameLogic implements Runnable{
         }
     }
 
+    public void backToMainMenu(){
+        this.gameState = GameStates.TITLE_SCREEN;
+    }
+
     public void setGameState(GameStates gameState) {
         this.gameState = gameState;
+    }
+
+    public GameStates getGameState(){
+        return gameState;
     }
 
     public void togglePause() {
@@ -200,10 +199,6 @@ public class GameLogic implements Runnable{
         gameState = GameStates.FINISH;
     }
 
-    public GameStates getGameState(){
-        return gameState;
-    }
-
     public String getFinish() {
         return finish;
     }
@@ -215,12 +210,20 @@ public class GameLogic implements Runnable{
     public void setUpPowers(){
         if(arePowersEnabled){
             if(isDefensivePowerRechargeable()){
-                p1.setOffensivePower(GamePanel.p1PowerSelectionMenu.getSelectedOffensivePower(), p2);
-                if(gameMode == GameModes.PVP) p2.setOffensivePower(GamePanel.p2PowerSelectionMenu.getSelectedOffensivePower(), p1);
+                if(gameMode == GameModes.PVE){
+                    p1.setDefensivePower(GamePanel.powersSelectionMenuPvE.getSelectedDefensivePower());
+                }else{
+                    p1.setDefensivePower(GamePanel.powersSelectionMenuPvP.getP1SelectedDefensivePower());
+                    p2.setDefensivePower(GamePanel.powersSelectionMenuPvP.getP2SelectedDefensivePower());
+                }
             }
             if(isOffensivePowerRechargeable()){
-                p1.setDefensivePower(GamePanel.p1PowerSelectionMenu.getSelectedDefensivePower());
-                if(gameMode == GameModes.PVP) p2.setDefensivePower(GamePanel.p2PowerSelectionMenu.getSelectedDefensivePower());
+                if(gameMode == GameModes.PVE){
+                    p1.setOffensivePower(GamePanel.powersSelectionMenuPvE.getSelectedOffensivePower(), p2);
+                }else{
+                    p1.setOffensivePower(GamePanel.powersSelectionMenuPvP.getP1SelectedOffensivePower(), p2);
+                    p2.setOffensivePower(GamePanel.powersSelectionMenuPvP.getP2SelectedOffensivePower(), p2);
+                }
             }
         }
     }

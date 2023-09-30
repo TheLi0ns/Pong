@@ -40,11 +40,11 @@ public class Scores {
 
         Gson gson = new Gson();
 
-        try {
+        try(
             FileInputStream fileIn = new FileInputStream(SettingFilesHandler.dir + "/scores.json");
-            Scanner sc = new Scanner(fileIn);
+            Scanner sc = new Scanner(fileIn)
+        ){
             scores = gson.fromJson(sc.nextLine(), Scores.class);
-            fileIn.close();
         } catch (JsonSyntaxException | IOException exception){
             scores = new Scores();
         }

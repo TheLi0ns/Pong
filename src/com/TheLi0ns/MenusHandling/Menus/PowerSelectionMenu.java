@@ -17,7 +17,10 @@ import java.awt.*;
  * @see PowerSelectionMenu#SET_OFFENSIVE_POWER
  * @see PowerSelectionMenu#SET_OFFENSIVE_POWER
  * @see PowerSelectionMenu#READY
+ * @deprecated use {@link PowersSelectionMenu_PvP} for the PvP
+ *             use {@link PowersSelectionMenu_PvE} for the PvE
  */
+@Deprecated
 public class PowerSelectionMenu extends Menu{
 
     private final String playerName;
