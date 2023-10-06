@@ -1,10 +1,18 @@
 package com.TheLi0ns.Logic.MiniGames;
 
+import com.TheLi0ns.Logic.GameLogic;
+
 import java.awt.*;
 
 public abstract class MiniGame {
 
+    protected final GameLogic gl;
+
     boolean finished;
+
+    public MiniGame(GameLogic gl){
+        this.gl = gl;
+    }
 
     abstract public void start();
 

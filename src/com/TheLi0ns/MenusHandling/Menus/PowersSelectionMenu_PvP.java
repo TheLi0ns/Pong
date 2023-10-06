@@ -1,7 +1,7 @@
 package com.TheLi0ns.MenusHandling.Menus;
 
 import com.TheLi0ns.GameFrame.GamePanel;
-import com.TheLi0ns.GameFrame.MyFrame;
+import com.TheLi0ns.Logic.GameLogic;
 import com.TheLi0ns.MenusHandling.Options.BooleanOption;
 import com.TheLi0ns.MenusHandling.Options.ValueOption;
 import com.TheLi0ns.Powers.DefensivePowers.DefensivePowersEnum;
@@ -66,31 +66,31 @@ public class PowersSelectionMenu_PvP extends Menu{
     public static final BooleanOption P2_READY_OPTION = new BooleanOption("P2 READY", 6);
     
     //POWERS INDEXES BASED ON THE POSITION IN THE POWERS ENUMS
-    public int p1_offensivePower_index = 0;
-    public int p1_defensivePower_index = 0;
+    public static int p1_offensivePower_index = 0;
+    public static int p1_defensivePower_index = 0;
     
-    public int p2_offensivePower_index = 0;
-    public int p2_defensivePower_index = 0;
+    public static int p2_offensivePower_index = 0;
+    public static int p2_defensivePower_index = 0;
     
     private boolean ready = false;
 
-    public PowersSelectionMenu_PvP() {
-        super(6);
+    public PowersSelectionMenu_PvP(GameLogic gl) {
+        super(6, gl);
     }
 
-    public OffensivePowersEnum getP1SelectedOffensivePower() {
+    public static OffensivePowersEnum getP1SelectedOffensivePower() {
         return OffensivePowersEnum.values()[p1_offensivePower_index];
     }
 
-    public DefensivePowersEnum getP1SelectedDefensivePower() {
+    public static DefensivePowersEnum getP1SelectedDefensivePower() {
         return DefensivePowersEnum.values()[p1_defensivePower_index];
     }
 
-    public OffensivePowersEnum getP2SelectedOffensivePower() {
+    public static OffensivePowersEnum getP2SelectedOffensivePower() {
         return OffensivePowersEnum.values()[p2_offensivePower_index];
     }
 
-    public DefensivePowersEnum getP2SelectedDefensivePower() {
+    public static DefensivePowersEnum getP2SelectedDefensivePower() {
         return DefensivePowersEnum.values()[p2_defensivePower_index];
     }
 
@@ -146,7 +146,7 @@ public class PowersSelectionMenu_PvP extends Menu{
         }
 
         else if(selectedOption == P2_READY_OPTION.ID){
-            MyFrame.gameLogic.startMatch();
+            gl.startMatch();
         }
 
         Sound.play(Sound.OPTION_CLICK);

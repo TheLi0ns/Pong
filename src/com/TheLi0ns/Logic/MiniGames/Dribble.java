@@ -1,7 +1,6 @@
 package com.TheLi0ns.Logic.MiniGames;
 
 import com.TheLi0ns.GameFrame.GamePanel;
-import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.GameObject.Ball;
 import com.TheLi0ns.GameObject.DribbleBall;
 import com.TheLi0ns.GameObject.Player;
@@ -16,26 +15,27 @@ import java.awt.geom.AffineTransform;
  * @see GameModes#DRIBBLE
  */
 public class Dribble extends MiniGame {
-
+    
     Player player;
     Ball ball;
 
     static int highestScore;
 
-    public Dribble(){
+    public Dribble(GameLogic gl){
+        super(gl);
         start();
     }
 
     @Override
     public void start() {
-        MyFrame.gameLogic.setGameMode(GameModes.DRIBBLE);
-        MyFrame.gameLogic.setGameState(GameLogic.GameStates.PAUSE);
+        gl.setGameMode(GameModes.DRIBBLE);
+        gl.setGameState(GameLogic.GameStates.PAUSE);
 
         player = new Player(391, 909, 6);
 
         ball = new DribbleBall(Utils.genRandomXVelocity(), 6);
 
-        MyFrame.gameLogic.setGameState(GameLogic.GameStates.PLAYING);
+        gl.setGameState(GameLogic.GameStates.PLAYING);
     }
 
     @Override

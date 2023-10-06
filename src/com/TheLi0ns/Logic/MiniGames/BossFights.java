@@ -2,7 +2,6 @@ package com.TheLi0ns.Logic.MiniGames;
 
 import com.TheLi0ns.Cutscenes.CutsceneEnum;
 import com.TheLi0ns.Cutscenes.CutsceneHandler;
-import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.GameObject.Ball;
 import com.TheLi0ns.GameObject.Bosses.*;
 import com.TheLi0ns.GameObject.Fighter;
@@ -18,7 +17,7 @@ import java.awt.*;
  * @see GameModes#BOSS_FIGHTS
  */
 public class BossFights extends MiniGame{
-
+    
     Boss_super boss;
 
     Fighter fighter;
@@ -29,22 +28,24 @@ public class BossFights extends MiniGame{
 
     boolean hasPlayerWon = false;
 
-    public BossFights(BossEnum selectedBoss){
-        this.selectedBoss = selectedBoss;
+    public BossFights(BossEnum selectedBoss, GameLogic gl){
+        super(gl);
+        BossFights.selectedBoss = selectedBoss;
         start();
     }
 
     /**
      * Start the bossfight with the last boss faced
      */
-    public BossFights(){
+    public BossFights(GameLogic gl){
+        super(gl);
         start();
     }
 
     @Override
     public void start() {
-        MyFrame.gameLogic.setGameMode(GameModes.BOSS_FIGHTS);
-        MyFrame.gameLogic.setGameState(GameLogic.GameStates.PAUSE);
+        gl.setGameMode(GameModes.BOSS_FIGHTS);
+        gl.setGameState(GameLogic.GameStates.PAUSE);
 
         fighter = new Fighter();
 
@@ -58,7 +59,7 @@ public class BossFights extends MiniGame{
 
         Sound.playBackgroundMusic(Sound.BOSS_FIGHT_MUSIC);
 
-        MyFrame.gameLogic.setGameState(GameLogic.GameStates.PLAYING);
+        gl.setGameState(GameLogic.GameStates.PLAYING);
     }
 
     @Override

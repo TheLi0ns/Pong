@@ -1,6 +1,7 @@
 package com.TheLi0ns.SettingFiles.serializable;
 
-import com.TheLi0ns.GameFrame.GamePanel;
+import com.TheLi0ns.MenusHandling.Menus.PowersSelectionMenu_PvE;
+import com.TheLi0ns.MenusHandling.Menus.PowersSelectionMenu_PvP;
 import com.TheLi0ns.Powers.DefensivePowers.DefensivePowersEnum;
 import com.TheLi0ns.Powers.OffensivePowers.OffensivePowersEnum;
 import com.TheLi0ns.SettingFiles.SettingFilesHandler;
@@ -29,10 +30,10 @@ public class PlayersPowers {
 
 
     public PlayersPowers(){
-        this.p1DefensivePower_index = GamePanel.powersSelectionMenuPvP.p1_defensivePower_index;
-        this.p1OffensivePower_index = GamePanel.powersSelectionMenuPvP.p1_offensivePower_index;
-        this.p2DefensivePower_index = GamePanel.powersSelectionMenuPvP.p2_defensivePower_index;
-        this.p2OffensivePower_index = GamePanel.powersSelectionMenuPvP.p2_offensivePower_index;
+        this.p1DefensivePower_index = PowersSelectionMenu_PvP.p1_defensivePower_index;
+        this.p1OffensivePower_index = PowersSelectionMenu_PvP.p1_offensivePower_index;
+        this.p2DefensivePower_index = PowersSelectionMenu_PvP.p2_defensivePower_index;
+        this.p2OffensivePower_index = PowersSelectionMenu_PvP.p2_offensivePower_index;
     }
 
     public void save(){
@@ -118,11 +119,11 @@ public class PlayersPowers {
     }
 
     private static void setPlayersPowersIndex(PlayersPowers playersPowers) {
-        GamePanel.powersSelectionMenuPvE.defensivePower_index = playersPowers.p1DefensivePower_index;
-        GamePanel.powersSelectionMenuPvE.offensivePower_index = playersPowers.p1OffensivePower_index;
-        GamePanel.powersSelectionMenuPvP.p1_defensivePower_index = playersPowers.p1DefensivePower_index;
-        GamePanel.powersSelectionMenuPvP.p1_offensivePower_index = playersPowers.p1OffensivePower_index;
-        GamePanel.powersSelectionMenuPvP.p2_defensivePower_index = playersPowers.p2DefensivePower_index;
-        GamePanel.powersSelectionMenuPvP.p2_offensivePower_index = playersPowers.p2OffensivePower_index;
+        PowersSelectionMenu_PvE.defensivePower_index = playersPowers.p1DefensivePower_index;
+        PowersSelectionMenu_PvE.offensivePower_index = playersPowers.p1OffensivePower_index;
+        PowersSelectionMenu_PvP.p1_defensivePower_index = playersPowers.p1DefensivePower_index;
+        PowersSelectionMenu_PvP.p1_offensivePower_index = playersPowers.p1OffensivePower_index;
+        PowersSelectionMenu_PvP.p2_defensivePower_index = playersPowers.p2DefensivePower_index;
+        PowersSelectionMenu_PvP.p2_offensivePower_index = playersPowers.p2OffensivePower_index;
     }
 }

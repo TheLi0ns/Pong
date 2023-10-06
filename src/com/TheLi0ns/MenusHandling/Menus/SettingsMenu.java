@@ -1,6 +1,5 @@
 package com.TheLi0ns.MenusHandling.Menus;
 
-import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.Logic.GameLogic;
 import com.TheLi0ns.MenusHandling.Options.BooleanOption;
 import com.TheLi0ns.MenusHandling.Options.CenteredOption;
@@ -59,24 +58,24 @@ public class SettingsMenu extends Menu {
      */
     public static final CenteredOption BACK = new CenteredOption("BACK", 6);
     
-    public SettingsMenu() {
-        super(6);
+    public SettingsMenu(GameLogic gl) {
+        super(6, gl);
     }
 
     @Override
     public void performOption() {
 
         if(selectedOption == SET_POINTS_TO_WIN_OPTION.ID){
-            MyFrame.gameLogic.setPointsToWin(MyFrame.gameLogic.getPointsToWin()+1);
-            if(MyFrame.gameLogic.getPointsToWin() > GameLogic.MAX_POINTS)
-                MyFrame.gameLogic.setPointsToWin(1);
+            gl.setPointsToWin(gl.getPointsToWin()+1);
+            if(gl.getPointsToWin() > GameLogic.MAX_POINTS)
+                gl.setPointsToWin(1);
         }
 
-        else if(selectedOption == ENABLE_POWERS_OPTION.ID) MyFrame.gameLogic.setArePowersEnabled(!MyFrame.gameLogic.arePowersEnabled());
+        else if(selectedOption == ENABLE_POWERS_OPTION.ID) gl.setArePowersEnabled(!gl.arePowersEnabled());
 
         else if(selectedOption == VOLUME_SLIDER_OPTION.ID) Sound.increaseVolume();
 
-        else if(selectedOption == KEYBINDINGS_MENU_OPTION.ID) MyFrame.gameLogic.setGameState(GameLogic.GameStates.KEY_BINDINGS_MENU);
+        else if(selectedOption == KEYBINDINGS_MENU_OPTION.ID) gl.setMenu(new KeyBindingsMenu(gl));
 
         else if(selectedOption == DEFAULT_SETTINGS_OPTION.ID) SettingFilesHandler.loadDefault();
 
@@ -88,7 +87,7 @@ public class SettingsMenu extends Menu {
     @Override
     protected void back() {
         super.back();
-        MyFrame.gameLogic.setGameState(GameLogic.GameStates.TITLE_SCREEN);
+        gl.setMenu(new TitleScreen(gl));
     }
 
     @Override
@@ -101,9 +100,9 @@ public class SettingsMenu extends Menu {
         int y = 300;
         int y_offset = 60;
 
-        y = SET_POINTS_TO_WIN_OPTION.draw(x, y, 700, 0, SET_POINTS_TO_WIN_OPTION.isSelected(selectedOption), MyFrame.gameLogic.getPointsToWin(), g2d);
+        y = SET_POINTS_TO_WIN_OPTION.draw(x, y, 700, 0, SET_POINTS_TO_WIN_OPTION.isSelected(selectedOption), gl.getPointsToWin(), g2d);
 
-        y = ENABLE_POWERS_OPTION.draw(x, y, value_x, y_offset, ENABLE_POWERS_OPTION.isSelected(selectedOption), MyFrame.gameLogic.arePowersEnabled(), g2d);
+        y = ENABLE_POWERS_OPTION.draw(x, y, value_x, y_offset, ENABLE_POWERS_OPTION.isSelected(selectedOption), gl.arePowersEnabled(), g2d);
 
         y = VOLUME_SLIDER_OPTION.draw(x, y, value_x,30*Sound.MAX_VOLUME_SCALE, 30, y_offset, VOLUME_SLIDER_OPTION.isSelected(selectedOption), Sound.getVolumeScale(), g2d);
 

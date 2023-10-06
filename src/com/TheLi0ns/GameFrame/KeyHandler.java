@@ -4,7 +4,6 @@ import com.TheLi0ns.Cutscenes.CutsceneHandler;
 import com.TheLi0ns.Logic.GameLogic;
 import com.TheLi0ns.Logic.MiniGames.BossFights;
 import com.TheLi0ns.Logic.MiniGames.Dribble;
-import com.TheLi0ns.MenusHandling.Menus.KeyBindingsMenu;
 import com.TheLi0ns.Utility.Sound;
 
 import java.awt.event.KeyEvent;
@@ -26,6 +25,17 @@ public class KeyHandler implements KeyListener {
     public static int p2OffensivePower_key = KeyEvent.VK_UP;
     public static int p2DefensivePower_key = KeyEvent.VK_DOWN;
 
+    static PlayerKey playerKeyListened;
+    static boolean playerKeyListening = false;
+
+    public enum PlayerKey {LEFT_P1, RIGHT_P1, OFFENSIVE_POWER_P1, DEFENSIVE_POWER_P1, LEFT_P2, RIGHT_P2, OFFENSIVE_POWER_P2, DEFENSIVE_POWER_P2}
+
+    private final GameLogic gl;
+
+    public KeyHandler(GameLogic gl){
+        this.gl = gl;
+    }
+
     @Override
     public void keyTyped(KeyEvent e) {
 
@@ -36,39 +46,39 @@ public class KeyHandler implements KeyListener {
 
         int code = e.getKeyCode();
 
-        if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.PLAYING){
-            switch(MyFrame.gameLogic.getGameMode()){
+        if(gl.getGameState() == GameLogic.GameStates.PLAYING){
+            switch(gl.getGameMode()){
                 case PVE -> {
-                    if(code == p1Left_key) MyFrame.gameLogic.p1.setLeftPressed(true);
-                    else if(code == p1Right_key) MyFrame.gameLogic.p1.setRightPressed(true);
+                    if(code == p1Left_key) gl.p1.setLeftPressed(true);
+                    else if(code == p1Right_key) gl.p1.setRightPressed(true);
 
-                    else if(code == p1DefensivePower_key) MyFrame.gameLogic.p1.activateDefensivePower();
-                    else if(code == p1OffensivePower_key) MyFrame.gameLogic.p1.activateOffensivePower();
+                    else if(code == p1DefensivePower_key) gl.p1.activateDefensivePower();
+                    else if(code == p1OffensivePower_key) gl.p1.activateOffensivePower();
                 }
 
                 case PVP -> {
-                    if(code == p1Left_key) MyFrame.gameLogic.p1.setLeftPressed(true);
-                    else if(code == p1Right_key) MyFrame.gameLogic.p1.setRightPressed(true);
+                    if(code == p1Left_key) gl.p1.setLeftPressed(true);
+                    else if(code == p1Right_key) gl.p1.setRightPressed(true);
 
-                    else if(code == p2Left_key) MyFrame.gameLogic.p2.setLeftPressed(true);
-                    else if(code == p2Right_key) MyFrame.gameLogic.p2.setRightPressed(true);
+                    else if(code == p2Left_key) gl.p2.setLeftPressed(true);
+                    else if(code == p2Right_key) gl.p2.setRightPressed(true);
 
-                    else if(code == p1DefensivePower_key) MyFrame.gameLogic.p1.activateDefensivePower();
-                    else if(code == p1OffensivePower_key) MyFrame.gameLogic.p1.activateOffensivePower();
+                    else if(code == p1DefensivePower_key) gl.p1.activateDefensivePower();
+                    else if(code == p1OffensivePower_key) gl.p1.activateOffensivePower();
 
-                    else if(code == p2DefensivePower_key) MyFrame.gameLogic.p2.activateDefensivePower();
-                    else if(code == p2OffensivePower_key) MyFrame.gameLogic.p2.activateOffensivePower();
+                    else if(code == p2DefensivePower_key) gl.p2.activateDefensivePower();
+                    else if(code == p2OffensivePower_key) gl.p2.activateOffensivePower();
                 }
 
                 case DRIBBLE -> {
-                    Dribble current_minigame = (Dribble) MyFrame.gameLogic.miniGame;
+                    Dribble current_minigame = (Dribble) gl.getMiniGame();
 
                     if(code == p1Left_key) current_minigame.getPlayer().setLeftPressed(true);
                     else if(code == p1Right_key) current_minigame.getPlayer().setRightPressed(true);
                 }
 
                 case BOSS_FIGHTS -> {
-                    BossFights current_minigame = (BossFights) MyFrame.gameLogic.miniGame;
+                    BossFights current_minigame = (BossFights) gl.getMiniGame();
 
                     if(code == p1Left_key) current_minigame.getFighter().setLeftPressed(true);
                     else if(code == p1Right_key) current_minigame.getFighter().setRightPressed(true);
@@ -85,205 +95,138 @@ public class KeyHandler implements KeyListener {
         int code = e.getKeyCode();
 
         //MATCH
-        if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.PLAYING){
+        if(gl.getGameState() == GameLogic.GameStates.PLAYING){
 
-            switch (MyFrame.gameLogic.getGameMode()){
+            switch (gl.getGameMode()){
                 case PVE ->{
-                    if(code == p1Left_key) MyFrame.gameLogic.p1.setLeftPressed(false);
-                    else if(code == p1Right_key) MyFrame.gameLogic.p1.setRightPressed(false);
+                    if(code == p1Left_key) gl.p1.setLeftPressed(false);
+                    else if(code == p1Right_key) gl.p1.setRightPressed(false);
 
-                    else if(code == KeyEvent.VK_P) MyFrame.gameLogic.togglePause();
+                    else if(code == KeyEvent.VK_P) gl.togglePause();
 
                     else if(code == KeyEvent.VK_ESCAPE) {
-                        MyFrame.gameLogic.backToMainMenu();
+                        gl.backToMainMenu();
                         Sound.stop();
                     }
 
-                    else if(code == KeyEvent.VK_R) MyFrame.gameLogic.startMatch();
+                    else if(code == KeyEvent.VK_R) gl.startMatch();
                 }
 
                 case PVP -> {
-                    if(code == p1Left_key) MyFrame.gameLogic.p1.setLeftPressed(false);
-                    else if(code == p1Right_key) MyFrame.gameLogic.p1.setRightPressed(false);
+                    if(code == p1Left_key) gl.p1.setLeftPressed(false);
+                    else if(code == p1Right_key) gl.p1.setRightPressed(false);
 
-                    else if(code == p2Left_key) MyFrame.gameLogic.p2.setLeftPressed(false);
-                    else if(code == p2Right_key) MyFrame.gameLogic.p2.setRightPressed(false);
+                    else if(code == p2Left_key) gl.p2.setLeftPressed(false);
+                    else if(code == p2Right_key) gl.p2.setRightPressed(false);
 
-                    else if(code == KeyEvent.VK_P) MyFrame.gameLogic.togglePause();
+                    else if(code == KeyEvent.VK_P) gl.togglePause();
 
                     else if(code == KeyEvent.VK_ESCAPE) {
-                        MyFrame.gameLogic.backToMainMenu();
+                        gl.backToMainMenu();
                         Sound.stop();
                     }
 
-                    else if(code == KeyEvent.VK_R) MyFrame.gameLogic.startMatch();
+                    else if(code == KeyEvent.VK_R) gl.startMatch();
                 }
 
                 case DRIBBLE -> {
-                    Dribble current_minigame = (Dribble) MyFrame.gameLogic.miniGame;
+                    Dribble current_minigame = (Dribble) gl.getMiniGame();
 
                     if(code == p1Left_key) current_minigame.getPlayer().setLeftPressed(false);
                     else if(code == p1Right_key) current_minigame.getPlayer().setRightPressed(false);
 
-                    else if(code == KeyEvent.VK_P) MyFrame.gameLogic.togglePause();
+                    else if(code == KeyEvent.VK_P) gl.togglePause();
 
                     else if(code == KeyEvent.VK_ESCAPE) {
-                        MyFrame.gameLogic.backToMainMenu();
+                        gl.backToMainMenu();
                         Sound.stop();
                     }
 
                     else if(current_minigame.isFinished() && code == KeyEvent.VK_SPACE){
-                        MyFrame.gameLogic.miniGame = new Dribble();
+                        gl.setMiniGame(new Dribble(gl));
                     }
                 }
 
                 case BOSS_FIGHTS -> {
-                    BossFights current_minigame = (BossFights) MyFrame.gameLogic.miniGame;
+                    BossFights current_minigame = (BossFights) gl.getMiniGame();
 
                     if(code == p1Left_key) current_minigame.getFighter().setLeftPressed(false);
                     else if(code == p1Right_key) current_minigame.getFighter().setRightPressed(false);
 
                     else if(code == KeyEvent.VK_ESCAPE) {
-                        MyFrame.gameLogic.backToMainMenu();
+                        gl.backToMainMenu();
                         Sound.stop();
                         Sound.stopBackgroundMusic();
                     }
 
                     else if(current_minigame.isFinished() && !current_minigame.hasPlayerWon() && code == KeyEvent.VK_SPACE){
-                        MyFrame.gameLogic.miniGame = new BossFights();
+                        gl.setMiniGame(new BossFights(gl));
                     }
                 }
             }
         }
 
         //CUTSCENE
-        else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.CUTSCENE){
+        else if(gl.getGameState() == GameLogic.GameStates.CUTSCENE){
             switch (code){
                 case KeyEvent.VK_ENTER -> CutsceneHandler.skip();
             }
         }
 
         //FINISH SCREEN
-        else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.FINISH){
+        else if(gl.getGameState() == GameLogic.GameStates.FINISH){
             switch (code){
-                case KeyEvent.VK_SPACE -> MyFrame.gameLogic.startMatch();
-                case KeyEvent.VK_ESCAPE -> MyFrame.gameLogic.backToMainMenu();
+                case KeyEvent.VK_SPACE -> gl.startMatch();
+                case KeyEvent.VK_ESCAPE -> gl.backToMainMenu();
             }
         }
 
-        //TITLE SCREEN
-        else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.TITLE_SCREEN){
-            switch (code){
-                case KeyEvent.VK_UP, KeyEvent.VK_W -> GamePanel.titleScreen.previousOption();
-                case KeyEvent.VK_DOWN, KeyEvent.VK_S -> GamePanel.titleScreen.nextOption();
-                case KeyEvent.VK_ENTER, KeyEvent.VK_E -> GamePanel.titleScreen.clickOption();
-            }
-        }
-
-        //MINI-GAMES MENU
-        else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.MINI_GAMES_MENU){
-            switch (code){
-                case KeyEvent.VK_UP, KeyEvent.VK_W -> GamePanel.miniGamesMenu.previousOption();
-                case KeyEvent.VK_DOWN, KeyEvent.VK_S -> GamePanel.miniGamesMenu.nextOption();
-                case KeyEvent.VK_ENTER, KeyEvent.VK_E -> GamePanel.miniGamesMenu.clickOption();
-            }
-        }
-
-        //SETTINGS MENU
-        else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.SETTINGS_MENU){
-            switch (code){
-                case KeyEvent.VK_UP, KeyEvent.VK_W -> GamePanel.settingsMenu.previousOption();
-                case KeyEvent.VK_DOWN, KeyEvent.VK_S -> GamePanel.settingsMenu.nextOption();
-                case KeyEvent.VK_ENTER, KeyEvent.VK_E -> GamePanel.settingsMenu.clickOption();
-            }
-        }
-
-        //SELECTING POWER MENU
-        else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.SELECTING_POWERS){
-
-            if(MyFrame.gameLogic.getGameMode() == GameLogic.GameModes.PVE){
-                switch (code) {
-                    case KeyEvent.VK_W -> GamePanel.powersSelectionMenuPvE.previousOption();
-                    case KeyEvent.VK_S -> GamePanel.powersSelectionMenuPvE.nextOption();
-                    case KeyEvent.VK_E -> GamePanel.powersSelectionMenuPvE.clickOption();
-                    case KeyEvent.VK_ESCAPE -> {
-                        MyFrame.gameLogic.backToMainMenu();
-                        GamePanel.powersSelectionMenuPvE.resetSelectedOption();
+        //MENU
+        else if(gl.getGameState() == GameLogic.GameStates.MENU) {
+            //KEY BINDINGS
+            if(playerKeyListening){
+                if(!checkDuplicateKey(code)){
+                    switch (playerKeyListened){
+                        case LEFT_P1 -> p1Left_key = code;
+                        case LEFT_P2 -> p2Left_key = code;
+                        case RIGHT_P1 -> p1Right_key = code;
+                        case RIGHT_P2 -> p2Right_key = code;
+                        case DEFENSIVE_POWER_P1 -> p1DefensivePower_key = code;
+                        case DEFENSIVE_POWER_P2 -> p2DefensivePower_key = code;
+                        case OFFENSIVE_POWER_P1 -> p1OffensivePower_key = code;
+                        case OFFENSIVE_POWER_P2 -> p2OffensivePower_key = code;
                     }
                 }
+                playerKeyListening = false;
+                playerKeyListened = null;
             }
 
-            if(MyFrame.gameLogic.getGameMode() == GameLogic.GameModes.PVP) {
-                switch (code) {
-                    case KeyEvent.VK_UP, KeyEvent.VK_W -> GamePanel.powersSelectionMenuPvP.previousOption();
-                    case KeyEvent.VK_DOWN, KeyEvent.VK_S -> GamePanel.powersSelectionMenuPvP.nextOption();
-                    case KeyEvent.VK_ENTER, KeyEvent.VK_E -> GamePanel.powersSelectionMenuPvP.clickOption();
-                    case KeyEvent.VK_ESCAPE -> {
-                        MyFrame.gameLogic.backToMainMenu();
-                        GamePanel.powersSelectionMenuPvP.resetSelectedOption();
-                    }
-                }
+            switch (code) {
+                case KeyEvent.VK_UP, KeyEvent.VK_W -> gl.getMenu().previousOption();
+                case KeyEvent.VK_DOWN, KeyEvent.VK_S -> gl.getMenu().nextOption();
+                case KeyEvent.VK_ENTER, KeyEvent.VK_E -> gl.getMenu().clickOption();
+                case KeyEvent.VK_ESCAPE -> gl.backToMainMenu();
             }
         }
 
-        //KEY BINDINGS MENU
-        else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.KEY_BINDINGS_MENU){
-
-            //P1 RIGHT KEY BINDING
-            if(KeyBindingsMenu.isP1RightKeyListening){
-                p1Right_key = code;
-                KeyBindingsMenu.isP1RightKeyListening = false;
-            }
-            //P1 LEFT KEY BINDING
-            else if(KeyBindingsMenu.isP1LeftKeyListening){
-                p1Left_key = code;
-                KeyBindingsMenu.isP1LeftKeyListening = false;
-            }
-            //P1 DEFENSIVE POWER KEY BINDING
-            else if(KeyBindingsMenu.isP1DefensivePowerKeyListening){
-                p1DefensivePower_key = code;
-                KeyBindingsMenu.isP1DefensivePowerKeyListening = false;
-            }
-            //P1 OFFENSIVE POWER KEY BINDING
-            else if(KeyBindingsMenu.isP1OffensivePowerKeyListening){
-                p1OffensivePower_key = code;
-                KeyBindingsMenu.isP1OffensivePowerKeyListening = false;
-            }
-            //P2 RIGHT KEY BINDING
-            else if(KeyBindingsMenu.isP2RightKeyListening){
-                p2Right_key = code;
-                KeyBindingsMenu.isP2RightKeyListening = false;
-            }
-            //P2 LEFT KEY BINDING
-            else if(KeyBindingsMenu.isP2LeftKeyListening){
-                p2Left_key = code;
-                KeyBindingsMenu.isP2LeftKeyListening = false;
-            }
-            //P2 DEFENSIVE POWER KEY BINDING
-            else if(KeyBindingsMenu.isP2DefensivePowerKeyListening){
-                p2DefensivePower_key = code;
-                KeyBindingsMenu.isP2DefensivePowerKeyListening = false;
-            }
-            //P2 OFFENSIVE POWER KEY BINDING
-            else if(KeyBindingsMenu.isP2OffensivePowerKeyListening){
-                p2OffensivePower_key = code;
-                KeyBindingsMenu.isP2OffensivePowerKeyListening = false;
-            }
-
-            //MENU NAVIGATION
-            else{
-                switch (code){
-                    case KeyEvent.VK_UP, KeyEvent.VK_W -> GamePanel.keyBindingsMenu.previousOption();
-                    case KeyEvent.VK_DOWN, KeyEvent.VK_S -> GamePanel.keyBindingsMenu.nextOption();
-                    case KeyEvent.VK_E, KeyEvent.VK_ENTER -> GamePanel.keyBindingsMenu.clickOption();
-                }
-            }
+        else if(gl.getGameState() == GameLogic.GameStates.PAUSE){
+            if(code == KeyEvent.VK_ESCAPE) gl.backToMainMenu();
+            else if(code == KeyEvent.VK_R) gl.startMatch();
+            else if(code == KeyEvent.VK_P) gl.togglePause();
         }
+    }
 
-        else if(MyFrame.gameLogic.getGameState() == GameLogic.GameStates.PAUSE){
-            if(code == KeyEvent.VK_ESCAPE) MyFrame.gameLogic.backToMainMenu();
-            else if(code == KeyEvent.VK_R) MyFrame.gameLogic.startMatch();
-            else if(code == KeyEvent.VK_P) MyFrame.gameLogic.togglePause();
-        }
+    public static void listening(PlayerKey playerKey){
+        playerKeyListened = playerKey;
+        playerKeyListening = true;
+    }
+
+    private static boolean checkDuplicateKey(int code){
+        return p1Left_key == code || p1Right_key == code || p1DefensivePower_key == code || p1OffensivePower_key == code ||
+                p2Left_key == code || p2Right_key == code || p2DefensivePower_key == code || p2OffensivePower_key == code;
+    }
+
+    public static PlayerKey getKeyListened(){
+        return playerKeyListened;
     }
 }

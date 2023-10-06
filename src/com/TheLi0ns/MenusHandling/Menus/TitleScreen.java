@@ -47,20 +47,21 @@ public class TitleScreen extends Menu{
      */
     public static final CenteredOption QUIT_OPTION = new CenteredOption("QUIT", 4);
 
-    public TitleScreen() {
-        super(4);
-        subMenu = new GameModeSubMenu(this);
+    public TitleScreen(GameLogic gl) {
+        super(4, gl);
     }
 
     @Override
     public void performOption() {
 
-        if (selectedOption == PLAY_OPTION.ID) isInSubMenu = true;
+        if (selectedOption == PLAY_OPTION.ID){
+            subMenu = new GameModeSubMenu(this, gl);
+            isInSubMenu = true;
+        }
 
-        else if(selectedOption == MINI_GAMES_OPTION.ID) MyFrame.gameLogic.setGameState(GameLogic.GameStates.MINI_GAMES_MENU);
+        else if(selectedOption == MINI_GAMES_OPTION.ID) gl.setMenu(new MiniGamesMenu(gl));
 
-        else if (selectedOption == SETTINGS_OPTION.ID)
-            MyFrame.gameLogic.setGameState(GameLogic.GameStates.SETTINGS_MENU);
+        else if (selectedOption == SETTINGS_OPTION.ID) gl.setMenu(new SettingsMenu(gl));
 
         else if (selectedOption == QUIT_OPTION.ID) MyFrame.quit();
 

@@ -1,7 +1,6 @@
 package com.TheLi0ns.MenusHandling.Menus;
 
 import com.TheLi0ns.GameFrame.KeyHandler;
-import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.Logic.GameLogic;
 import com.TheLi0ns.MenusHandling.Options.CenteredOption;
 import com.TheLi0ns.MenusHandling.Options.ValueOption;
@@ -87,33 +86,22 @@ public class KeyBindingsMenu extends Menu{
      */
     public static final CenteredOption BACK = new CenteredOption("BACK", 9);
     
-    //BOOLEANS FOR KEY LISTENING
-    public static boolean isP1LeftKeyListening = false;
-    public static boolean isP1RightKeyListening = false;
-    public static boolean isP1OffensivePowerKeyListening = false;
-    public static boolean isP1DefensivePowerKeyListening = false;
-    
-    public static boolean isP2LeftKeyListening = false;
-    public static boolean isP2RightKeyListening = false;
-    public static boolean isP2OffensivePowerKeyListening = false;
-    public static boolean isP2DefensivePowerKeyListening = false;
-    
-    public KeyBindingsMenu() {
-        super(9);
+    public KeyBindingsMenu(GameLogic gl) {
+        super(9, gl);
     }
 
     @Override
     public void performOption() {
+
+        if(selectedOption == P1_LEFT_KEY_OPTION.ID) KeyHandler.listening(KeyHandler.PlayerKey.LEFT_P1);
+        else if(selectedOption == P1_RIGHT_KEY_OPTION.ID) KeyHandler.listening(KeyHandler.PlayerKey.RIGHT_P1);
+        else if(selectedOption == P1_OFFENSIVE_POWER_KEY_OPTION.ID) KeyHandler.listening(KeyHandler.PlayerKey.OFFENSIVE_POWER_P1);
+        else if(selectedOption == P1_DEFENSIVE_POWER_KEY_OPTION.ID) KeyHandler.listening(KeyHandler.PlayerKey.DEFENSIVE_POWER_P1);
         
-        if(selectedOption == P1_LEFT_KEY_OPTION.ID) isP1LeftKeyListening = true;
-        else if(selectedOption == P1_RIGHT_KEY_OPTION.ID) isP1RightKeyListening = true;
-        else if(selectedOption == P1_OFFENSIVE_POWER_KEY_OPTION.ID) isP1OffensivePowerKeyListening = true;
-        else if(selectedOption == P1_DEFENSIVE_POWER_KEY_OPTION.ID) isP1DefensivePowerKeyListening = true;
-        
-        else if(selectedOption == P2_LEFT_KEY_OPTION.ID) isP2LeftKeyListening = true;
-        else if(selectedOption == P2_RIGHT_KEY_OPTION.ID) isP2RightKeyListening = true;
-        else if(selectedOption == P2_OFFENSIVE_POWER_KEY_OPTION.ID) isP2OffensivePowerKeyListening = true;
-        else if(selectedOption == P2_DEFENSIVE_POWER_KEY_OPTION.ID) isP2DefensivePowerKeyListening = true;
+        else if(selectedOption == P2_LEFT_KEY_OPTION.ID) KeyHandler.listening(KeyHandler.PlayerKey.LEFT_P2);
+        else if(selectedOption == P2_RIGHT_KEY_OPTION.ID) KeyHandler.listening(KeyHandler.PlayerKey.RIGHT_P2);
+        else if(selectedOption == P2_OFFENSIVE_POWER_KEY_OPTION.ID) KeyHandler.listening(KeyHandler.PlayerKey.OFFENSIVE_POWER_P2);
+        else if(selectedOption == P2_DEFENSIVE_POWER_KEY_OPTION.ID) KeyHandler.listening(KeyHandler.PlayerKey.DEFENSIVE_POWER_P2);
 
         else if(selectedOption == BACK.ID) back();
 
@@ -123,7 +111,7 @@ public class KeyBindingsMenu extends Menu{
     @Override
     protected void back() {
         super.back();
-        MyFrame.gameLogic.setGameState(GameLogic.GameStates.SETTINGS_MENU);
+        gl.setMenu(new SettingsMenu(gl));
     }
 
     @Override
@@ -135,30 +123,31 @@ public class KeyBindingsMenu extends Menu{
         int value_x = 700;
         int y = 300;
         int y_offset = 60;
-        
+        KeyHandler.PlayerKey key = KeyHandler.getKeyListened();
+
         y = P1_LEFT_KEY_OPTION.draw(x, y, value_x, 0, P1_LEFT_KEY_OPTION.isSelected(selectedOption),
-                (isP1LeftKeyListening ? "?" : KeyEvent.getKeyText(KeyHandler.p1Left_key)), g2d);
+                (key == KeyHandler.PlayerKey.LEFT_P1 ? "?" : KeyEvent.getKeyText(KeyHandler.p1Left_key)), g2d);
         
         y = P1_RIGHT_KEY_OPTION.draw(x, y, value_x, y_offset, P1_RIGHT_KEY_OPTION.isSelected(selectedOption),
-                (isP1RightKeyListening ? "?" : KeyEvent.getKeyText(KeyHandler.p1Right_key)), g2d);
+                (key == KeyHandler.PlayerKey.RIGHT_P1 ? "?" : KeyEvent.getKeyText(KeyHandler.p1Right_key)), g2d);
                 
         y = P1_OFFENSIVE_POWER_KEY_OPTION.draw(x, y, value_x, y_offset, P1_OFFENSIVE_POWER_KEY_OPTION.isSelected(selectedOption),
-                (isP1OffensivePowerKeyListening ? "?" : KeyEvent.getKeyText(KeyHandler.p1OffensivePower_key)), g2d);
+                (key == KeyHandler.PlayerKey.OFFENSIVE_POWER_P1 ? "?" : KeyEvent.getKeyText(KeyHandler.p1OffensivePower_key)), g2d);
         
         y = P1_DEFENSIVE_POWER_KEY_OPTION.draw(x, y, value_x, y_offset, P1_DEFENSIVE_POWER_KEY_OPTION.isSelected(selectedOption),
-                (isP1DefensivePowerKeyListening ? "?" : KeyEvent.getKeyText(KeyHandler.p1DefensivePower_key)), g2d);
+                (key == KeyHandler.PlayerKey.DEFENSIVE_POWER_P1 ? "?" : KeyEvent.getKeyText(KeyHandler.p1DefensivePower_key)), g2d);
 
         y = P2_LEFT_KEY_OPTION.draw(x, y, value_x, y_offset, P2_LEFT_KEY_OPTION.isSelected(selectedOption),
-                (isP2LeftKeyListening ? "?" : KeyEvent.getKeyText(KeyHandler.p2Left_key)), g2d);
+                (key == KeyHandler.PlayerKey.LEFT_P2 ? "?" : KeyEvent.getKeyText(KeyHandler.p2Left_key)), g2d);
 
         y = P2_RIGHT_KEY_OPTION.draw(x, y, value_x, y_offset, P2_RIGHT_KEY_OPTION.isSelected(selectedOption),
-                (isP2RightKeyListening ? "?" : KeyEvent.getKeyText(KeyHandler.p2Right_key)), g2d);
+                (key == KeyHandler.PlayerKey.RIGHT_P2 ? "?" : KeyEvent.getKeyText(KeyHandler.p2Right_key)), g2d);
 
         y = P2_OFFENSIVE_POWER_KEY_OPTION.draw(x, y, value_x, y_offset, P2_OFFENSIVE_POWER_KEY_OPTION.isSelected(selectedOption),
-                (isP2OffensivePowerKeyListening ? "?" : KeyEvent.getKeyText(KeyHandler.p2OffensivePower_key)), g2d);
+                (key == KeyHandler.PlayerKey.OFFENSIVE_POWER_P2 ? "?" : KeyEvent.getKeyText(KeyHandler.p2OffensivePower_key)), g2d);
 
         y = P2_DEFENSIVE_POWER_KEY_OPTION.draw(x, y, value_x, y_offset, P2_DEFENSIVE_POWER_KEY_OPTION.isSelected(selectedOption),
-                (isP2DefensivePowerKeyListening ? "?" : KeyEvent.getKeyText(KeyHandler.p2DefensivePower_key)), g2d);
+                (key == KeyHandler.PlayerKey.DEFENSIVE_POWER_P2 ? "?" : KeyEvent.getKeyText(KeyHandler.p2DefensivePower_key)), g2d);
 
         y = BACK.draw(y, y_offset, BACK.isSelected(selectedOption), g2d);
     }

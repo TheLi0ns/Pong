@@ -1,7 +1,7 @@
 package com.TheLi0ns.MenusHandling.Menus;
 
 import com.TheLi0ns.GameFrame.GamePanel;
-import com.TheLi0ns.GameFrame.MyFrame;
+import com.TheLi0ns.Logic.GameLogic;
 import com.TheLi0ns.MenusHandling.Options.BooleanOption;
 import com.TheLi0ns.MenusHandling.Options.ValueOption;
 import com.TheLi0ns.Powers.DefensivePowers.DefensivePowersEnum;
@@ -43,18 +43,18 @@ public class PowersSelectionMenu_PvE extends Menu{
     public static final BooleanOption READY = new BooleanOption("READY", 3);
 
     //POWERS INDEXES BASED ON THE POSITION IN THE POWERS ENUMS
-    public int offensivePower_index = 0;
-    public int defensivePower_index = 0;
+    public static int offensivePower_index = 0;
+    public static int defensivePower_index = 0;
     
-    public PowersSelectionMenu_PvE() {
-        super(3);
+    public PowersSelectionMenu_PvE(GameLogic gl) {
+        super(3, gl);
     }
 
-    public OffensivePowersEnum getSelectedOffensivePower() {
+    public static OffensivePowersEnum getSelectedOffensivePower() {
         return OffensivePowersEnum.values()[offensivePower_index];
     }
 
-    public DefensivePowersEnum getSelectedDefensivePower() {
+    public static DefensivePowersEnum getSelectedDefensivePower() {
         return DefensivePowersEnum.values()[defensivePower_index];
     }
 
@@ -71,7 +71,7 @@ public class PowersSelectionMenu_PvE extends Menu{
         }
 
         else if(selectedOption == READY.ID){
-            MyFrame.gameLogic.startMatch();
+            gl.startMatch();
         }
 
         Sound.play(Sound.OPTION_CLICK);

@@ -1,5 +1,6 @@
 package com.TheLi0ns.MenusHandling.SubMenus;
 
+import com.TheLi0ns.Logic.GameLogic;
 import com.TheLi0ns.MenusHandling.Menus.Menu;
 import com.TheLi0ns.Utility.Sound;
 
@@ -18,10 +19,13 @@ public abstract class SubMenu {
 
     private final Menu MENU;
 
-    SubMenu(int nOptions, int y_offset, Menu menu){
+    protected final GameLogic gl;
+
+    SubMenu(int nOptions, int y_offset, Menu menu, GameLogic gl){
         N_OPTIONS = nOptions;
         Y_OFFSET = y_offset;
         MENU = menu;
+        this.gl = gl;
     }
 
     public void nextOption(){

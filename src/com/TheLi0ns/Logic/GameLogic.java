@@ -1,11 +1,14 @@
 package com.TheLi0ns.Logic;
 
-import com.TheLi0ns.GameFrame.GamePanel;
 import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.GameObject.Ball;
 import com.TheLi0ns.GameObject.ComputerPlayer;
 import com.TheLi0ns.GameObject.Player;
 import com.TheLi0ns.Logic.MiniGames.MiniGame;
+import com.TheLi0ns.MenusHandling.Menus.Menu;
+import com.TheLi0ns.MenusHandling.Menus.PowersSelectionMenu_PvE;
+import com.TheLi0ns.MenusHandling.Menus.PowersSelectionMenu_PvP;
+import com.TheLi0ns.MenusHandling.Menus.TitleScreen;
 import com.TheLi0ns.Utility.Utils;
 
 /**
@@ -32,14 +35,12 @@ public class GameLogic implements Runnable{
      */
     String finish = null;
 
-    private GameStates gameState = GameStates.TITLE_SCREEN;
+    private Menu menu = new TitleScreen(this);
+
+    private GameStates gameState = GameStates.MENU;
 
     public enum GameStates {
-        TITLE_SCREEN,
-        MINI_GAMES_MENU,
-        SETTINGS_MENU,
-        KEY_BINDINGS_MENU,
-        SELECTING_POWERS,
+        MENU,
         PLAYING,
         PAUSE,
         CUTSCENE,
@@ -66,7 +67,7 @@ public class GameLogic implements Runnable{
 
     private ComputerPlayer.Difficulties computer_difficulty;
 
-    public MiniGame miniGame;
+    private MiniGame miniGame;
 
     public GameLogic(){
         Thread gameLoop = new Thread(this);
@@ -166,7 +167,8 @@ public class GameLogic implements Runnable{
     }
 
     public void backToMainMenu(){
-        this.gameState = GameStates.TITLE_SCREEN;
+        this.gameState = GameStates.MENU;
+        menu = new TitleScreen(this);
     }
 
     public void setGameState(GameStates gameState) {
@@ -180,6 +182,22 @@ public class GameLogic implements Runnable{
     public void togglePause() {
         if(gameState == GameStates.PAUSE) gameState = GameStates.PLAYING;
         else if(gameState == GameStates.PLAYING) gameState = GameStates.PAUSE;
+    }
+
+    public Menu getMenu() {
+        return menu;
+    }
+
+    public void setMenu(Menu menu) {
+        this.menu = menu;
+    }
+
+    public MiniGame getMiniGame() {
+        return miniGame;
+    }
+
+    public void setMiniGame(MiniGame miniGame) {
+        this.miniGame = miniGame;
     }
 
     public boolean hasSomeoneWins(){
@@ -211,18 +229,18 @@ public class GameLogic implements Runnable{
         if(arePowersEnabled){
             if(isDefensivePowerRechargeable()){
                 if(gameMode == GameModes.PVE){
-                    p1.setDefensivePower(GamePanel.powersSelectionMenuPvE.getSelectedDefensivePower());
+                    p1.setDefensivePower(PowersSelectionMenu_PvE.getSelectedDefensivePower());
                 }else{
-                    p1.setDefensivePower(GamePanel.powersSelectionMenuPvP.getP1SelectedDefensivePower());
-                    p2.setDefensivePower(GamePanel.powersSelectionMenuPvP.getP2SelectedDefensivePower());
+                    p1.setDefensivePower(PowersSelectionMenu_PvP.getP1SelectedDefensivePower());
+                    p2.setDefensivePower(PowersSelectionMenu_PvP.getP2SelectedDefensivePower());
                 }
             }
             if(isOffensivePowerRechargeable()){
                 if(gameMode == GameModes.PVE){
-                    p1.setOffensivePower(GamePanel.powersSelectionMenuPvE.getSelectedOffensivePower(), p2);
+                    p1.setOffensivePower(PowersSelectionMenu_PvE.getSelectedOffensivePower(), p2);
                 }else{
-                    p1.setOffensivePower(GamePanel.powersSelectionMenuPvP.getP1SelectedOffensivePower(), p2);
-                    p2.setOffensivePower(GamePanel.powersSelectionMenuPvP.getP2SelectedOffensivePower(), p2);
+                    p1.setOffensivePower(PowersSelectionMenu_PvP.getP1SelectedOffensivePower(), p2);
+                    p2.setOffensivePower(PowersSelectionMenu_PvP.getP2SelectedOffensivePower(), p2);
                 }
             }
         }

@@ -1,8 +1,7 @@
 package com.TheLi0ns.MenusHandling.Menus;
 
-import com.TheLi0ns.GameFrame.MyFrame;
+import com.TheLi0ns.Logic.GameLogic;
 import com.TheLi0ns.Logic.GameLogic.GameModes;
-import com.TheLi0ns.Logic.GameLogic.GameStates;
 import com.TheLi0ns.Logic.MiniGames.BossFights;
 import com.TheLi0ns.Logic.MiniGames.Dribble;
 import com.TheLi0ns.MenusHandling.Options.CenteredOption;
@@ -39,18 +38,19 @@ public class MiniGamesMenu extends Menu{
      */
     public static final CenteredOption BACK = new CenteredOption("BACK", 3);
 
-    public MiniGamesMenu() {
-        super(3);
-        subMenu = new BossFightSubMenu(this);
+    public MiniGamesMenu(GameLogic gl) {
+        super(3, gl);
+
     }
 
     @Override
     public void performOption() {
         if(selectedOption == DRIBBLE_OPTION.ID){
-            MyFrame.gameLogic.miniGame = new Dribble();
+            gl.setMiniGame(new Dribble(gl));
         }
 
         else if(selectedOption == BOSS_FIGHT_OPTION.ID){
+            subMenu = new BossFightSubMenu(this, gl);
             isInSubMenu = true;
         }
 
@@ -62,7 +62,7 @@ public class MiniGamesMenu extends Menu{
     @Override
     protected void back() {
         super.back();
-        MyFrame.gameLogic.setGameState(GameStates.TITLE_SCREEN);
+        gl.setMenu(new TitleScreen(gl));
     }
 
     @Override

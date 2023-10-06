@@ -9,7 +9,7 @@ import javax.swing.*;
 
 public class MyFrame extends JFrame {
     JFrame frame = new JFrame();
-    public static GamePanel gamePanel = new GamePanel();
+    public static GamePanel gamePanel;
 
     public Assets assets = new Assets();
     public Sound sound = new Sound();
@@ -22,6 +22,8 @@ public class MyFrame extends JFrame {
         });
         frame.setVisible(true);
         frame.setResizable(false);
+        gamePanel = new GamePanel(gameLogic);
+        frame.addKeyListener(new KeyHandler(gameLogic));
         frame.add(gamePanel);
         frame.pack();
         frame.setTitle("PONG");

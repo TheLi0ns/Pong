@@ -2,10 +2,10 @@ package com.TheLi0ns.MenusHandling.SubMenus;
 
 import com.TheLi0ns.Cutscenes.CutsceneEnum;
 import com.TheLi0ns.Cutscenes.CutsceneHandler;
-import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.GameObject.Bosses.BossEnum;
 import com.TheLi0ns.GameObject.Bosses.BossThePyromancer;
 import com.TheLi0ns.GameObject.Bosses.BossTheShrinker;
+import com.TheLi0ns.Logic.GameLogic;
 import com.TheLi0ns.Logic.MiniGames.BossFights;
 import com.TheLi0ns.MenusHandling.Menus.Menu;
 import com.TheLi0ns.MenusHandling.Options.CenteredOption;
@@ -33,24 +33,24 @@ public class BossFightSubMenu extends SubMenu{
 
     public static final CenteredOption THE_DISORIENTATOR_OPTION = new CenteredOption("The Disorientator", 3);
 
-    public BossFightSubMenu(Menu menu) {
-        super(3, 130, menu);
+    public BossFightSubMenu(Menu menu, GameLogic gl) {
+        super(3, 130, menu, gl);
     }
 
     @Override
     public void performOption() {
         if(selectedOption == THE_PYROMANCER_OPTION.ID){
-            MyFrame.gameLogic.miniGame = new BossFights(BossEnum.THE_PYROMANCER);
+            gl.setMiniGame(new BossFights(BossEnum.THE_PYROMANCER, gl));
             CutsceneHandler.playCutscene(CutsceneEnum.ThePyromancer_Cutscene);
         }
 
         else if(selectedOption == THE_SHRINKER_OPTION.ID){
-            MyFrame.gameLogic.miniGame = new BossFights(BossEnum.THE_SHRINKER);
+            gl.setMiniGame(new BossFights(BossEnum.THE_SHRINKER, gl));
             CutsceneHandler.playCutscene(CutsceneEnum.TheShrinker_Cutscene);
         }
 
         else if(selectedOption == THE_DISORIENTATOR_OPTION.ID){
-            MyFrame.gameLogic.miniGame = new BossFights(BossEnum.THE_DISORIENTATOR);
+            gl.setMiniGame(new BossFights(BossEnum.THE_DISORIENTATOR, gl));
             CutsceneHandler.playCutscene(CutsceneEnum.TheDisorientator_Cutscene);
         }
 
