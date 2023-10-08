@@ -1,15 +1,9 @@
 package com.TheLi0ns.Logic;
 
 import com.TheLi0ns.GameFrame.MyFrame;
-import com.TheLi0ns.GameObject.Ball;
-import com.TheLi0ns.GameObject.ComputerPlayer;
-import com.TheLi0ns.GameObject.Player;
-import com.TheLi0ns.Logic.MiniGames.MiniGame;
+import com.TheLi0ns.Logic.GameModes.GameMode_super;
 import com.TheLi0ns.MenusHandling.Menus.Menu;
-import com.TheLi0ns.MenusHandling.Menus.PowersSelectionMenu_PvE;
-import com.TheLi0ns.MenusHandling.Menus.PowersSelectionMenu_PvP;
 import com.TheLi0ns.MenusHandling.Menus.TitleScreen;
-import com.TheLi0ns.Utility.Utils;
 
 /**
  * Creates the game loop
@@ -18,22 +12,12 @@ import com.TheLi0ns.Utility.Utils;
  */
 public class GameLogic implements Runnable{
 
-    public Player p1;
-    public Player p2;
-    public Ball ball;
-
     private int pointsToWin = 15;
     public static final int MAX_POINTS = 30;
 
-    private final int FPS = 90;
+    public static final int FPS = 90;
 
     private boolean arePowersEnabled = true;
-
-    /**
-     * The string that will be displayed
-     * when someone wins
-     */
-    String finish = null;
 
     private Menu menu = new TitleScreen(this);
 
@@ -42,56 +26,14 @@ public class GameLogic implements Runnable{
     public enum GameStates {
         MENU,
         PLAYING,
-        PAUSE,
         CUTSCENE,
-        FINISH,
     }
 
-    private GameModes gameMode = GameModes.PVP;
-
-    public enum GameModes{
-        PVP,
-        PVE,
-        /**
-         * A mini-game in which you have
-         * to dribble to get the highest score
-         */
-        DRIBBLE,
-
-        /**
-         * A mini-game in which you will face
-         * some bosses
-         */
-        BOSS_FIGHTS
-    }
-
-    private ComputerPlayer.Difficulties computer_difficulty;
-
-    private MiniGame miniGame;
+    private GameMode_super gameMode;
 
     public GameLogic(){
         Thread gameLoop = new Thread(this);
         gameLoop.start();
-    }
-
-    /**
-     * Creates the player and the first ball
-     * {@link GameLogic#setUpPowers() Assigns to the players their powers}
-     * And set the playing game state
-     */
-    public void startMatch(){
-        gameState = GameStates.PAUSE;
-
-        p1 = new Player(391, 909, 6);
-
-        if(gameMode == GameModes.PVP) p2 = new Player(391, 53, 6);
-        else if(gameMode == GameModes.PVE) p2 = new ComputerPlayer(391, 53, 7, computer_difficulty);
-
-        ball = new Ball(Utils.genRandomXVelocity(), 6);
-
-        setUpPowers();
-
-        gameState = GameStates.PLAYING;
     }
 
     /**
@@ -106,10 +48,7 @@ public class GameLogic implements Runnable{
         }
         while(true) {
             if(gameState == GameStates.PLAYING) {
-                switch(gameMode){
-                    case PVP, PVE -> update();
-                    case DRIBBLE, BOSS_FIGHTS -> miniGame.update();
-                }
+                gameMode.update();
             }
 
             MyFrame.gamePanel.repaint();
@@ -118,50 +57,6 @@ public class GameLogic implements Runnable{
                 Thread.sleep(1000/FPS);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
-            }
-        }
-    }
-
-    void update(){
-
-        p1.update();
-
-        p2.update();
-
-        ball.update(p1, p2);
-
-        scoreUpdate();
-    }
-
-    /**
-     * Checks if someone has scored
-     * so gives the goal
-     * and charge the opponent powers
-     * and if someone has win {@link GameLogic#finish() finish the game}
-     */
-    private void scoreUpdate(){
-        switch(ball.checkScored()){
-            case "UP" -> {
-                p1.hasScored();
-                if(arePowersEnabled && gameMode == GameModes.PVP) p2.ChargingPowers();
-                if(!hasSomeoneWins()) {
-                    ball = new Ball(Utils.genRandomXVelocity(), 5);
-                }else{
-                    finish();
-                }
-                p1.resetHitPerRound();
-                p2.resetHitPerRound();
-            }
-            case "DOWN" -> {
-                p2.hasScored();
-                if(arePowersEnabled) p1.ChargingPowers();
-                if(!hasSomeoneWins()) {
-                    ball = new Ball(Utils.genRandomXVelocity(), -5);
-                }else{
-                    finish();
-                }
-                p1.resetHitPerRound();
-                p2.resetHitPerRound();
             }
         }
     }
@@ -179,11 +74,6 @@ public class GameLogic implements Runnable{
         return gameState;
     }
 
-    public void togglePause() {
-        if(gameState == GameStates.PAUSE) gameState = GameStates.PLAYING;
-        else if(gameState == GameStates.PLAYING) gameState = GameStates.PAUSE;
-    }
-
     public Menu getMenu() {
         return menu;
     }
@@ -192,58 +82,12 @@ public class GameLogic implements Runnable{
         this.menu = menu;
     }
 
-    public MiniGame getMiniGame() {
-        return miniGame;
+    public GameMode_super getGameMode() {
+        return gameMode;
     }
 
-    public void setMiniGame(MiniGame miniGame) {
-        this.miniGame = miniGame;
-    }
-
-    public boolean hasSomeoneWins(){
-        return p1.hasWon() || p2.hasWon();
-    }
-
-    /**
-     * Make the gameState finish
-     * Writes the {@link GameLogic#finish finish string}
-     */
-    public void finish(){
-        if(p1.hasWon()){
-            finish = "PLAYER 1\n  WINS";
-        }else{
-            finish = "PLAYER 2\n  WINS";
-        }
-        gameState = GameStates.FINISH;
-    }
-
-    public String getFinish() {
-        return finish;
-    }
-
-    /**
-     * Assign to the player the powers selected
-     * in the power selection menu
-     */
-    public void setUpPowers(){
-        if(arePowersEnabled){
-            if(isDefensivePowerRechargeable()){
-                if(gameMode == GameModes.PVE){
-                    p1.setDefensivePower(PowersSelectionMenu_PvE.getSelectedDefensivePower());
-                }else{
-                    p1.setDefensivePower(PowersSelectionMenu_PvP.getP1SelectedDefensivePower());
-                    p2.setDefensivePower(PowersSelectionMenu_PvP.getP2SelectedDefensivePower());
-                }
-            }
-            if(isOffensivePowerRechargeable()){
-                if(gameMode == GameModes.PVE){
-                    p1.setOffensivePower(PowersSelectionMenu_PvE.getSelectedOffensivePower(), p2);
-                }else{
-                    p1.setOffensivePower(PowersSelectionMenu_PvP.getP1SelectedOffensivePower(), p2);
-                    p2.setOffensivePower(PowersSelectionMenu_PvP.getP2SelectedOffensivePower(), p2);
-                }
-            }
-        }
+    public void setGameMode(GameMode_super gameMode) {
+        this.gameMode = gameMode;
     }
 
     public boolean arePowersEnabled() {
@@ -259,18 +103,6 @@ public class GameLogic implements Runnable{
 
     public int getPointsToWin() {
         return pointsToWin;
-    }
-
-    public void setGameMode(GameModes gameMode) {
-        this.gameMode = gameMode;
-    }
-
-    public GameModes getGameMode() {
-        return gameMode;
-    }
-
-    public void setComputer_difficulty(ComputerPlayer.Difficulties computer_difficulty) {
-        this.computer_difficulty = computer_difficulty;
     }
 
     /**

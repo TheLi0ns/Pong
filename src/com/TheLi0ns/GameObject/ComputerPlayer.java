@@ -1,12 +1,14 @@
 package com.TheLi0ns.GameObject;
 
 import com.TheLi0ns.GameFrame.GamePanel;
-import com.TheLi0ns.GameFrame.MyFrame;
+import com.TheLi0ns.Logic.GameModes.Match_pve;
 import com.TheLi0ns.Utility.Directions;
 import com.TheLi0ns.Utility.Utils;
 import com.TheLi0ns.Utility.Vector2D;
 
 public class ComputerPlayer extends Player {
+
+    final Match_pve ENV;
 
     final Difficulties difficulty;
     public enum Difficulties{
@@ -22,18 +24,19 @@ public class ComputerPlayer extends Player {
     }
 
 
-    public ComputerPlayer(int x, int y, int xVelocity, Difficulties difficulty) {
+    public ComputerPlayer(int x, int y, int xVelocity, Difficulties difficulty, Match_pve ENV) {
         super(x, y, xVelocity);
         this.difficulty = difficulty;
+        this.ENV = ENV;
     }
 
     private void decideMove(){
         switch (difficulty){
             case NORMAL -> {
                 //MAKES THE ComputerPlayer FOLLOW THE BALL IF THE BALL IS MOVING AGAINST HIM
-                if(MyFrame.gameLogic.ball.getVelocity().getYDirection() == Directions.UP){
-                    if(MyFrame.gameLogic.ball.getX() > this.x + this.width/2) move(Directions.RIGHT);
-                    else if(MyFrame.gameLogic.ball.getX() < this.x + this.width/2) move(Directions.LEFT);
+                if(ENV.getBall().getVelocity().getYDirection() == Directions.UP){
+                    if(ENV.getBall().getX() > this.x + this.width/2) move(Directions.RIGHT);
+                    else if(ENV.getBall().getX() < this.x + this.width/2) move(Directions.LEFT);
                 }
                 //MAKES THE ComputerPlayer RETURN TO THE CENTER IF THE BALL IS MOVING AWAY FROM HIM
                 else{
@@ -45,11 +48,11 @@ public class ComputerPlayer extends Player {
             case IMPOSSIBLE -> {
                 //MAKES THE ComputerPlayer MOVE TOWARD THE PREDICTED POS OF THE BALL
                 //IF THE BALL IS MOVING AGAINST HIM
-                if(MyFrame.gameLogic.ball.getVelocity().getYDirection() == Directions.UP){
+                if(ENV.getBall().getVelocity().getYDirection() == Directions.UP){
 
                     int predictedX = Utils.predictXonY(
-                            MyFrame.gameLogic.ball.getVelocity(),
-                            new Vector2D(MyFrame.gameLogic.ball.getX() + MyFrame.gameLogic.ball.getWidth()/2, MyFrame.gameLogic.ball.getY()),
+                            ENV.getBall().getVelocity(),
+                            new Vector2D(ENV.getBall().getX() + ENV.getBall().getWidth()/2, ENV.getBall().getY()),
                             this.y + this.height + 10);
 
                     if(this.x + this.width + 10 < predictedX) move(Directions.RIGHT);

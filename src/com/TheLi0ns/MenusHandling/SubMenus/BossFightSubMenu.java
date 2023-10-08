@@ -6,7 +6,7 @@ import com.TheLi0ns.GameObject.Bosses.BossEnum;
 import com.TheLi0ns.GameObject.Bosses.BossThePyromancer;
 import com.TheLi0ns.GameObject.Bosses.BossTheShrinker;
 import com.TheLi0ns.Logic.GameLogic;
-import com.TheLi0ns.Logic.MiniGames.BossFights;
+import com.TheLi0ns.Logic.GameModes.BossFights;
 import com.TheLi0ns.MenusHandling.Menus.Menu;
 import com.TheLi0ns.MenusHandling.Options.CenteredOption;
 import com.TheLi0ns.Utility.Sound;
@@ -40,17 +40,17 @@ public class BossFightSubMenu extends SubMenu{
     @Override
     public void performOption() {
         if(selectedOption == THE_PYROMANCER_OPTION.ID){
-            gl.setMiniGame(new BossFights(BossEnum.THE_PYROMANCER, gl));
+            gl.setGameMode(new BossFights(BossEnum.THE_PYROMANCER, gl));
             CutsceneHandler.playCutscene(CutsceneEnum.ThePyromancer_Cutscene);
         }
 
         else if(selectedOption == THE_SHRINKER_OPTION.ID){
-            gl.setMiniGame(new BossFights(BossEnum.THE_SHRINKER, gl));
+            gl.setGameMode(new BossFights(BossEnum.THE_SHRINKER, gl));
             CutsceneHandler.playCutscene(CutsceneEnum.TheShrinker_Cutscene);
         }
 
         else if(selectedOption == THE_DISORIENTATOR_OPTION.ID){
-            gl.setMiniGame(new BossFights(BossEnum.THE_DISORIENTATOR, gl));
+            gl.setGameMode(new BossFights(BossEnum.THE_DISORIENTATOR, gl));
             CutsceneHandler.playCutscene(CutsceneEnum.TheDisorientator_Cutscene);
         }
 

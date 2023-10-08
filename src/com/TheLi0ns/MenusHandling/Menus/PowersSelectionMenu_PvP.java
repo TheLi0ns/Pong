@@ -2,6 +2,7 @@ package com.TheLi0ns.MenusHandling.Menus;
 
 import com.TheLi0ns.GameFrame.GamePanel;
 import com.TheLi0ns.Logic.GameLogic;
+import com.TheLi0ns.Logic.GameModes.Match_pvp;
 import com.TheLi0ns.MenusHandling.Options.BooleanOption;
 import com.TheLi0ns.MenusHandling.Options.ValueOption;
 import com.TheLi0ns.Powers.DefensivePowers.DefensivePowersEnum;
@@ -146,7 +147,7 @@ public class PowersSelectionMenu_PvP extends Menu{
         }
 
         else if(selectedOption == P2_READY_OPTION.ID){
-            gl.startMatch();
+            gl.setGameMode(new Match_pvp(gl));
         }
 
         Sound.play(Sound.OPTION_CLICK);

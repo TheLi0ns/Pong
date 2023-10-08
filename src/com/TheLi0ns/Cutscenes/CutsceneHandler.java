@@ -2,7 +2,7 @@ package com.TheLi0ns.Cutscenes;
 
 import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.GameObject.Bosses.BossTheDisorientator;
-import com.TheLi0ns.Logic.MiniGames.BossFights;
+import com.TheLi0ns.Logic.GameModes.BossFights;
 import com.TheLi0ns.Utility.Assets;
 import com.TheLi0ns.Utility.Directions;
 import com.TheLi0ns.Utility.Sound;
@@ -55,7 +55,7 @@ public class CutsceneHandler {
     }
 
     private static void bossFight_cutscene_generalSetup(){
-        BossFights ENV = (BossFights) MyFrame.gameLogic.getMiniGame();
+        BossFights ENV = (BossFights) MyFrame.gameLogic.getGameMode();
         ENV.getFighter().setLeftPressed(false);
         ENV.getFighter().setRightPressed(false);
         ENV.getFighter().setParrying(false);
@@ -112,7 +112,7 @@ public class CutsceneHandler {
     }
     
     private static void theShrinkerSecondPhase_cutscene_setup() {
-        BossFights ENV = (BossFights) MyFrame.gameLogic.getMiniGame();
+        BossFights ENV = (BossFights) MyFrame.gameLogic.getGameMode();
         ENV.getBoss().setX(391);
         ENV.getFighter().setX(391);
         ENV.getFighter().setPLAYER_IMAGE(ENV.getFighter().getNORMAL_PLAYER_IMAGE());
@@ -125,7 +125,7 @@ public class CutsceneHandler {
     }
 
     private static void draw_TheShrinkerSecondPhase_cutscene(Graphics2D g2d){
-        BossFights ENV = (BossFights) MyFrame.gameLogic.getMiniGame();
+        BossFights ENV = (BossFights) MyFrame.gameLogic.getGameMode();
         if(timeRemaining == 135){
             ENV.getBoss().setBOSS_IMAGE(Assets.THE_SHRINKER_SECOND_PHASE);
         }
@@ -141,7 +141,7 @@ public class CutsceneHandler {
             ENV.getFighter().setX(426);
         }
 
-        ENV.draw(g2d);
+        ENV.drawGame(g2d);
 
         g2d.setColor(new Color(0, 75, 212));
 
@@ -229,7 +229,7 @@ public class CutsceneHandler {
     
     private static void theDisorientatorSkillActivation_cutscene_setup() {
         bossFight_cutscene_generalSetup();
-        BossFights ENV = (BossFights) MyFrame.gameLogic.getMiniGame();
+        BossFights ENV = (BossFights) MyFrame.gameLogic.getGameMode();
         new Thread(() -> {
             try {
                 Thread.sleep(600);
@@ -241,8 +241,8 @@ public class CutsceneHandler {
     }
 
     private static void draw_TheDisorientatorSkillActivation_cutscene(Graphics2D g2d){
-        BossFights ENV = (BossFights) MyFrame.gameLogic.getMiniGame();
-        ENV.draw(g2d);
+        BossFights ENV = (BossFights) MyFrame.gameLogic.getGameMode();
+        ENV.drawGame(g2d);
         if(timeRemaining > 110) g2d.drawImage(Assets.THE_DISORIENTATOR_SKILL_ACTIVATION[0], ENV.getBoss().getX(), ENV.getBoss().getY(), null);
         else if(timeRemaining > 92) g2d.drawImage(Assets.THE_DISORIENTATOR_SKILL_ACTIVATION[1], ENV.getBoss().getX(), ENV.getBoss().getY(), null);
         else if(timeRemaining > 74) g2d.drawImage(Assets.THE_DISORIENTATOR_SKILL_ACTIVATION[2], ENV.getBoss().getX(), ENV.getBoss().getY(), null);
@@ -251,7 +251,7 @@ public class CutsceneHandler {
 
     private static void theDisorientatorSkillDeactivation_cutscene_setup() {
         bossFight_cutscene_generalSetup();
-        BossFights ENV = (BossFights) MyFrame.gameLogic.getMiniGame();
+        BossFights ENV = (BossFights) MyFrame.gameLogic.getGameMode();
         new Thread(() -> {
             try {
                 Thread.sleep(800);
@@ -264,8 +264,8 @@ public class CutsceneHandler {
     }
 
     private static void draw_TheDisorientatorSkillDeactivation_cutscene(Graphics2D g2d){
-        BossFights ENV = (BossFights) MyFrame.gameLogic.getMiniGame();
-        ENV.draw(g2d);
+        BossFights ENV = (BossFights) MyFrame.gameLogic.getGameMode();
+        ENV.drawGame(g2d);
         if(timeRemaining > 64) g2d.drawImage(Assets.THE_DISORIENTATOR_SKILL, ENV.getBoss().getX(), ENV.getBoss().getY(), null);
         else if(timeRemaining > 46) g2d.drawImage(Assets.THE_DISORIENTATOR_SKILL_ACTIVATION[2], ENV.getBoss().getX(), ENV.getBoss().getY(), null);
         else if(timeRemaining > 28) g2d.drawImage(Assets.THE_DISORIENTATOR_SKILL_ACTIVATION[1], ENV.getBoss().getX(), ENV.getBoss().getY(), null);

@@ -2,8 +2,7 @@ package com.TheLi0ns.GameFrame;
 
 import com.TheLi0ns.Cutscenes.CutsceneHandler;
 import com.TheLi0ns.Logic.GameLogic;
-import com.TheLi0ns.Logic.MiniGames.BossFights;
-import com.TheLi0ns.Logic.MiniGames.Dribble;
+import com.TheLi0ns.Logic.GameModes.*;
 import com.TheLi0ns.Utility.Sound;
 
 import java.awt.event.KeyEvent;
@@ -46,44 +45,43 @@ public class KeyHandler implements KeyListener {
 
         int code = e.getKeyCode();
 
+        //PLAYING
         if(gl.getGameState() == GameLogic.GameStates.PLAYING){
-            switch(gl.getGameMode()){
-                case PVE -> {
-                    if(code == p1Left_key) gl.p1.setLeftPressed(true);
-                    else if(code == p1Right_key) gl.p1.setRightPressed(true);
+            GameMode_super gameMode = gl.getGameMode();
 
-                    else if(code == p1DefensivePower_key) gl.p1.activateDefensivePower();
-                    else if(code == p1OffensivePower_key) gl.p1.activateOffensivePower();
-                }
+            if (gameMode instanceof Match_pve matchPve) {
 
-                case PVP -> {
-                    if(code == p1Left_key) gl.p1.setLeftPressed(true);
-                    else if(code == p1Right_key) gl.p1.setRightPressed(true);
+                if (code == p1Left_key) matchPve.getPlayer().setLeftPressed(true);
+                else if (code == p1Right_key) matchPve.getPlayer().setRightPressed(true);
 
-                    else if(code == p2Left_key) gl.p2.setLeftPressed(true);
-                    else if(code == p2Right_key) gl.p2.setRightPressed(true);
+                else if (code == p1DefensivePower_key) matchPve.getPlayer().activateDefensivePower();
+                else if (code == p1OffensivePower_key) matchPve.getPlayer().activateOffensivePower();
 
-                    else if(code == p1DefensivePower_key) gl.p1.activateDefensivePower();
-                    else if(code == p1OffensivePower_key) gl.p1.activateOffensivePower();
+            } else if (gameMode instanceof Match_pvp matchPvp) {
 
-                    else if(code == p2DefensivePower_key) gl.p2.activateDefensivePower();
-                    else if(code == p2OffensivePower_key) gl.p2.activateOffensivePower();
-                }
+                if (code == p1Left_key) matchPvp.getP1().setLeftPressed(true);
+                else if (code == p1Right_key) matchPvp.getP1().setRightPressed(true);
 
-                case DRIBBLE -> {
-                    Dribble current_minigame = (Dribble) gl.getMiniGame();
+                else if (code == p2Left_key) matchPvp.getP2().setLeftPressed(true);
+                else if (code == p2Right_key) matchPvp.getP2().setRightPressed(true);
 
-                    if(code == p1Left_key) current_minigame.getPlayer().setLeftPressed(true);
-                    else if(code == p1Right_key) current_minigame.getPlayer().setRightPressed(true);
-                }
+                else if (code == p1DefensivePower_key) matchPvp.getP1().activateDefensivePower();
+                else if (code == p1OffensivePower_key) matchPvp.getP1().activateOffensivePower();
 
-                case BOSS_FIGHTS -> {
-                    BossFights current_minigame = (BossFights) gl.getMiniGame();
+                else if (code == p2DefensivePower_key) matchPvp.getP2().activateDefensivePower();
+                else if (code == p2OffensivePower_key) matchPvp.getP2().activateOffensivePower();
 
-                    if(code == p1Left_key) current_minigame.getFighter().setLeftPressed(true);
-                    else if(code == p1Right_key) current_minigame.getFighter().setRightPressed(true);
-                    else if(code == p1DefensivePower_key || code == KeyEvent.VK_SPACE)current_minigame.getFighter().parry();
-                }
+            } else if (gameMode instanceof Dribble dribble) {
+
+                if (code == p1Left_key) dribble.getPlayer().setLeftPressed(true);
+                else if (code == p1Right_key) dribble.getPlayer().setRightPressed(true);
+
+            } else if (gameMode instanceof BossFights bossFights) {
+
+                if (code == p1Left_key) bossFights.getFighter().setLeftPressed(true);
+                else if (code == p1Right_key) bossFights.getFighter().setRightPressed(true);
+                else if (code == p1DefensivePower_key || code == KeyEvent.VK_SPACE)
+                    bossFights.getFighter().parry();
             }
 
         }
@@ -94,91 +92,77 @@ public class KeyHandler implements KeyListener {
 
         int code = e.getKeyCode();
 
-        //MATCH
+        //PLAYING
         if(gl.getGameState() == GameLogic.GameStates.PLAYING){
 
-            switch (gl.getGameMode()){
-                case PVE ->{
-                    if(code == p1Left_key) gl.p1.setLeftPressed(false);
-                    else if(code == p1Right_key) gl.p1.setRightPressed(false);
+            GameMode_super minigame = gl.getGameMode();
 
-                    else if(code == KeyEvent.VK_P) gl.togglePause();
+            if (minigame instanceof Match_pve matchPve) {
 
-                    else if(code == KeyEvent.VK_ESCAPE) {
-                        gl.backToMainMenu();
-                        Sound.stop();
-                    }
+                if (code == p1Left_key) matchPve.getPlayer().setLeftPressed(false);
+                else if (code == p1Right_key) matchPve.getPlayer().setRightPressed(false);
 
-                    else if(code == KeyEvent.VK_R) gl.startMatch();
+                else if (code == KeyEvent.VK_P) minigame.togglePause();
+
+                else if (code == KeyEvent.VK_ESCAPE) {
+                    gl.backToMainMenu();
+                    Sound.stop();
+                } else if (code == KeyEvent.VK_R) gl.setGameMode(new Match_pve(gl));
+
+                else if(matchPve.isFinished() && code == KeyEvent.VK_SPACE) gl.setGameMode(new Match_pve(gl));
+
+            } else if (minigame instanceof Match_pvp matchPvp) {
+
+                if (code == p1Left_key) matchPvp.getP1().setLeftPressed(false);
+                else if (code == p1Right_key) matchPvp.getP1().setRightPressed(false);
+
+                else if (code == p2Left_key) matchPvp.getP2().setLeftPressed(false);
+                else if (code == p2Right_key) matchPvp.getP2().setRightPressed(false);
+
+                else if (code == KeyEvent.VK_P) minigame.togglePause();
+
+                else if (code == KeyEvent.VK_ESCAPE) {
+                    gl.backToMainMenu();
+                    Sound.stop();
+                } else if (code == KeyEvent.VK_R) gl.setGameMode(new Match_pvp(gl));
+
+                else if (matchPvp.isFinished() && code == KeyEvent.VK_SPACE) gl.setGameMode(new Match_pvp(gl));
+
+            } else if (minigame instanceof Dribble dribble) {
+
+                if (code == p1Left_key) dribble.getPlayer().setLeftPressed(false);
+                else if (code == p1Right_key) dribble.getPlayer().setRightPressed(false);
+
+                else if (code == KeyEvent.VK_P) minigame.togglePause();
+
+                else if (code == KeyEvent.VK_ESCAPE) {
+                    gl.backToMainMenu();
+                    Sound.stop();
+                } else if (dribble.isFinished() && code == KeyEvent.VK_SPACE) {
+                    gl.setGameMode(new Dribble(gl));
                 }
 
-                case PVP -> {
-                    if(code == p1Left_key) gl.p1.setLeftPressed(false);
-                    else if(code == p1Right_key) gl.p1.setRightPressed(false);
+            } else if (minigame instanceof BossFights bossFights) {
 
-                    else if(code == p2Left_key) gl.p2.setLeftPressed(false);
-                    else if(code == p2Right_key) gl.p2.setRightPressed(false);
+                if (code == p1Left_key) bossFights.getFighter().setLeftPressed(false);
+                else if (code == p1Right_key) bossFights.getFighter().setRightPressed(false);
 
-                    else if(code == KeyEvent.VK_P) gl.togglePause();
-
-                    else if(code == KeyEvent.VK_ESCAPE) {
-                        gl.backToMainMenu();
-                        Sound.stop();
-                    }
-
-                    else if(code == KeyEvent.VK_R) gl.startMatch();
+                else if (code == KeyEvent.VK_ESCAPE) {
+                    gl.backToMainMenu();
+                    Sound.stop();
+                    Sound.stopBackgroundMusic();
+                } else if (bossFights.isFinished() && !bossFights.hasPlayerWon() && code == KeyEvent.VK_SPACE) {
+                    gl.setGameMode(new BossFights(gl));
                 }
+                else if (code == KeyEvent.VK_R) gl.setGameMode(new BossFights(gl));
 
-                case DRIBBLE -> {
-                    Dribble current_minigame = (Dribble) gl.getMiniGame();
-
-                    if(code == p1Left_key) current_minigame.getPlayer().setLeftPressed(false);
-                    else if(code == p1Right_key) current_minigame.getPlayer().setRightPressed(false);
-
-                    else if(code == KeyEvent.VK_P) gl.togglePause();
-
-                    else if(code == KeyEvent.VK_ESCAPE) {
-                        gl.backToMainMenu();
-                        Sound.stop();
-                    }
-
-                    else if(current_minigame.isFinished() && code == KeyEvent.VK_SPACE){
-                        gl.setMiniGame(new Dribble(gl));
-                    }
-                }
-
-                case BOSS_FIGHTS -> {
-                    BossFights current_minigame = (BossFights) gl.getMiniGame();
-
-                    if(code == p1Left_key) current_minigame.getFighter().setLeftPressed(false);
-                    else if(code == p1Right_key) current_minigame.getFighter().setRightPressed(false);
-
-                    else if(code == KeyEvent.VK_ESCAPE) {
-                        gl.backToMainMenu();
-                        Sound.stop();
-                        Sound.stopBackgroundMusic();
-                    }
-
-                    else if(current_minigame.isFinished() && !current_minigame.hasPlayerWon() && code == KeyEvent.VK_SPACE){
-                        gl.setMiniGame(new BossFights(gl));
-                    }
-                }
+                else if (code == KeyEvent.VK_P) minigame.togglePause();
             }
         }
 
         //CUTSCENE
         else if(gl.getGameState() == GameLogic.GameStates.CUTSCENE){
-            switch (code){
-                case KeyEvent.VK_ENTER -> CutsceneHandler.skip();
-            }
-        }
-
-        //FINISH SCREEN
-        else if(gl.getGameState() == GameLogic.GameStates.FINISH){
-            switch (code){
-                case KeyEvent.VK_SPACE -> gl.startMatch();
-                case KeyEvent.VK_ESCAPE -> gl.backToMainMenu();
-            }
+            if (code == KeyEvent.VK_ENTER) CutsceneHandler.skip();
         }
 
         //MENU
@@ -207,12 +191,6 @@ public class KeyHandler implements KeyListener {
                 case KeyEvent.VK_ENTER, KeyEvent.VK_E -> gl.getMenu().clickOption();
                 case KeyEvent.VK_ESCAPE -> gl.backToMainMenu();
             }
-        }
-
-        else if(gl.getGameState() == GameLogic.GameStates.PAUSE){
-            if(code == KeyEvent.VK_ESCAPE) gl.backToMainMenu();
-            else if(code == KeyEvent.VK_R) gl.startMatch();
-            else if(code == KeyEvent.VK_P) gl.togglePause();
         }
     }
 

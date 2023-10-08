@@ -174,7 +174,7 @@ public class Player {
     /**
      * Increase by 1 the charge of the rechargeable powerUps
      */
-    public void ChargingPowers(){
+    public void chargingPowers(){
         if(MyFrame.gameLogic.isDefensivePowerRechargeable())
             defensivePower.charge();
         if(MyFrame.gameLogic.isOffensivePowerRechargeable())

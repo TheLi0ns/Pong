@@ -2,6 +2,8 @@ package com.TheLi0ns.MenusHandling.SubMenus;
 
 import com.TheLi0ns.GameObject.ComputerPlayer;
 import com.TheLi0ns.Logic.GameLogic;
+import com.TheLi0ns.Logic.GameModes.Match_pve;
+import com.TheLi0ns.Logic.GameModes.Match_pvp;
 import com.TheLi0ns.MenusHandling.Menus.Menu;
 import com.TheLi0ns.MenusHandling.Menus.PowersSelectionMenu_PvE;
 import com.TheLi0ns.MenusHandling.Menus.PowersSelectionMenu_PvP;
@@ -44,23 +46,20 @@ public class GameModeSubMenu extends SubMenu {
     public void performOption() {
 
         if(selectedOption == PVP_OPTION.ID){
-            gl.setGameMode(GameLogic.GameModes.PVP);
             if(gl.arePowersEnabled() && gl.isDefensivePowerRechargeable()) gl.setMenu(new PowersSelectionMenu_PvP(gl));
-            else gl.startMatch();
+            else gl.setGameMode(new Match_pvp(gl));
         }
 
         else if(selectedOption == NORMAL_PVE_OPTION.ID){
-            gl.setComputer_difficulty(ComputerPlayer.Difficulties.NORMAL);
-            gl.setGameMode(GameLogic.GameModes.PVE);
+            Match_pve.setDifficulty(ComputerPlayer.Difficulties.NORMAL);
             if(gl.arePowersEnabled() && gl.isDefensivePowerRechargeable()) gl.setMenu(new PowersSelectionMenu_PvE(gl));
-            else gl.startMatch();
+            else gl.setGameMode(new Match_pve(gl));
         }
 
         else if(selectedOption == IMPOSSIBLE_PVE_OPTION.ID){
-            gl.setComputer_difficulty(ComputerPlayer.Difficulties.NORMAL);
-            gl.setGameMode(GameLogic.GameModes.PVE);
+            Match_pve.setDifficulty(ComputerPlayer.Difficulties.IMPOSSIBLE);
             if(gl.arePowersEnabled() && gl.isDefensivePowerRechargeable()) gl.setMenu(new PowersSelectionMenu_PvE(gl));
-            else gl.startMatch();
+            else gl.setGameMode(new Match_pve(gl));
         }
 
         selectedOption = 1;

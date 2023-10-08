@@ -1,6 +1,6 @@
 package com.TheLi0ns.SettingFiles.serializable;
 
-import com.TheLi0ns.Logic.MiniGames.Dribble;
+import com.TheLi0ns.Logic.GameModes.Dribble;
 import com.TheLi0ns.SettingFiles.SettingFilesHandler;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;

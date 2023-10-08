@@ -1,6 +1,6 @@
 package com.TheLi0ns.GameObject.Bosses;
 
-import com.TheLi0ns.Logic.MiniGames.BossFights;
+import com.TheLi0ns.Logic.GameModes.BossFights;
 import com.TheLi0ns.Utility.Assets;
 
 import java.awt.*;

@@ -2,7 +2,7 @@ package com.TheLi0ns.GameObject.Bosses;
 
 import com.TheLi0ns.GameFrame.GamePanel;
 import com.TheLi0ns.GameObject.Player;
-import com.TheLi0ns.Logic.MiniGames.BossFights;
+import com.TheLi0ns.Logic.GameModes.BossFights;
 import com.TheLi0ns.Utility.Directions;
 import com.TheLi0ns.Utility.Sound;
 import com.TheLi0ns.Utility.Utils;

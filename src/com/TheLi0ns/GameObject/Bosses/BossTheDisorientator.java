@@ -3,7 +3,7 @@ package com.TheLi0ns.GameObject.Bosses;
 import com.TheLi0ns.Cutscenes.CutsceneEnum;
 import com.TheLi0ns.Cutscenes.CutsceneHandler;
 import com.TheLi0ns.GameFrame.GamePanel;
-import com.TheLi0ns.Logic.MiniGames.BossFights;
+import com.TheLi0ns.Logic.GameModes.BossFights;
 import com.TheLi0ns.Utility.Assets;
 import com.TheLi0ns.Utility.Directions;
 

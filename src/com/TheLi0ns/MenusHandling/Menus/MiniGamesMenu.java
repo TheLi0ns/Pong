@@ -1,9 +1,8 @@
 package com.TheLi0ns.MenusHandling.Menus;
 
 import com.TheLi0ns.Logic.GameLogic;
-import com.TheLi0ns.Logic.GameLogic.GameModes;
-import com.TheLi0ns.Logic.MiniGames.BossFights;
-import com.TheLi0ns.Logic.MiniGames.Dribble;
+import com.TheLi0ns.Logic.GameModes.BossFights;
+import com.TheLi0ns.Logic.GameModes.Dribble;
 import com.TheLi0ns.MenusHandling.Options.CenteredOption;
 import com.TheLi0ns.MenusHandling.SubMenus.BossFightSubMenu;
 import com.TheLi0ns.Utility.Sound;
@@ -20,8 +19,7 @@ public class MiniGamesMenu extends Menu{
 
     //MINI-GAMES MENU OPTION
     /**
-     * To play dribble mini-game
-     * @see GameModes#DRIBBLE
+     * Start the {@link Dribble Dribble mini-game}
      * @see CenteredOption
      */
     public static final CenteredOption DRIBBLE_OPTION = new CenteredOption("DRIBBLE", 1);
@@ -46,7 +44,7 @@ public class MiniGamesMenu extends Menu{
     @Override
     public void performOption() {
         if(selectedOption == DRIBBLE_OPTION.ID){
-            gl.setMiniGame(new Dribble(gl));
+            gl.setGameMode(new Dribble(gl));
         }
 
         else if(selectedOption == BOSS_FIGHT_OPTION.ID){
