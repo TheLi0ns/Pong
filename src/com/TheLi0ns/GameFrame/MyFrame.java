@@ -23,7 +23,7 @@ public class MyFrame extends JFrame {
         frame.setVisible(true);
         frame.setResizable(false);
         gamePanel = new GamePanel(gameLogic);
-        frame.addKeyListener(new KeyHandler(gameLogic));
+        //frame.addKeyListener(new KeyHandler(gameLogic));
         frame.add(gamePanel);
         frame.pack();
         frame.setTitle("PONG");

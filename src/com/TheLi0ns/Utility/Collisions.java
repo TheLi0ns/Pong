@@ -1,8 +1,8 @@
 package com.TheLi0ns.Utility;
 
 import com.TheLi0ns.GameFrame.GamePanel;
-import com.TheLi0ns.GameObject.Ball;
-import com.TheLi0ns.GameObject.Player;
+import com.TheLi0ns.GameObject.Balls.Ball;
+import com.TheLi0ns.GameObject.Players.Player;
 
 public class Collisions {
     public static boolean checkWallCollision(Ball ball){

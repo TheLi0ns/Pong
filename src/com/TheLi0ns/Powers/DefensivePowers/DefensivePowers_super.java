@@ -1,6 +1,6 @@
 package com.TheLi0ns.Powers.DefensivePowers;
 
-import com.TheLi0ns.GameObject.Player;
+import com.TheLi0ns.GameObject.Players.Player;
 
 import java.awt.*;
 
@@ -47,7 +47,7 @@ public abstract class DefensivePowers_super {
     }
 
     public final void drawBattery(Graphics2D g2d){
-        if(player.getPos() == Player.Positions.UP) {
+        if(player.getPos() == Player.Positions.DOWN) {
             g2d.setPaint(Color.gray);
             g2d.setStroke(new BasicStroke(5));
             g2d.drawRect(50, 820, 70, 125);

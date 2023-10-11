@@ -1,6 +1,6 @@
 package com.TheLi0ns.Powers.OffensivePowers;
 
-import com.TheLi0ns.GameObject.Player;
+import com.TheLi0ns.GameObject.Players.Player;
 
 /**
  * @see OffensivePowersEnum#FIRE_SHOT

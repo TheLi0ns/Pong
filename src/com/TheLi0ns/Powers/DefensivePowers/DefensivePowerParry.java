@@ -1,7 +1,8 @@
 package com.TheLi0ns.Powers.DefensivePowers;
 
-import com.TheLi0ns.GameObject.Player;
+import com.TheLi0ns.GameObject.Players.Player;
 import com.TheLi0ns.Utility.Assets;
+import com.TheLi0ns.Utility.Utils;
 
 import java.awt.*;
 
@@ -10,10 +11,12 @@ import java.awt.*;
  */
 public class DefensivePowerParry extends DefensivePowers_super {
 
-    private final Image PARRY_IMAGE = Assets.PARRY_RACKET;
+    private final Image PARRY_IMAGE;
 
     public DefensivePowerParry(Player player) {
         super(player);
+        PARRY_IMAGE = player.getPos() == Player.Positions.DOWN ?
+                Assets.PARRY_RACKET : Utils.flipImageVertically(Assets.PARRY_RACKET);
     }
 
     /**

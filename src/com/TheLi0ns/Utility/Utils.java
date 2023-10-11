@@ -1,6 +1,7 @@
 package com.TheLi0ns.Utility;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.Random;
 
 public class Utils {
@@ -29,5 +30,26 @@ public class Utils {
      */
     public static int predictXonY(Vector2D velocity, Vector2D startingPoint, int finalY){
         return startingPoint.getX() + velocity.getX() * ((finalY - startingPoint.getY()) / velocity.getY());
+    }
+
+    public static Image flipImageVertically(Image image){
+        BufferedImage image_flipped = new BufferedImage(
+                image.getWidth(null),
+                image.getHeight(null),
+                BufferedImage.TYPE_INT_ARGB
+        );
+
+        Graphics2D g2d = image_flipped.createGraphics();
+
+        g2d.drawImage(
+                image,
+                0,
+                image.getHeight(null),
+                image.getWidth(null),
+                -image.getHeight(null),
+                null
+        );
+
+        return image_flipped;
     }
 }

@@ -1,9 +1,8 @@
 package com.TheLi0ns.Logic;
 
 import com.TheLi0ns.GameFrame.MyFrame;
-import com.TheLi0ns.Logic.GameModes.GameMode_super;
-import com.TheLi0ns.MenusHandling.Menus.Menu;
-import com.TheLi0ns.MenusHandling.Menus.TitleScreen;
+import com.TheLi0ns.GameStates.GameState;
+import com.TheLi0ns.GameStates.MenusHandling.Menus.TitleScreen;
 
 /**
  * Creates the game loop
@@ -15,21 +14,18 @@ public class GameLogic implements Runnable{
     private int pointsToWin = 15;
     public static final int MAX_POINTS = 30;
 
-    public static final int FPS = 90;
+    public final int FPS = 90;
 
     private boolean arePowersEnabled = true;
 
-    private Menu menu = new TitleScreen(this);
+    private GameState gameState = new TitleScreen(this);
 
-    private GameStates gameState = GameStates.MENU;
+    private States state = States.RUNNING;
 
-    public enum GameStates {
-        MENU,
-        PLAYING,
+    public enum States {
+        RUNNING,
         CUTSCENE,
     }
-
-    private GameMode_super gameMode;
 
     public GameLogic(){
         Thread gameLoop = new Thread(this);
@@ -47,8 +43,8 @@ public class GameLogic implements Runnable{
             throw new RuntimeException(e);
         }
         while(true) {
-            if(gameState == GameStates.PLAYING) {
-                gameMode.update();
+            if(state == States.RUNNING) {
+                gameState.update();
             }
 
             MyFrame.gamePanel.repaint();
@@ -62,32 +58,21 @@ public class GameLogic implements Runnable{
     }
 
     public void backToMainMenu(){
-        this.gameState = GameStates.MENU;
-        menu = new TitleScreen(this);
+        gameState = new TitleScreen(this);
     }
 
-    public void setGameState(GameStates gameState) {
-        this.gameState = gameState;
+    public void setState(States state) {
+        this.state = state;
+    }
+    public States getState(){
+        return state;
     }
 
-    public GameStates getGameState(){
+    public GameState getGameState() {
         return gameState;
     }
-
-    public Menu getMenu() {
-        return menu;
-    }
-
-    public void setMenu(Menu menu) {
-        this.menu = menu;
-    }
-
-    public GameMode_super getGameMode() {
-        return gameMode;
-    }
-
-    public void setGameMode(GameMode_super gameMode) {
-        this.gameMode = gameMode;
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
     }
 
     public boolean arePowersEnabled() {
@@ -100,7 +85,6 @@ public class GameLogic implements Runnable{
     public void setPointsToWin(int pointsToWin){
         this.pointsToWin = pointsToWin;
     }
-
     public int getPointsToWin() {
         return pointsToWin;
     }

@@ -1,6 +1,6 @@
 package com.TheLi0ns.Powers.OffensivePowers;
 
-import com.TheLi0ns.GameObject.Player;
+import com.TheLi0ns.GameObject.Players.Player;
 
 import java.awt.*;
 
@@ -56,7 +56,7 @@ public abstract class OffensivePowers_super {
     }
     
     public void drawBattery(Graphics2D g2d){
-        if(player.getPos() == Player.Positions.UP){
+        if(player.getPos() == Player.Positions.DOWN){
             g2d.setPaint(Color.gray);
             g2d.drawRect(880, 820, 70, 125);
             g2d.drawLine(880, 860, 950, 860);

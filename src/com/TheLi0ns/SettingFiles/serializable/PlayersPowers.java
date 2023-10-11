@@ -1,7 +1,7 @@
 package com.TheLi0ns.SettingFiles.serializable;
 
-import com.TheLi0ns.MenusHandling.Menus.PowersSelectionMenu_PvE;
-import com.TheLi0ns.MenusHandling.Menus.PowersSelectionMenu_PvP;
+import com.TheLi0ns.GameStates.MenusHandling.Menus.PowersSelectionMenu_PvE;
+import com.TheLi0ns.GameStates.MenusHandling.Menus.PowersSelectionMenu_PvP;
 import com.TheLi0ns.Powers.DefensivePowers.DefensivePowersEnum;
 import com.TheLi0ns.Powers.OffensivePowers.OffensivePowersEnum;
 import com.TheLi0ns.SettingFiles.SettingFilesHandler;

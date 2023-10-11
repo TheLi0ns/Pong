@@ -1,6 +1,6 @@
 package com.TheLi0ns.Powers.DefensivePowers;
 
-import com.TheLi0ns.GameObject.Player;
+import com.TheLi0ns.GameObject.Players.Player;
 
 /**
  * @see DefensivePowersEnum#LARGE_BALL

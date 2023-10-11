@@ -21,6 +21,7 @@ public class GamePanel extends JPanel {
         setBackground(Color.BLACK);
         setDoubleBuffered(true);
         setFocusable(true);
+        addKeyListener(new KeyHandler(gl));
         this.gl = gl;
     }
 
@@ -29,17 +30,13 @@ public class GamePanel extends JPanel {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
-        //MATCH
-        if(gl.getGameState() == GameLogic.GameStates.PLAYING){
-            gl.getGameMode().draw(g2d);
+        //GAME-STATE
+        if(gl.getState() == GameLogic.States.RUNNING){
+            gl.getGameState().draw(g2d);
         }
         //CUTSCENE
-        if(gl.getGameState() == GameLogic.GameStates.CUTSCENE) {
+        if(gl.getState() == GameLogic.States.CUTSCENE) {
             CutsceneHandler.draw(g2d);
-        }
-        //MENU
-        else if(gl.getGameState() == GameLogic.GameStates.MENU) {
-            gl.getMenu().draw(g2d);
         }
 
         g2d.dispose();
