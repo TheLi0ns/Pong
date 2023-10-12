@@ -73,4 +73,8 @@ public abstract class GameMode_super implements GameState {
             case PAUSE -> state = States.PLAYING;
         }
     }
+
+    public GameLogic getGl() {
+        return gl;
+    }
 }

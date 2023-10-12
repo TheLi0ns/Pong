@@ -42,7 +42,6 @@ public class Match_pvp extends GameMode_super {
         
         setupPowers();
 
-        gl.setState(GameLogic.States.RUNNING);
         state = GameMode_super.States.PLAYING;
     }
 
@@ -107,6 +106,8 @@ public class Match_pvp extends GameMode_super {
      * Writes the {@link #finish_str finish string}
      */
     private void finish(){
+        p1.stopPowers();
+        p2.stopPowers();
         if (p1.hasWon()) finish_str = "PLAYER 1\n WINS";
         else finish_str = "PLAYER 2\n WINS";
         state = GameMode_super.States.FINISH;

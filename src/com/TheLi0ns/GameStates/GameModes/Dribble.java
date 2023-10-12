@@ -34,7 +34,6 @@ public class Dribble extends GameMode_super {
 
         ball = new DribbleBall(Utils.genRandomXVelocity(), 6);
 
-        gl.setState(GameLogic.States.RUNNING);
         state = GameMode_super.States.PLAYING;
     }
 

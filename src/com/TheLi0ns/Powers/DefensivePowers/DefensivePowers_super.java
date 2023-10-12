@@ -12,6 +12,7 @@ import java.awt.*;
  */
 public abstract class DefensivePowers_super {
 
+    Thread power_thread;
     Player player;
     private int batteryCharge = 0;
 
@@ -44,6 +45,10 @@ public abstract class DefensivePowers_super {
 
     public final int getBatteryCharge(){
         return batteryCharge;
+    }
+
+    public void stop(){
+        power_thread.interrupt();
     }
 
     public final void drawBattery(Graphics2D g2d){

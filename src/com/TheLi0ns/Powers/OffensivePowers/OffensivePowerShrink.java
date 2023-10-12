@@ -1,9 +1,7 @@
 package com.TheLi0ns.Powers.OffensivePowers;
 
 import com.TheLi0ns.GameFrame.GamePanel;
-import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.GameObject.Players.Player;
-import com.TheLi0ns.Logic.GameLogic;
 import com.TheLi0ns.Utility.Assets;
 import com.TheLi0ns.Utility.Sound;
 
@@ -34,7 +32,7 @@ public class OffensivePowerShrink extends OffensivePowers_super{
      */
     @Override
     public void performAction() {
-        new Thread(() -> {
+        powerThread_onPlayer = new Thread(() -> {
             previous_opponent_image = opponent.getPLAYER_IMAGE();
             if(previous_opponent_image == Assets.PARRY_RACKET) previous_opponent_image = opponent.getNORMAL_PLAYER_IMAGE();
             effectOnOpponent(true);
@@ -44,8 +42,9 @@ public class OffensivePowerShrink extends OffensivePowers_super{
                 throw new RuntimeException(e);
             }
             //CHECK IF THE MATCH IS STILL GOING
-            if(MyFrame.gameLogic.getState() == GameLogic.States.RUNNING) effectOnOpponent(false);
-        }).start();
+            if(!Thread.currentThread().isInterrupted()) effectOnOpponent(false);
+        });
+        powerThread_onPlayer.start();
     }
 
     @Override

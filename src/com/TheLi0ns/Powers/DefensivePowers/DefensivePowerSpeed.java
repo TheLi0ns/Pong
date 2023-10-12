@@ -1,8 +1,6 @@
 package com.TheLi0ns.Powers.DefensivePowers;
 
-import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.GameObject.Players.Player;
-import com.TheLi0ns.Logic.GameLogic;
 import com.TheLi0ns.Utility.Assets;
 import com.TheLi0ns.Utility.Sound;
 
@@ -26,7 +24,7 @@ public class DefensivePowerSpeed extends DefensivePowers_super {
      */
     @Override
     public void performAction() {
-        new Thread(() -> {
+        power_thread = new Thread(() -> {
             int initialxVelocity = player.getxVelocity();
 
             player.setPLAYER_IMAGE(SPEEDY_PLAYER_IMAGE);
@@ -40,12 +38,13 @@ public class DefensivePowerSpeed extends DefensivePowers_super {
             }
 
             //CHECK IF THE MATCH IS STILL GOING
-            if(MyFrame.gameLogic.getState() == GameLogic.States.RUNNING) {
+            if(!Thread.currentThread().isInterrupted()) {
                 player.setxVelocity(initialxVelocity);
                 Sound.play(SPEED_SOUND[0]);
                 player.setPLAYER_IMAGE(player.getNORMAL_PLAYER_IMAGE());
             }
-        }).start();
+        });
+        power_thread.start();
     }
 
     @Override

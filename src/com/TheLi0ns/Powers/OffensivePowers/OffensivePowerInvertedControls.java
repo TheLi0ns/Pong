@@ -1,8 +1,6 @@
 package com.TheLi0ns.Powers.OffensivePowers;
 
-import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.GameObject.Players.Player;
-import com.TheLi0ns.Logic.GameLogic;
 import com.TheLi0ns.Utility.Assets;
 import com.TheLi0ns.Utility.Sound;
 
@@ -32,15 +30,16 @@ public class OffensivePowerInvertedControls extends OffensivePowers_super{
     @Override
     public void performAction() {
         effectOnOpponent(true);
-        new Thread(() -> {
+        powerThread_onPlayer = new Thread(() -> {
             try {
                 Thread.sleep(7000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
             //CHECK IF THE MATCH IS STILL GOING
-            if(MyFrame.gameLogic.getState() == GameLogic.States.RUNNING) effectOnOpponent(false);
-        }).start();
+            if(!Thread.currentThread().isInterrupted()) effectOnOpponent(false);
+        });
+        powerThread_onPlayer.start();
     }
 
     @Override

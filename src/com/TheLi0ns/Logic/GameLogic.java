@@ -20,13 +20,6 @@ public class GameLogic implements Runnable{
 
     private GameState gameState = new TitleScreen(this);
 
-    private States state = States.RUNNING;
-
-    public enum States {
-        RUNNING,
-        CUTSCENE,
-    }
-
     public GameLogic(){
         Thread gameLoop = new Thread(this);
         gameLoop.start();
@@ -43,9 +36,7 @@ public class GameLogic implements Runnable{
             throw new RuntimeException(e);
         }
         while(true) {
-            if(state == States.RUNNING) {
-                gameState.update();
-            }
+            gameState.update();
 
             MyFrame.gamePanel.repaint();
 
@@ -59,13 +50,6 @@ public class GameLogic implements Runnable{
 
     public void backToMainMenu(){
         gameState = new TitleScreen(this);
-    }
-
-    public void setState(States state) {
-        this.state = state;
-    }
-    public States getState(){
-        return state;
     }
 
     public GameState getGameState() {

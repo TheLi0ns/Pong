@@ -1,8 +1,8 @@
 package com.TheLi0ns.GameObject.Players.Bosses;
 
-import com.TheLi0ns.Cutscenes.CutsceneEnum;
-import com.TheLi0ns.Cutscenes.CutsceneHandler;
 import com.TheLi0ns.GameFrame.GamePanel;
+import com.TheLi0ns.GameStates.CutscenesHandling.Cutscene;
+import com.TheLi0ns.GameStates.CutscenesHandling.CutsceneEnum;
 import com.TheLi0ns.GameStates.GameModes.BossFights;
 import com.TheLi0ns.Utility.Assets;
 import com.TheLi0ns.Utility.Directions;
@@ -41,7 +41,7 @@ public class BossTheDisorientator extends Boss_super {
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-                CutsceneHandler.playCutscene(CutsceneEnum.TheDisorientator_SkillActivation);
+                ENV.getGl().setGameState(new Cutscene(CutsceneEnum.TheDisorientator_SkillActivation, ENV));
                 this.setBOSS_IMAGE(Assets.THE_DISORIENTATOR_SKILL);
                 ENV.getFighter().setAreControlsInverted(true);
                 ENV.getFighter().setPLAYER_IMAGE(Assets.INVERTED_RACKET);
@@ -67,7 +67,7 @@ public class BossTheDisorientator extends Boss_super {
                 skillActivated = false;
                 return;
             }
-            CutsceneHandler.playCutscene(CutsceneEnum.TheDisorientator_SkillActivation);
+            ENV.getGl().setGameState(new Cutscene(CutsceneEnum.TheDisorientator_SkillActivation, ENV));
             this.setBOSS_IMAGE(Assets.THE_DISORIENTATOR_SKILL);
             ENV.getFighter().setAreControlsInverted(true);
             ENV.getFighter().setPLAYER_IMAGE(Assets.INVERTED_RACKET);
@@ -78,7 +78,7 @@ public class BossTheDisorientator extends Boss_super {
                     System.out.println("ANTIBUG");
                 }
                 this.skillActivated = false;
-                CutsceneHandler.playCutscene(CutsceneEnum.TheDisorientator_SkillDeactivation);
+                ENV.getGl().setGameState(new Cutscene(CutsceneEnum.TheDisorientator_SkillDeactivation, ENV));
                 this.setBOSS_IMAGE(Assets.THE_DISORIENTATOR);
                 ENV.getFighter().setAreControlsInverted(false);
                 ENV.getFighter().setPLAYER_IMAGE(ENV.getFighter().getNORMAL_PLAYER_IMAGE());
@@ -91,7 +91,7 @@ public class BossTheDisorientator extends Boss_super {
     @Override
     public void roundFinished() {
         if(this.skillActivated && !ENV.isFinished()){
-            CutsceneHandler.playCutscene(CutsceneEnum.TheDisorientator_SkillDeactivation);
+            ENV.getGl().setGameState(new Cutscene(CutsceneEnum.TheDisorientator_SkillDeactivation, ENV));
             this.setBOSS_IMAGE(Assets.THE_DISORIENTATOR);
             skillActivated = false;
             ENV.getFighter().setAreControlsInverted(false);

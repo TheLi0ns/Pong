@@ -1,11 +1,12 @@
 package com.TheLi0ns.GameStates.MenusHandling.SubMenus;
 
-import com.TheLi0ns.Cutscenes.CutsceneEnum;
-import com.TheLi0ns.Cutscenes.CutsceneHandler;
 import com.TheLi0ns.GameObject.Players.Bosses.BossEnum;
 import com.TheLi0ns.GameObject.Players.Bosses.BossThePyromancer;
 import com.TheLi0ns.GameObject.Players.Bosses.BossTheShrinker;
+import com.TheLi0ns.GameStates.CutscenesHandling.Cutscene;
+import com.TheLi0ns.GameStates.CutscenesHandling.CutsceneEnum;
 import com.TheLi0ns.GameStates.GameModes.BossFights;
+import com.TheLi0ns.GameStates.GameModes.GameMode_super;
 import com.TheLi0ns.GameStates.MenusHandling.Menus.Menu;
 import com.TheLi0ns.GameStates.MenusHandling.Options.CenteredOption;
 import com.TheLi0ns.Logic.GameLogic;
@@ -41,17 +42,20 @@ public class BossFightSubMenu extends SubMenu{
     public void performOption() {
         if(selectedOption == THE_PYROMANCER_OPTION.ID){
             gl.setGameState(new BossFights(BossEnum.THE_PYROMANCER, gl));
-            CutsceneHandler.playCutscene(CutsceneEnum.ThePyromancer_Cutscene);
+            gl.setGameState(new Cutscene(CutsceneEnum.ThePyromancer_Cutscene,
+                    (GameMode_super) gl.getGameState()));
         }
 
         else if(selectedOption == THE_SHRINKER_OPTION.ID){
             gl.setGameState(new BossFights(BossEnum.THE_SHRINKER, gl));
-            CutsceneHandler.playCutscene(CutsceneEnum.TheShrinker_Cutscene);
+            gl.setGameState(new Cutscene(CutsceneEnum.TheShrinker_Cutscene,
+                    (GameMode_super) gl.getGameState()));
         }
 
         else if(selectedOption == THE_DISORIENTATOR_OPTION.ID){
             gl.setGameState(new BossFights(BossEnum.THE_DISORIENTATOR, gl));
-            CutsceneHandler.playCutscene(CutsceneEnum.TheDisorientator_Cutscene);
+            gl.setGameState(new Cutscene(CutsceneEnum.TheDisorientator_Cutscene,
+                    (GameMode_super) gl.getGameState()));
         }
 
         selectedOption = 1;

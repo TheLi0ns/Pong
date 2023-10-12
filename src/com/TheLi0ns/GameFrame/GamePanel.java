@@ -1,6 +1,5 @@
 package com.TheLi0ns.GameFrame;
 
-import com.TheLi0ns.Cutscenes.CutsceneHandler;
 import com.TheLi0ns.Logic.GameLogic;
 
 import javax.swing.*;
@@ -30,14 +29,7 @@ public class GamePanel extends JPanel {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
-        //GAME-STATE
-        if(gl.getState() == GameLogic.States.RUNNING){
-            gl.getGameState().draw(g2d);
-        }
-        //CUTSCENE
-        if(gl.getState() == GameLogic.States.CUTSCENE) {
-            CutsceneHandler.draw(g2d);
-        }
+        gl.getGameState().draw(g2d);
 
         g2d.dispose();
     }

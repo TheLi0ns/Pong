@@ -180,6 +180,12 @@ public class Player {
         if(MyFrame.gameLogic.isOffensivePowerRechargeable())
             offensivePower.charge();
     }
+
+    public void stopPowers(){
+        if(defensivePower != null) defensivePower.stop();
+        if(offensivePower != null) offensivePower.stop();
+    }
+
     public DefensivePowers_super getDefensivePower() {
         return defensivePower;
     }

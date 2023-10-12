@@ -1,9 +1,7 @@
 package com.TheLi0ns.Powers.DefensivePowers;
 
 import com.TheLi0ns.GameFrame.GamePanel;
-import com.TheLi0ns.GameFrame.MyFrame;
 import com.TheLi0ns.GameObject.Players.Player;
-import com.TheLi0ns.Logic.GameLogic;
 import com.TheLi0ns.Utility.Assets;
 import com.TheLi0ns.Utility.Sound;
 
@@ -28,7 +26,7 @@ public class DefensivePowerLargeRacket extends DefensivePowers_super {
      */
     @Override
     public void performAction() {
-        new Thread(() -> {
+        power_thread = new Thread(() -> {
             Image previous_player_image = player.getPLAYER_IMAGE() == Assets.PARRY_RACKET ?
                                             player.getNORMAL_PLAYER_IMAGE() : player.getPLAYER_IMAGE();
             player.setPLAYER_IMAGE(LARGE_PLAYER_IMAGE);
@@ -48,12 +46,13 @@ public class DefensivePowerLargeRacket extends DefensivePowers_super {
             }
 
             //CHECK IF THE MATCH IS STILL GOING
-            if(MyFrame.gameLogic.getState() == GameLogic.States.RUNNING){
+            if(!Thread.currentThread().isInterrupted()){
                 player.setX(player.getX() + 35);
                 player.setPLAYER_IMAGE(previous_player_image);
                 Sound.play(LARGE_SOUND[0]);
             }
-        }).start();
+        });
+        power_thread.start();
     }
 
     @Override

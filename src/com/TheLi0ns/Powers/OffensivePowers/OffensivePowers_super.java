@@ -12,6 +12,9 @@ import java.awt.*;
  */
 public abstract class OffensivePowers_super {
 
+    Thread powerThread_onPlayer;
+    Thread powerThread_onOpponent;
+
     Player player, opponent;
     int batteryCharge = 0;
 
@@ -54,7 +57,12 @@ public abstract class OffensivePowers_super {
     public final int getBatteryCharge(){
         return batteryCharge;
     }
-    
+
+    public void stop(){
+        powerThread_onPlayer.interrupt();
+        powerThread_onOpponent.interrupt();
+    }
+
     public void drawBattery(Graphics2D g2d){
         if(player.getPos() == Player.Positions.DOWN){
             g2d.setPaint(Color.gray);

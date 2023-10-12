@@ -1,7 +1,7 @@
 package com.TheLi0ns.GameObject.Players.Bosses;
 
-import com.TheLi0ns.Cutscenes.CutsceneEnum;
-import com.TheLi0ns.Cutscenes.CutsceneHandler;
+import com.TheLi0ns.GameStates.CutscenesHandling.Cutscene;
+import com.TheLi0ns.GameStates.CutscenesHandling.CutsceneEnum;
 import com.TheLi0ns.GameStates.GameModes.BossFights;
 import com.TheLi0ns.Utility.Assets;
 import com.TheLi0ns.Utility.Directions;
@@ -48,7 +48,7 @@ public class BossTheShrinker extends Boss_super{
 
     @Override
     public void enterSecondPhase() {
-        CutsceneHandler.playCutscene(CutsceneEnum.TheShrinker_SecondPhase);
+        ENV.getGl().setGameState(new Cutscene(CutsceneEnum.TheShrinker_SecondPhase, ENV));
     }
 
     @Override

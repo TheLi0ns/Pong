@@ -1,11 +1,11 @@
 package com.TheLi0ns.GameStates.GameModes;
 
-import com.TheLi0ns.Cutscenes.CutsceneEnum;
-import com.TheLi0ns.Cutscenes.CutsceneHandler;
 import com.TheLi0ns.GameFrame.KeyHandler;
 import com.TheLi0ns.GameObject.Balls.Ball;
 import com.TheLi0ns.GameObject.Players.Bosses.*;
 import com.TheLi0ns.GameObject.Players.Fighter;
+import com.TheLi0ns.GameStates.CutscenesHandling.Cutscene;
+import com.TheLi0ns.GameStates.CutscenesHandling.CutsceneEnum;
 import com.TheLi0ns.Logic.GameLogic;
 import com.TheLi0ns.Utility.Assets;
 import com.TheLi0ns.Utility.Sound;
@@ -58,7 +58,6 @@ public class BossFights extends GameMode_super {
 
         Sound.playBackgroundMusic(Sound.BOSS_FIGHT_MUSIC);
 
-        gl.setState(GameLogic.States.RUNNING);
         state = GameMode_super.States.PLAYING;
     }
 
@@ -104,8 +103,8 @@ public class BossFights extends GameMode_super {
         state = GameMode_super.States.FINISH;
         Sound.stop();
         Sound.stopBackgroundMusic();
-        if(fighter.getHealth() == 0) CutsceneHandler.playCutscene(CutsceneEnum.GameOver);
-        else CutsceneHandler.playCutscene(CutsceneEnum.YOU_WIN);
+        if(fighter.getHealth() == 0) gl.setGameState(new Cutscene(CutsceneEnum.GameOver, this));
+        else gl.setGameState(new Cutscene(CutsceneEnum.YOU_WIN, this));
     }
 
     @Override
